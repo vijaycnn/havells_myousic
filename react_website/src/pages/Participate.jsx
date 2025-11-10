@@ -1,0 +1,613 @@
+import React, { useState, useRef, useEffect } from "react";
+import { Container, Form, Image, Row, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import mike from "../assets/mice.png";
+import tabla from "../assets/tabla.png";
+import guitar from "../assets/guitar.png";
+import { submitForm, stateList, cityList } from "../api";
+
+function Participate() {
+  const navigate = useNavigate();
+  const [files, setFiles] = useState([]);
+  const [dragActive, setDragActive] = useState(false);
+  const inputRef = useRef(null);
+  const [error, setError] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+
+  const getState = async () => {
+    let stateRes = await stateList();
+    if(stateRes?.data){
+      setState(stateRes.data);
+    }
+  };
+
+  const getCity = async (stateId) => {
+    let cityRes = await cityList(stateId);
+    if(cityRes?.data){
+      setCity(cityRes.data);
+    }
+  };
+
+
+  const avoidAlphabets = (event) => {
+    var k = event ? event.which : window.event.keyCode;
+    if (k >= 48 && k <= 57) {
+      return true
+
+    } else {
+      event.preventDefault()
+    }
+  }
+  const [formData, setFormData] = useState({
+    name: "",
+    dob: "",
+    email: "",
+    contact: "",
+    stateId: "",
+    cityId: "",
+    address: "",
+    pincode: "",
+    other_roles : "",
+    story: "",
+    dream_remarks: "",
+    how_to_know_about_this : "",
+    i_confim : false,
+    read_tnc : false,
+    agree_tnc : false,
+  });
+  // Allowed file types
+  const allowedTypes = [
+    "video/mp4",
+    "audio/mpeg",
+    "video/x-ms-wmv",
+    "webm",
+    "mkv",
+    "flv",
+    "vob",
+    "mov",
+    "avi",
+    "wmv",
+    "yuv",
+    "amv",
+    "mp4",
+    "mpg",
+    "svi",
+    "3gp",
+    "3g2",
+  ];
+  const MAX_SIZE = 100 * 1024 * 1024; // 100 MB
+  const [selectedValues, setSelectedValues] = useState([]);
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setSelectedValues((prev) => [...prev, value]);
+    } else {
+      setSelectedValues((prev) => prev.filter((v) => v !== value));
+    }
+  };  
+
+  const handleChange = (e) => {
+    const { name, type, checked, value } = e.target;
+    // setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+    // console.log('handleChange', name, e.target.value, formData);
+  };
+  const isSubmitEnabled = formData.i_confim && formData.read_tnc && formData.agree_tnc;
+
+  const [uploadMediaFile, setUploadMediaFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0];
+    setFileError(""); // reset
+    if (!selected) return;
+    console.log('fileType', selected.type);
+    if (!allowedTypes.includes(selected.type)) {
+      setFileError("Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed.");
+      setUploadMediaFile(null);
+      return;
+    }
+
+    if (selected.size > MAX_SIZE) {
+      setFileError("File size must be less than 100 MB.");
+      setUploadMediaFile(null);
+      return;
+    }
+    setUploadMediaFile(selected);
+    // console.log('file >>', selected);
+    // setFiles([...files, ...Array.from(e.target.files[0])]);
+    // console.log('fileArr >>', files);
+  };
+  
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files);
+      e.dataTransfer.clearData();
+    }
+  };
+  // const handleFiles = (selectedFiles) => {
+  //   setFiles([...files, ...Array.from(selectedFiles)]);
+  // };
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     handleFiles(e.target.files);
+  //   }
+  // };
+
+  const onButtonClick = () => inputRef.current.click();
+  
+  const validation = (values) => {
+    const formErrors = {}
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+		let hasError = false;
+		if (!values.name || values.name == '' || !values.contact || values.contact == '' || !values.email || values.email == '' || !values.dob || !values.story || values.story == '' || !values.dream_remarks || values.dream_remarks == '' || !values.how_to_know_about_this || values.how_to_know_about_this == '' || !uploadMediaFile || uploadMediaFile == null || values.cityId == '' || !values.stateId )  {      
+
+			formErrors.allError = "Mandatory fields are missing";
+      hasError = true;
+		}
+    if (values.contact) {        
+     if (values.contact.length !== 10) {
+        formErrors.contact = "Please enter a valid Contact";
+        hasError = true;
+     }
+    }
+    if (values.email) {
+      if (!regex.test(values.email)) {
+        formErrors.email = "Please enter a valid email";
+        hasError = true;
+      }
+    }    
+    if(selectedValues.includes('Others')){
+      if(!values.other_roles || values.other_roles == ''){
+        formErrors.other_roles = "Please enter other role";
+        hasError = true;
+      }
+    }
+    setError(formErrors);    
+		return hasError;
+	}
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let hasError = validation(formData);
+    console.log('hasError >>', hasError, formData, uploadMediaFile);
+
+    if(!hasError){
+      
+      if(!formData.i_confim || !formData.read_tnc || !formData.agree_tnc) return;
+      setLoading(true);
+
+      const data = new FormData();
+      Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+      if (uploadMediaFile) data.append("uploadMediaFile", uploadMediaFile);
+      data.append("interest_in_role", selectedValues.join(","));
+
+      // console.log('data >>', data);
+      const res = await submitForm(data);
+      console.log('res >>', res);
+
+      setLoading(false);
+      if (res.status == 'success') navigate("/thankyou");
+      else{
+        setError({allError : res.message} );
+        alert(res.message);
+      } 
+    }
+  };
+
+  
+  useEffect(() => {
+    if(state.length == 0){
+      getState();
+    }
+    if (formData.stateId) {
+      getCity(formData.stateId);
+    }
+  }, [formData.stateId]);
+  return (
+    <>
+      <section className="sec sec-form">
+        <Container className="mt-5">
+          <div className="artist-card">
+            <Image src={mike} alt="Mike" className="artist-card-element mike" />
+            <Image
+              src={tabla}
+              alt="Tabla"
+              className="artist-card-element tabla"
+            />
+            <Image
+              src={guitar}
+              alt="Guitar"
+              className="artist-card-element guitar"
+            />
+            <Form className="artist-form" onSubmit={handleSubmit} >
+              <header className="sec-head text-center mb-5">
+                <h2 className="sec-title">
+                  Havells mYOUsic <br></br>Submissions
+                </h2>
+                <p className="sec-sub-title">
+                  At Havells mYOUsic, we believe that talent has no boundaries
+                </p>
+              </header>
+
+              <Row>
+                {error.allError && (
+                  <p className="mt-2 text-sm text-danger-600">
+                    ⚠️ {error.allError}
+                  </p>
+                )}
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Full Name <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control type="text" name="name" placeholder="Your Full Name" onChange={handleChange} required />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Contact ( Phone / Whatsapp )
+                      <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="tel" onKeyPress={avoidAlphabets}
+                      placeholder="Your contact number" maxLength={10} name="contact" onChange={handleChange} required
+                    />
+                    <p className="text-danger">{error.contact}</p>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Email <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Your Email Address" name="email" required onChange={handleChange}/>
+                  <p className="text-danger">{error.email}</p>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Date of Birth <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control type="date" name="dob" onChange={handleChange} required/>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      State <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Select name="stateId" onChange={handleChange} value={formData.stateId}>
+                      <option value="">Select State</option>
+                      {state.map((data) => {
+                        return (
+                          <option key={data.id} value={data.id}>
+                            {data.name}
+                          </option>
+                        );
+                      })}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      City <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Select name="cityId" onChange={handleChange} value={formData.cityId}>
+                      <option value="">Select City</option>
+                      {city.map((data) => {
+                        return (
+                          <option key={data.id} value={data.id}>
+                            {data.name}
+                          </option>
+                        );
+                      })}
+                      <option value="0">Other</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Address
+                    </Form.Label>
+                    <Form.Control type="text" placeholder="Your Address" name="address" onChange={handleChange} maxLength={255}/>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Pincode
+                    </Form.Label>
+                    <Form.Control
+                      type="tel" onKeyPress={avoidAlphabets}
+                      placeholder="Your Pincode" maxLength={6} name="pincode" onChange={handleChange}
+                    />
+                  </Form.Group>
+                </Col>
+                
+
+                <Col md={12}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semi-bold">
+                      Your role in music
+                      <span className="text-danger">*</span> 
+                    </Form.Label>
+                    <div className="d-flex gap-4 flex-wrap">
+                      <Form.Check
+                        type="checkbox"
+                        label="Singer" value="Singer"
+                        id="singleCheck" onChange={handleCheckboxChange} checked={selectedValues.includes('Singer')}
+                      />
+                      <Form.Check
+                        type="checkbox"
+                        label="Lyricist"
+                        id="lyricistCheck" checked={selectedValues.includes('Lyricist')} value="Lyricist" onChange={handleCheckboxChange}
+                      />
+                      <Form.Check
+                        type="checkbox"
+                        label="Composer"
+                        id="composerCheck" checked={selectedValues.includes('Composer')} value="Composer" onChange={handleCheckboxChange}
+                      />
+                      <Form.Check
+                        type="checkbox"
+                        label="Songwriter"
+                        id="songwriterCheck" checked={selectedValues.includes('Songwriter')} value="Songwriter" onChange={handleCheckboxChange}
+                      />
+                      <Form.Check
+                        type="checkbox"
+                        label="Music Producer"
+                        id="musicProducerCheck" checked={selectedValues.includes('Music Producer')} value="Music Producer" onChange={handleCheckboxChange}
+                      />
+                      <Form.Check
+                        type="checkbox"
+                        label="Others"
+                        id="othersCheck" checked={selectedValues.includes('Others')} value="Others" onChange={handleCheckboxChange}
+                      />
+                    </div>
+                    {
+                      (selectedValues.includes('Others')) ?
+                      <>
+                      <Col md={12}>
+                        <Form.Group className="mt-2">
+                          <Form.Control type="text" placeholder="Enter Your Other Roles" name="other_roles" onChange={handleChange} maxLength={255}/>
+                          
+                          <p className="text-danger">{error.other_roles}</p>
+                        </Form.Group>
+                      </Col>
+                      </> : ''
+                    }
+                    
+                  </Form.Group>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semi-bold">
+                      Your story in short ( Max 100 words )
+                      <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Leave your story here"
+                      style={{ height: "100px" }} maxLength={100} name="story" onChange={handleChange} required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semi-bold">
+                      Your dream as an artist — what do you hope to achieve with
+                      Havells mYOUsic? <span className="text-danger">*</span>
+                    </Form.Label>
+                    <div className="d-flex gap-4 flex-wrap">
+                      <Form.Check
+                        type="radio"
+                        label="Mentorship"
+                        id="mentorshipCheck"
+                        name="dream_remarks" value="Mentorship" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Performance Opportunities"
+                        id="performanceCheck"
+                        name="dream_remarks" value="Performance Opportunities" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Collaborations"
+                        id="collaborationsCheck"
+                        name="dream_remarks" value="Collaborations" onChange={handleChange}
+                      />
+                    </div>
+                  </Form.Group>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semi-bold">
+                      Upload / Share one sample of your work
+                      <span className="text-danger">*</span>
+                    </Form.Label>
+                    {fileError && (
+                      <p className="mt-2 text-sm text-red-600">
+                        ⚠️ {fileError}
+                      </p>
+                    )} 
+                    <div
+                      onDragEnter={handleDrag}
+                      onDragOver={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDrop={handleDrop}
+                      onClick={onButtonClick}
+                      className={`drop-file ${
+                        dragActive ? "is-drag" : "is-blank"
+                      }`}
+                    >
+                      <input
+                        ref={inputRef}
+                        type="file"
+                        className="d-none"
+                        onChange={handleFileChange}
+                      />
+
+                      <p className="m-0 fw-semi-bold fs-6">
+                        Drag & Drop your files here or
+                      </p>
+                      <p className="text-muted">
+                        <small>
+                          (Formats allowed: MP3, MP4, MOV, AVI, WMV, YouTube, SoundCloud etc.)
+                        </small>
+                      </p>
+                      <button
+                        type="button"
+                        onClick={onButtonClick}
+                        className="btn btn-sm btn-primary"
+                      >
+                        <span>Browse Files</span>
+                      </button>
+                      {
+                        (uploadMediaFile) ?
+                        <>
+                          <div className="mt-3">
+                              <span className="text-sm">
+                                📄 {uploadMediaFile.name}
+                              </span>
+                          </div>
+                        </>:''
+                      }      
+                      {/* {files.length > 0 && (
+                        <div className="mt-3">
+                          {files.map((file, index) => (
+                            <span key={index} className="text-sm">
+                              📄 {file.name}
+                            </span>
+                          ))}
+                        </div>
+                      )} */}
+                    </div>
+                  </Form.Group>
+
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-semi-bold">
+                      Where did you get to know about this?
+                      <span className="text-danger">*</span>
+                    </Form.Label>
+                    <div className="d-flex gap-4 flex-wrap">
+                      <Form.Check
+                        type="radio"
+                        label="Social Media"
+                        id="socialMediaCheck"
+                        name="how_to_know_about_this" value="Social Media" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Email"
+                        id="emailCheck"
+                        name="how_to_know_about_this" value="Email" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="WhatsApp"
+                        id="whatsappCheck"
+                        name="how_to_know_about_this" value="WhatsApp" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="One on One"
+                        id="oneCheck"
+                        name="how_to_know_about_this" value="One on One" onChange={handleChange}
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Other"
+                        id="otherCheck"
+                        name="how_to_know_about_this" value="Other" onChange={handleChange}
+                      />
+                    </div>
+                  </Form.Group>
+
+                  <Form.Text className="mb-4 d-block">
+                    Note: Only complete forms with original submissions will be
+                    considered. Selected artists will be contacted directly by
+                    the Havells mYOUsic team.
+                    <br />
+                    *T&C apply.
+                  </Form.Text>
+                  <Form.Group className="mb-2">
+                    <Form.Check
+                      type="checkbox"
+                      label="I confirm this is my original work."
+                      id="confirmForm" name="i_confim"  onChange={handleChange} checked={formData.i_confim}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-2">
+                    <Form.Check
+                      type="checkbox"
+                      id="confirmForm2"
+                      label="I have read the T&C and i understand them" name="read_tnc" checked={formData.read_tnc}  onChange={handleChange}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-2">
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        id="confirmForm3"
+                        className="form-check-input" name="agree_tnc" checked={formData.agree_tnc}  onChange={handleChange}
+                      />
+                      <label htmlFor="confirmForm3">
+                        I agree to the Havells mYOUsic{" "}
+                        <a
+                          href="https://docs.google.com/document/d/1aycizPTUc9y7IwgArMqbkPeV8i3wJTFeuX5sqV_uCOc/edit?tab=t.0"
+                          target="_blank"
+                        >
+                          Terms & Conditions.
+                        </a>
+                      </label>
+                    </div>
+                  </Form.Group>
+
+                  <Row className="justify-content-center mt-5">
+                    <Col md={6}>
+                      <Form.Group>
+                        <Button
+                          variant="primary pill"
+                          className="w-100"
+                          size="lg" type="submit"
+                          disabled={!isSubmitEnabled}
+                        >
+                          <span>Submit</span>
+                        </Button>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        </Container>
+      </section>
+    </>
+  );
+}
+
+export default Participate;
