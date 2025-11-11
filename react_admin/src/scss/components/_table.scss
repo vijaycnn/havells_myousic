@@ -1,7 +1,10 @@
+@use "sass:color";
+@use "../abstracts/variables";
+@use "../abstracts/mixins";
 .filters {
   margin: 0 -2rem;
   padding: 0.5rem 2rem;
-  border-bottom: 1px solid color.lighten($black, 75%);
+  border-bottom: 1px solid color.adjust(variables.$black, $lightness: 75%);
   &-search {
     display: flex;
     position: relative;
@@ -10,7 +13,7 @@
     & .form-control {
       padding-left: 2.5rem;
       &:focus {
-        border-color: color.lighten($black, 75%);
+        border-color: color.adjust(variables.$black, $lightness: 75%);
         box-shadow: none;
       }
     }
@@ -37,18 +40,18 @@
       background-color: #e5e7eb;
       & th {
         background: none;
-        font-size: $medium;
+        font-size: variables.$medium;
         font-weight: 500;
         color: #6b7280;
         white-space: nowrap;
         padding: 0.75rem 1rem;
-        border-color: color.lighten($black, 75%);
+        border-color: color.adjust(variables.$black, $lightness: 75%);
       }
     }
     & tbody {
       & td {
         padding: 0.75rem 1rem;
-        border-color: color.lighten($black, 75%);
+        border-color: color.adjust(variables.$black, $lightness: 75%);
       }
     }
     &-curated {
