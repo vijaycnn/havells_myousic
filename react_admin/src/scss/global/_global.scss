@@ -181,7 +181,7 @@ h6 {
 
 .form-control,
 .form-select {
-  border-color: lighten($black, 75%);
+  border-color: color.lighten($black, 75%);
   height: 40px;
   font-size: 0.875rem;
   &:focus {
