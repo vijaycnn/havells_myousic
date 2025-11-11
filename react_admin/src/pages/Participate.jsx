@@ -31,7 +31,7 @@ function Participate() {
     let result = await enquiryList(params);
     if(result?.status == 'success' ){
       if(result?.data){
-        console.log('>>> ', result);
+        // console.log('>>> ', result);
         setPageCount(Math.ceil(result?.totalRecords / perPage));
         setItems(result.data);
         setTotalRecords(result.totalRecords)

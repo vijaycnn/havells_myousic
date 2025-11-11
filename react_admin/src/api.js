@@ -11,7 +11,6 @@ const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND;
 export const enquiryList = async (params) => {
   const response = await fetch(`${baseURL}/api/enquiry?${params.toString()}`, {
     method: "GET",
-    // body: body
   });
   return response.json();
 };
