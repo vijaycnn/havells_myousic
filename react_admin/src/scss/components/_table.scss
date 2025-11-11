@@ -1,7 +1,7 @@
 .filters {
   margin: 0 -2rem;
   padding: 0.5rem 2rem;
-  border-bottom: 1px solid lighten($black, 75%);
+  border-bottom: 1px solid color.lighten($black, 75%);
   &-search {
     display: flex;
     position: relative;
@@ -10,7 +10,7 @@
     & .form-control {
       padding-left: 2.5rem;
       &:focus {
-        border-color: lighten($black, 75%);
+        border-color: color.lighten($black, 75%);
         box-shadow: none;
       }
     }
@@ -42,13 +42,13 @@
         color: #6b7280;
         white-space: nowrap;
         padding: 0.75rem 1rem;
-        border-color: lighten($black, 80%);
+        border-color: color.lighten($black, 75%);
       }
     }
     & tbody {
       & td {
         padding: 0.75rem 1rem;
-        border-color: lighten($black, 80%);
+        border-color: color.lighten($black, 75%);
       }
     }
     &-curated {
