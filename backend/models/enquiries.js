@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     
     static associate(models) {
       // define association here
+      Enquiries.hasOne(models.StateMaster, { sourceKey: "stateId", foreignKey: "id"});
+      Enquiries.hasOne(models.CityMaster, { sourceKey: "cityId", foreignKey: "id"});
     }
   }
   Enquiries.init({

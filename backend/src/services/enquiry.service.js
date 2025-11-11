@@ -136,12 +136,24 @@ let EnquiryDataProvider = {
 
     if (filterKeyword != '') {
       whereconserch = {
-        title: { [conn.Sequelize.Op.iLike]: '%' + filterKeyword + '%' }
+        name: { [conn.Sequelize.Op.iLike]: '%' + filterKeyword + '%' }
       }
     }
 
     let enquiries = await conn.Enquiries.findAndCountAll({
       where: whereconserch,
+      include:[
+        {
+          model: conn.StateMaster,
+          attributes: [['name', 'stateName']],
+          required: false
+        },
+        {
+          model: conn.CityMaster,
+          attributes: [['name', 'cityName']],
+          required: false
+        }
+      ],
       order: [['id', 'DESC']],
       logging:console.log,
       limit: limit,

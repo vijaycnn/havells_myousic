@@ -12,3 +12,248 @@ const fetch = require("node-fetch");
 
 var https = require('follow-redirects').https;
 
+module.exports.getEmailSettings = async function () {
+    let smsSettings = await conn.Settings.findAll({where: {settingsName: 'EMAIL'}, raw:true});
+    let finalResult = {};
+    if(smsSettings.length > 1){
+        for(let i = 0; i < smsSettings.length; i++){
+           let key = smsSettings[i].settingsKey;
+           let value = smsSettings[i].settingsValue;
+            finalResult = {
+                ...finalResult,
+                [key] : value
+            }
+        }
+    }
+    return finalResult;
+}
+
+module.exports.stringReplace = async function (str, replaceObj=null) {    
+    var str1=str.replace(/rm_CusName|rm_phone|rm_DOB|rm_CityName|rm_Email|rm_Interest_in_role|rm_Story|rm_Dream|rm_StateName|rm_HowToKnow/gi, function(matched){
+       if(replaceObj[matched])
+       {
+        return replaceObj[matched];
+       }
+       else{    return "";  }   
+     });
+     return str1;
+}
+
+module.exports.send_mail_byEmailer = async function (to, subject, data='', emailer,ccto = [],attachments =[]){
+    try{
+        console.log("MAil Data :::",to, subject, data,emailer,ccto,attachments);
+
+        // cero-info-email   email-sender-id   email-sender-password
+        let ceroInfoMail='SHETYE.ROHAN@mahindra.com';
+        let ceroInfoMailUser = null;
+        let ceroInfoMailPass = null;
+        let mailerIconsUrl= null;
+        let  whereconsearch = { settingsKey: {
+         [Op.or]: ['cero-info-email', 'email-sender-id','email-sender-password','mailer-icons-url']
+        }};
+         let ceroInfoMaildata = await conn.Settings.findAll({where: whereconsearch, raw:true, logging: console.log});
+     
+         if(ceroInfoMaildata && ceroInfoMaildata.length>0)
+         {
+     
+                     for(let i=0;i<ceroInfoMaildata.length;i++)
+                     {
+                         if(ceroInfoMaildata[i] && ceroInfoMaildata[i].settingsKey && ceroInfoMaildata[i].settingsKey=='cero-info-email')
+                         {
+                             ceroInfoMail =  ceroInfoMaildata[i].settingsValue?ceroInfoMaildata[i].settingsValue:"";
+                         }
+     
+                         if(ceroInfoMaildata[i] && ceroInfoMaildata[i].settingsKey && ceroInfoMaildata[i].settingsKey=='email-sender-id')
+                         {
+                             ceroInfoMailUser =  ceroInfoMaildata[i].settingsValue?ceroInfoMaildata[i].settingsValue:"";
+                         }
+     
+                         if(ceroInfoMaildata[i] && ceroInfoMaildata[i].settingsKey && ceroInfoMaildata[i].settingsKey=='email-sender-password')
+                         {
+                             ceroInfoMailPass =  ceroInfoMaildata[i].settingsValue?ceroInfoMaildata[i].settingsValue:"";
+                         }
+     
+                         if(ceroInfoMaildata[i] && ceroInfoMaildata[i].settingsKey && ceroInfoMaildata[i].settingsKey=='mailer-icons-url')
+                         {
+                             mailerIconsUrl =  ceroInfoMaildata[i].settingsValue?ceroInfoMaildata[i].settingsValue:"";
+                         }
+                         
+                     }
+     
+         }
+         console.log("MAil Data  Reached 1:::");
+        if(ceroInfoMailUser  && ceroInfoMailPass)
+        {
+            console.log("MAil Data  Reached 2:::");
+                 let mailTransporter = nodemailer.createTransport(smtpTransport({
+                     host: 'smtp.office365.com',
+                     port: 587,
+                     auth: {
+                         user: ceroInfoMailUser,
+                         pass: ceroInfoMailPass
+                     }
+                 }));
+                 ccto.push(ceroInfoMail);
+                 console.log("MAil Data  Reached 3:::");
+                 //ccto.push('ajayv@neuronimbus.com');
+                 // ccto.push("parasj@neuronimbus.com");
+                 var finalHtml = await emailerTemplate(emailer,mailerIconsUrl);
+                 let mailDetails = {
+                     from: ceroInfoMailUser, // sender address
+                     to: to,
+                     cc: ccto, // list of receivers
+                 // bcc: 'ajayv@neuronimbus.com',
+                     subject: subject,//'Test QR code in Email Node JS', // Subject line
+                 // text: data, //Hello just testing node js', // plain text body
+                     html: finalHtml
+                 };
+     
+                 console.log("MAil Data  Reached 4:::");
+                 if(attachments.length > 0){
+                     mailDetails.attachments = attachments;
+                 }
+                 //console.log('Email sent successfully  ============================================');
+                 return new Promise((resolve, reject) => {
+                    console.log("MAil Data  Reached 5:::",subject,"email",emailer);
+                    
+                 if(subject && emailer){
+                    console.log("MAil Data  Reached 6:::");
+                             mailTransporter.sendMail(mailDetails).then(info => {
+                                 console.log('Email sent successfully',info);
+                                 return resolve(true);
+                             }).catch(err => {
+                                 console.log('Error Occurs when send email:' + err);
+                                 return resolve(true);
+                             });
+                             
+                 }
+                 else{
+                    console.log("MAil Data  Reached 7:::");
+                     return resolve(true);
+                     
+                 }    
+                 });
+         }// mail credential 
+         else{
+            console.log("MAil Data  Reached 8:::");
+             return new Promise((resolve, reject) => {
+                 return resolve(true);
+             })
+     
+         }
+    }catch(err){
+        console.error("MAil ERROR ::::",err)
+    }
+}
+
+async function emailerTemplate(myhtml, root=null){
+    //var root=process.env.MAILER_ICONS_URL;
+    var template = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+    +'<html xmlns="https://www.w3.org/1999/xhtml">'
+    +'<head>'
+    +'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'
+    +'<title>Mahindra Cero</title>'
+     + '<link rel="preconnect" href="https://fonts.googleapis.com">'
+    +'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+        +'<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">'
+    +'<style type="text/css">'
+    	+'* { margin: 0; padding: 0; }'
+   +' </style>'
+  +'</head>'
+  +'<body>'
+  	+'<table cellspacing="0" cellpadding="0" width="100%;" style="font-family: "Montserrat", Arial, sans-serif; color:#2d2c2b; border-spacing: 0; border-collapse: collapse; border: none; overflow:hidden; background:#6db784;">'
+  		+'<tr>'
+  			+'<td align="center" style="background:#6db784;">'
+  				+'<table width="620" cellspacing="0" cellpadding="0" align="center" border="0" style="font-family: "Montserrat", Arial, sans-serif; color:#2d2c2b; border-spacing: 0; border-collapse: collapse; border: none; overflow:hidden;" bgcolor="#ffffff">'
+    	 +'<tr>'
+			 		+'<td height="40" style="background:#6db784;">&nbsp;</td>'
+			 	+'</tr>'
+    	+'<tr>'
+    		+'<td>'
+    			 +'<table width="620" cellspacing="0" cellpadding="0" align="center" border="0" style="font-family: "Montserrat", Arial, sans-serif; color:#2d2c2b; border-spacing: 0; border-collapse: collapse; border: none; overflow:hidden; ">'
+    			 	+'<tr>'
+    			 		+'<td colspan="3" height="20">&nbsp;</td>'
+    			 	+'</tr>'
+  			 		 +'<tr>'
+			      	+'<td width="30">&nbsp;</td>'
+			      	+'<td><img src="'+root+'/img/logo.svg" alt="cero image" width="80"></td>'
+			      	+'<td width="30">&nbsp;</td>'
+			     +'</tr>'
+			      +'<tr>'
+    			 		+'<td colspan="3" height="20">&nbsp;</td>'
+    			 	+'</tr>'
+    			+' </table>'
+    		+'</td>'
+    	+'</tr>'
+    	+'<tr>'
+    		+'<td>'
+    			 +'<table width="620" cellspacing="0" cellpadding="0" align="center" border="0" style="font-family: "Montserrat", Arial, sans-serif; color:#444; font-size: 13px; line-height: 22px; border-spacing: 0; border-collapse: collapse; border: none; overflow:hidden; background:#ffffff;">'
+    			 	+'<tr>'
+    			 		+'<td colspan="3" height="30">&nbsp;</td>'
+    			 	+'</tr>'
+  			 		+' <tr>'
+			      	+'<td width="30">&nbsp;</td>'
+                     +' <td>'
+                     +myhtml
+                 
+                  +'</td>'
+			      	+'<td width="30">&nbsp;</td>'
+			      +'</tr>'
+			      +'<tr>'
+    			 		+'<td colspan="3" height="30">&nbsp;</td>'
+    			 	+'</tr>'
+    			 +'</table>'
+    		+'</td>'
+    	+'</tr>'
+        +'<tr>'
+           +' <td align="center" style=" background:#0484C4;">'
+               + '<table width="60%" cellpadding="10" style="background: #0484C4; text-align: center">'
+                    +'<tr>'
+                        +'<td colspan="2">&nbsp;'
+                                                      
+                        +'</td> '                       
+                    +'</tr>'
+                +'</table>'
+                              
+          +  '</td>  '                 
+       +' </tr>'
+       +' <tr>'
+          +'  <td align="center" style=" background:#0484C4;">'
+                +'<table width="50%" cellpadding="0" style="background: #ffffff; text-align: center">'
+                    
+                  + ' <tr>'
+                       +' <td align="center">'
+                           +' <img src="'+root+'/img/mahindraAcceloLogo.svg" width="160" alt=""> '                           
+                        +'</td>'
+                        +'<td align="center">'
+                            +'<img src="'+root+'/img/mstcLogo.svg" width="90" alt="">'  
+                       +' </td>'
+                    +'</tr>'
+                    
+                +'</table> '                             
+           +' </td>'                   
+        +'</tr>'
+       + '<tr>'
+            +'<td style="text-align: center; font-size: 12px; background:#0484C4; color: #fff"><br>A Mahindra Accelo &amp; MSTC Venture <br><br><br></td>'
+       +' </tr>'
+        
+    	+'<tr>'
+			 		+'<td height="10" style="background:#6db784;">&nbsp;</td>'
+			 	+'</tr>'	
+    	+'<tr>'
+		 		+'<td style="background:#6db784; text-align: center; font-size: 12px; color: #fff;">&copy; 2022 Mahindra MSTC Recycling Pvt. Ltd. All Rights Reserved</td>'
+		 	+'</tr>'
+    		+'<tr>'
+			 		+'<td height="40" style="background:#6db784;">&nbsp;</td>'
+			 	+'</tr>'	
+		
+  +'  </table>'
+  		+'	</td>'
+  		+'</tr>'
+  	+'</table>'
+    
+ +' </body>'
++'</html>';
+
+    return template;
+}
