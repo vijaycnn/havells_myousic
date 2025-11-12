@@ -295,6 +295,19 @@ textarea {
   &-form {
     background: url(../../assets/pattern.png) repeat #ede9de;
   }
+  &-bootcamp {
+    & .artist-video {
+      padding-bottom: 45%;
+    }
+    & .notes {
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      background: rgba(255, 255, 255, 0.6);
+    }
+  }
+  &-process {
+    background: url(../../assets/pattern.png) repeat #ede9de;
+  }
   &-title {
     font-size: 3.5rem;
     font-weight: 900;
@@ -315,6 +328,80 @@ textarea {
   &-sub-title {
     margin: 0;
     font-size: 1rem;
+  }
+  &-usp {
+    position: relative;
+    overflow: hidden;
+    & .cover-img {
+      @include mixins.cover;
+      user-select: none;
+    }
+    & .container {
+      position: relative;
+      z-index: 2;
+    }
+    & .sec-title {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 1) 23%,
+        rgba(153, 153, 153, 1) 34%,
+        rgba(153, 153, 153, 1) 47%,
+        rgba(255, 255, 255, 1) 84%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    & .btn-circle {
+      background: url(../../assets/btn-circle.svg) no-repeat center;
+      background-size: 100%;
+      color: variables.$white;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      width: 160px;
+      height: 165px;
+      margin: 0 auto;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.4;
+    }
+  }
+  &-hero {
+    min-height: 100vh;
+    background: url(../../assets/buildings.png) no-repeat bottom center;
+    background-size: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      left: -10vw;
+      top: 10vw;
+      border-radius: 50%;
+      width: 20vw;
+      height: 20vw;
+      background: linear-gradient(
+        31deg,
+        rgba(0, 194, 65, 1) 0%,
+        rgba(55, 216, 11, 1) 100%
+      );
+      filter: blur(50px);
+      opacity: 0.3;
+      z-index: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+    & .sec-head {
+      position: relative;
+      z-index: 2;
+    }
+  }
+  &-mentor {
+    background: url(../../assets/peacock.svg) no-repeat calc(100% + 100px) top;
   }
 }
 
@@ -443,6 +530,86 @@ textarea {
       }
     }
   }
+  &-video {
+    background: variables.$black;
+    border-radius: 3rem;
+    height: 100px;
+    padding: 0 0 65%;
+    overflow: hidden;
+    position: relative;
+    color: variables.$white;
+    &-wrapper {
+      position: relative;
+      padding: 100px 150px 0 0;
+      &:before {
+        content: "";
+        width: 300px;
+        height: 100px;
+        padding-bottom: 60%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url(../../assets/music-key.jpg) no-repeat;
+        background-size: 100%;
+      }
+    }
+    & img {
+      @include mixins.cover;
+      opacity: 0.6;
+    }
+
+    &-play {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      display: block;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+      position: relative;
+      transition-duration: 0.3s;
+      &:hover {
+        transform: scale(1.1);
+      }
+      &:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid variables.$white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-left: 0.2rem;
+      }
+    }
+    &-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      gap: 2rem;
+      & h2 {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 1) 23%,
+          rgba(153, 153, 153, 1) 34%,
+          rgba(153, 153, 153, 1) 47%,
+          rgba(255, 255, 255, 1) 84%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
 }
 
 .drop-file {
@@ -510,5 +677,159 @@ textarea {
         transform-origin: left;
       }
     }
+  }
+}
+
+.step {
+  &-card {
+    background: url(../../assets/step-card.png) no-repeat top center;
+    background-size: 100%;
+    width: 100%;
+    padding: 0 0 21%;
+    position: relative;
+    &:nth-child(odd) {
+      margin-top: 3rem;
+    }
+    & img {
+      max-width: 100px;
+    }
+    &-text {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      & .font-secondary {
+        line-height: 1;
+      }
+    }
+  }
+}
+
+.mentor-card {
+  &-title {
+    margin-top: -3rem;
+  }
+}
+
+.card {
+  &-usp {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.6);
+  }
+  &-expert {
+    margin-right: 5rem;
+    background: linear-gradient(
+      206deg,
+      rgba(243, 235, 198, 1) 0%,
+      rgba(251, 245, 220, 1) 100%
+    );
+    & .badge-weekly {
+      color: variables.$white;
+      background: linear-gradient(
+        90deg,
+        rgba(93, 21, 24, 1) 0%,
+        rgba(85, 15, 18, 1) 20%,
+        rgba(134, 12, 22, 1) 40%,
+        rgba(45, 25, 25, 1) 60%,
+        rgba(21, 18, 33, 1) 80%,
+        rgba(18, 16, 29, 1) 100%
+      );
+    }
+    & .badge-coming {
+      background: linear-gradient(
+        206deg,
+        rgba(98, 74, 132, 1) 0%,
+        rgba(69, 53, 95, 1) 20%,
+        rgba(47, 37, 66, 1) 40%,
+        rgba(30, 25, 45, 1) 60%,
+        rgba(21, 18, 33, 1) 80%,
+        rgba(18, 16, 29, 1) 100%
+      );
+    }
+    & .singer {
+      &-avtar {
+        width: 100px;
+        height: 100px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background-color: variables.$white;
+        position: relative;
+        overflow: hidden;
+        & img {
+          @include mixins.cover;
+        }
+      }
+    }
+  }
+}
+
+.sec-intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1031;
+  & .scrolling-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* two images side by side */
+    height: 100%;
+    background: url(../../assets/hero-banner.jpg) repeat-x;
+    background-size: contain;
+    animation: scrollBg 200s linear infinite;
+  }
+  & .circle-content {
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vh;
+    height: 90vh;
+    border-radius: 50%;
+    background: #ede9de;
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    & h5 {
+      text-transform: uppercase;
+      letter-spacing: 5px;
+    }
+    & .circle-logo {
+      height: 150px;
+    }
+    & .circle-text {
+      max-width: 70%;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1rem;
+    }
+    & .btn {
+      background: variables.$white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: variables.$black;
+    }
+  }
+}
+
+@keyframes scrollBg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -400% 0;
   }
 }
