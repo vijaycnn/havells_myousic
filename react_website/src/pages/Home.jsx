@@ -8,6 +8,8 @@ import MentorExperts from "../components/MentorExperts";
 import ArtistUsp from "../components/ArtistUsp";
 import Bootcamp from "../components/Bootcamp";
 import VideoSlider from "../components/VideoSlider";
+import QrScanner from "../components/QrScanner";
+import Gallery from "../components/Gallery";
 
 export default function Home() {
   return (
@@ -17,6 +19,8 @@ export default function Home() {
       <MentorExperts />
       <ArtistUsp />
       <Bootcamp />
+      <QrScanner />
+      <Gallery />
       <Stories />
       <FAQs />
       <VideoSlider />
