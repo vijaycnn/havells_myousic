@@ -1,5 +1,7 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
-import QrCode from "../assets/QR-code.png";
+// import QrCode from "../assets/QR-code.png";
+import QrCode from "../assets/uat-QR-code.png";
+
 import shareIcon from "../assets/share-icon.svg";
 
 function QrScanner() {
