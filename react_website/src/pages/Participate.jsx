@@ -104,6 +104,7 @@ function Participate() {
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
   const handleFileChange = (e) => {
+    console.log('handleFileChange >>');
     const selected = e.target.files[0];
     setFileError(""); // reset
     if (!selected) return;
@@ -135,9 +136,11 @@ function Participate() {
     } else if (e.type === "dragleave") {
       setDragActive(false);
     }
+    console.log('handleDrag >>');
   };
 
   const handleDrop = (e) => {
+    console.log('handleDrop >>');
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);

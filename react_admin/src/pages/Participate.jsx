@@ -15,7 +15,8 @@ function Participate() {
   const [filterKeyword, setFilterKeyword] = useState(null)
   const [totalRecords, setTotalRecords] = useState(null)
   const [items, setItems] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const S3_baseurl = import.meta.env.VITE_API_S3FILE_URL;
   
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
@@ -41,9 +42,10 @@ function Participate() {
   };
 
   useEffect(() => {
-    getEnquiryList()
-
-  }, [offset, perPage]);
+    if(!isLoading){
+      getEnquiryList()
+    }
+  }, [offset]);
 
   const showItems = () => {
     return isLoading == false ? <>
@@ -58,6 +60,7 @@ function Participate() {
             <th>Role Interested</th>
             <th>Dream</th>
             <th>How to know about this</th>
+            <th>File</th>
             <th width="120" className='col-fixed'>Action</th>
           </tr>
 
@@ -65,6 +68,10 @@ function Participate() {
         <tbody className="text-muted">
           {
             items.map((item) => {
+              // let fileUrl =   item.media_url; 
+              // if(!item.media_url.contains('http')){
+                let fileUrl = `${S3_baseurl}`+item.media_url;
+              // }
               return (
                 <>
                   <tr key={item.id}>
@@ -75,6 +82,10 @@ function Participate() {
                     <td>{item.interest_in_role} <br/> { (item.other_roles) ? item.other_roles : ''}  </td>
                     <td>{item.dream_remarks}</td>
                     <td>{item.how_to_know_about_this}</td>
+                    <td>
+                      {item.media_url ? 
+                      <><a href={fileUrl} target="_blank" >View File</a></>  : 'NA'}
+                    </td>
                     <td className='col-fixed'>
                       <Button variant="default btn-icon">
                         <BiPencil />
