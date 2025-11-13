@@ -8,6 +8,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     sessionStorage.removeItem("isAuthenticated");
+    localStorage.clear("auth-token");
+    localStorage.clear();
     navigate("/");
   };
   return (

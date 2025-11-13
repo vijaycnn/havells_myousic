@@ -9,6 +9,7 @@ const helmet = require("helmet");
 
 const dotenv = require('dotenv');
 dotenv.config();
+const userRouter = require('./routes/users.route');
 const enquiryRouter = require('./routes/enquiry.route');
 const locationRouter = require('./routes/location.route');
 
@@ -74,6 +75,7 @@ app.use(async function (req, res, next) {
 
 
 // let routePrefix = process.env.ROUTE_PREFIX.trim();
+app.use('/api/user',  userRouter);
 app.use('/api/enquiry',  enquiryRouter);
 app.use('/api/location',  locationRouter);
 

@@ -357,7 +357,7 @@ function Participate() {
                       <option value="">Select State</option>
                       {state.map((data) => {
                         return (
-                          <option key={data.id} value={data.id}>
+                          <option value={data.id}>
                             {data.name}
                           </option>
                         );
@@ -378,7 +378,7 @@ function Participate() {
                       <option value="">Select City</option>
                       {city.map((data) => {
                         return (
-                          <option key={data.id} value={data.id}>
+                          <option value={data.id}>
                             {data.name}
                           </option>
                         );

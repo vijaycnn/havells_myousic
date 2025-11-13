@@ -31,7 +31,7 @@ function Participate() {
     let result = await enquiryList(params);
     if(result?.status == 'success' ){
       if(result?.data){
-        // console.log('>>> ', result);
+        // console.log('>>> ', result.data);
         setPageCount(Math.ceil(result?.totalRecords / perPage));
         setItems(result.data);
         setTotalRecords(result.totalRecords)
@@ -72,7 +72,7 @@ function Participate() {
                     <td>{item.contact} <br/>{item.email}</td>
                     <td>{item?.StateMaster?.stateName ? item?.StateMaster?.stateName : 'NA'}</td>
                     <td>{item?.CityMaster?.cityName ? item?.CityMaster?.cityName : 'NA'}</td>
-                    <td>{item.interest_in_role} {item.other_roles ? <><br/> item.other_roles </>: ''}  </td>
+                    <td>{item.interest_in_role} <br/> { (item.other_roles) ? item.other_roles : ''}  </td>
                     <td>{item.dream_remarks}</td>
                     <td>{item.how_to_know_about_this}</td>
                     <td className='col-fixed'>
@@ -99,52 +99,6 @@ function Participate() {
             items.length === 0 ? <div className="d-flex text-muted justify-content-center p-5 w-100 align-items-center flex-column"><i className='fa fa-database fa-3x mb-3'></i><p>Sorry, no record found!</p></div>
               : showItems() : <LoadingSpinner />
         }
-        {/* <Table className="align-middle">
-          <thead>
-            <tr>
-              <th>Sr.</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>01</td>
-              <td>Dummy</td>
-              <td>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Necessitatibus, enim.
-              </td>
-              <td>
-                <Badge bg="success">Active</Badge>
-              </td>
-              <td>
-                <Button variant="default btn-icon">
-                  <BiPencil />
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>02</td>
-              <td>Dummy</td>
-              <td>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Necessitatibus, enim.
-              </td>
-              <td>
-                <Badge bg="success">Active</Badge>
-              </td>
-              <td>
-                <Button variant="default btn-icon">
-                  <BiPencil />
-                </Button>
-              </td>
-            </tr>
-          </tbody>
-        </Table> */}
-
       </div>
       {
           items ?

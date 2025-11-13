@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require('multer')
 const path = require('path')
 const enquiryController = require('../src/controller/enquiry.controller');
+const auth = require('../middleware/auth');  
+
 // const uservalidate = require('../middleware/validate.middelware');
 // const schemas = require('../src/validation/document.validate');
 
@@ -74,7 +76,7 @@ router.post("/create", upload.single('uploadMediaFile'), function (request, resp
     enquiryController.createEnquiry(request, response, next)
 });
 
-router.get('/', function (request, response, next) {
+router.get('/', [auth.login],function (request, response, next) {
     enquiryController.getEnquiryListByFilter(request, response, next);
 });
 // router.get('/filter', function (request, response, next) {

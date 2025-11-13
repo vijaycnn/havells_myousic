@@ -5,7 +5,7 @@ function IntroScreen({ onEnter }) {
   return (
     <>
       <section className="sec-intro">
-        <div class="scrolling-bg"></div>
+        <div className="scrolling-bg"></div>
         <div className="circle-content">
           <h5 className="font-secondary">Introducing</h5>
           <Image src={logo} alt="" className="circle-logo" />

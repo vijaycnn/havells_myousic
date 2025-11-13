@@ -1,16 +1,24 @@
 const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND;
+let authToken = localStorage.getItem("auth-token");
 
-// export const submitForm = async (formData) => {
-//   const response = await fetch(`${baseURL}/api/enquiry/create`, {
-//     method: "POST",
-//     body: formData, // includes file
-//   });
-//   return response.json();
-// };
+
+export const login = async (formData) => {
+  const response = await fetch(`${baseURL}/api/user/login`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json', // Indicate the data format being sent
+    },
+    body: JSON.stringify(formData),
+  });
+  return response.json();
+};
 
 export const enquiryList = async (params) => {
   const response = await fetch(`${baseURL}/api/enquiry?${params.toString()}`, {
     method: "GET",
+    headers: {
+      Authorization: `Bareer ${authToken}`,
+    },
   });
   return response.json();
 };
