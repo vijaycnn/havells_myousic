@@ -20,28 +20,26 @@ function Participate() {
 
   const getState = async () => {
     let stateRes = await stateList();
-    if(stateRes?.data){
+    if (stateRes?.data) {
       setState(stateRes.data);
     }
   };
 
   const getCity = async (stateId) => {
     let cityRes = await cityList(stateId);
-    if(cityRes?.data){
+    if (cityRes?.data) {
       setCity(cityRes.data);
     }
   };
 
-
   const avoidAlphabets = (event) => {
     var k = event ? event.which : window.event.keyCode;
     if (k >= 48 && k <= 57) {
-      return true
-
+      return true;
     } else {
-      event.preventDefault()
+      event.preventDefault();
     }
-  }
+  };
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -51,13 +49,13 @@ function Participate() {
     cityId: "",
     address: "",
     pincode: "",
-    other_roles : "",
+    other_roles: "",
     story: "",
     dream_remarks: "",
-    how_to_know_about_this : "",
-    i_confim : false,
-    read_tnc : false,
-    agree_tnc : false,
+    how_to_know_about_this: "",
+    i_confim: false,
+    read_tnc: false,
+    agree_tnc: false,
   });
   // Allowed file types
   const allowedTypes = [
@@ -89,7 +87,7 @@ function Participate() {
     } else {
       setSelectedValues((prev) => prev.filter((v) => v !== value));
     }
-  };  
+  };
 
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -100,7 +98,8 @@ function Participate() {
     }));
     // console.log('handleChange', name, e.target.value, formData);
   };
-  const isSubmitEnabled = formData.i_confim && formData.read_tnc && formData.agree_tnc;
+  const isSubmitEnabled =
+    formData.i_confim && formData.read_tnc && formData.agree_tnc;
 
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
@@ -108,9 +107,11 @@ function Participate() {
     const selected = e.target.files[0];
     setFileError(""); // reset
     if (!selected) return;
-    console.log('fileType', selected.type);
+    console.log("fileType", selected.type);
     if (!allowedTypes.includes(selected.type)) {
-      setFileError("Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed.");
+      setFileError(
+        "Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed."
+      );
       setUploadMediaFile(null);
       return;
     }
@@ -125,7 +126,7 @@ function Participate() {
     // setFiles([...files, ...Array.from(e.target.files[0])]);
     // console.log('fileArr >>', files);
   };
-  
+
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -156,48 +157,65 @@ function Participate() {
   // };
 
   const onButtonClick = () => inputRef.current.click();
-  
+
   const validation = (values) => {
-    const formErrors = {}
+    const formErrors = {};
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-		let hasError = false;
-		if (!values.name || values.name == '' || !values.contact || values.contact == '' || !values.email || values.email == '' || !values.dob || !values.story || values.story == '' || !values.dream_remarks || values.dream_remarks == '' || !values.how_to_know_about_this || values.how_to_know_about_this == '' || !uploadMediaFile || uploadMediaFile == null || values.cityId == '' || !values.stateId )  {      
-
-			formErrors.allError = "Mandatory fields are missing";
+    let hasError = false;
+    if (
+      !values.name ||
+      values.name == "" ||
+      !values.contact ||
+      values.contact == "" ||
+      !values.email ||
+      values.email == "" ||
+      !values.dob ||
+      !values.story ||
+      values.story == "" ||
+      !values.dream_remarks ||
+      values.dream_remarks == "" ||
+      !values.how_to_know_about_this ||
+      values.how_to_know_about_this == "" ||
+      !uploadMediaFile ||
+      uploadMediaFile == null ||
+      values.cityId == "" ||
+      !values.stateId
+    ) {
+      formErrors.allError = "Mandatory fields are missing";
       hasError = true;
-		}
-    if (values.contact) {        
-     if (values.contact.length !== 10) {
+    }
+    if (values.contact) {
+      if (values.contact.length !== 10) {
         formErrors.contact = "Please enter a valid Contact";
         hasError = true;
-     }
+      }
     }
     if (values.email) {
       if (!regex.test(values.email)) {
         formErrors.email = "Please enter a valid email";
         hasError = true;
       }
-    }    
-    if(selectedValues.includes('Others')){
-      if(!values.other_roles || values.other_roles == ''){
+    }
+    if (selectedValues.includes("Others")) {
+      if (!values.other_roles || values.other_roles == "") {
         formErrors.other_roles = "Please enter other role";
         hasError = true;
       }
     }
-    setError(formErrors);    
-		return hasError;
-	}
+    setError(formErrors);
+    return hasError;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let hasError = validation(formData);
-    console.log('hasError >>', hasError, formData, uploadMediaFile);
+    console.log("hasError >>", hasError, formData, uploadMediaFile);
 
-    if(!hasError){
-      
-      if(!formData.i_confim || !formData.read_tnc || !formData.agree_tnc) return;
+    if (!hasError) {
+      if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc)
+        return;
       setLoading(true);
 
       const data = new FormData();
@@ -207,20 +225,19 @@ function Participate() {
 
       // console.log('data >>', data);
       const res = await submitForm(data);
-      console.log('res >>', res);
+      console.log("res >>", res);
 
       setLoading(false);
-      if (res.status == 'success') navigate("/thankyou");
-      else{
-        setError({allError : res.message} );
+      if (res.status == "success") navigate("/thankyou");
+      else {
+        setError({ allError: res.message });
         alert(res.message);
-      } 
+      }
     }
   };
 
-  
   useEffect(() => {
-    if(state.length == 0){
+    if (state.length == 0) {
       getState();
     }
     if (formData.stateId) {
@@ -229,6 +246,9 @@ function Participate() {
   }, [formData.stateId]);
   return (
     <>
+      <div className="loader">
+        <div className="loader-spinner"></div>
+      </div>
       <section className="sec sec-form">
         <Container className="mt-5">
           <div className="artist-card">
@@ -243,7 +263,7 @@ function Participate() {
               alt="Guitar"
               className="artist-card-element guitar"
             />
-            <Form className="artist-form" onSubmit={handleSubmit} >
+            <Form className="artist-form" onSubmit={handleSubmit}>
               <header className="sec-head text-center mb-5">
                 <h2 className="sec-title">
                   Havells mYOUsic <br></br>Submissions
@@ -264,7 +284,13 @@ function Participate() {
                     <Form.Label className="fw-medium">
                       Full Name <span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Control type="text" name="name" placeholder="Your Full Name" onChange={handleChange} required />
+                    <Form.Control
+                      type="text"
+                      name="name"
+                      placeholder="Your Full Name"
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -274,8 +300,13 @@ function Participate() {
                       <span className="text-danger">*</span>
                     </Form.Label>
                     <Form.Control
-                      type="tel" onKeyPress={avoidAlphabets}
-                      placeholder="Your contact number" maxLength={10} name="contact" onChange={handleChange} required
+                      type="tel"
+                      onKeyPress={avoidAlphabets}
+                      placeholder="Your contact number"
+                      maxLength={10}
+                      name="contact"
+                      onChange={handleChange}
+                      required
                     />
                     <p className="text-danger">{error.contact}</p>
                   </Form.Group>
@@ -285,8 +316,14 @@ function Participate() {
                     <Form.Label className="fw-medium">
                       Email <span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Your Email Address" name="email" required onChange={handleChange}/>
-                  <p className="text-danger">{error.email}</p>
+                    <Form.Control
+                      type="text"
+                      placeholder="Your Email Address"
+                      name="email"
+                      required
+                      onChange={handleChange}
+                    />
+                    <p className="text-danger">{error.email}</p>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -294,7 +331,12 @@ function Participate() {
                     <Form.Label className="fw-medium">
                       Date of Birth <span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Control type="date" name="dob" onChange={handleChange} required/>
+                    <Form.Control
+                      type="date"
+                      name="dob"
+                      onChange={handleChange}
+                      required
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -302,7 +344,11 @@ function Participate() {
                     <Form.Label className="fw-medium">
                       State <span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Select name="stateId" onChange={handleChange} value={formData.stateId}>
+                    <Form.Select
+                      name="stateId"
+                      onChange={handleChange}
+                      value={formData.stateId}
+                    >
                       <option value="">Select State</option>
                       {state.map((data) => {
                         return (
@@ -319,7 +365,11 @@ function Participate() {
                     <Form.Label className="fw-medium">
                       City <span className="text-danger">*</span>
                     </Form.Label>
-                    <Form.Select name="cityId" onChange={handleChange} value={formData.cityId}>
+                    <Form.Select
+                      name="cityId"
+                      onChange={handleChange}
+                      value={formData.cityId}
+                    >
                       <option value="">Select City</option>
                       {city.map((data) => {
                         return (
@@ -335,76 +385,105 @@ function Participate() {
 
                 <Col md={6}>
                   <Form.Group className="mb-4">
-                    <Form.Label className="fw-medium">
-                      Address
-                    </Form.Label>
-                    <Form.Control type="text" placeholder="Your Address" name="address" onChange={handleChange} maxLength={255}/>
+                    <Form.Label className="fw-medium">Address</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Your Address"
+                      name="address"
+                      onChange={handleChange}
+                      maxLength={255}
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group className="mb-4">
-                    <Form.Label className="fw-medium">
-                      Pincode
-                    </Form.Label>
+                    <Form.Label className="fw-medium">Pincode</Form.Label>
                     <Form.Control
-                      type="tel" onKeyPress={avoidAlphabets}
-                      placeholder="Your Pincode" maxLength={6} name="pincode" onChange={handleChange}
+                      type="tel"
+                      onKeyPress={avoidAlphabets}
+                      placeholder="Your Pincode"
+                      maxLength={6}
+                      name="pincode"
+                      onChange={handleChange}
                     />
                   </Form.Group>
                 </Col>
-                
 
                 <Col md={12}>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
                       Your role in music
-                      <span className="text-danger">*</span> 
+                      <span className="text-danger">*</span>
                     </Form.Label>
                     <div className="d-flex gap-4 flex-wrap">
                       <Form.Check
                         type="checkbox"
-                        label="Singer" value="Singer"
-                        id="singleCheck" onChange={handleCheckboxChange} checked={selectedValues.includes('Singer')}
+                        label="Singer"
+                        value="Singer"
+                        id="singleCheck"
+                        onChange={handleCheckboxChange}
+                        checked={selectedValues.includes("Singer")}
                       />
                       <Form.Check
                         type="checkbox"
                         label="Lyricist"
-                        id="lyricistCheck" checked={selectedValues.includes('Lyricist')} value="Lyricist" onChange={handleCheckboxChange}
+                        id="lyricistCheck"
+                        checked={selectedValues.includes("Lyricist")}
+                        value="Lyricist"
+                        onChange={handleCheckboxChange}
                       />
                       <Form.Check
                         type="checkbox"
                         label="Composer"
-                        id="composerCheck" checked={selectedValues.includes('Composer')} value="Composer" onChange={handleCheckboxChange}
+                        id="composerCheck"
+                        checked={selectedValues.includes("Composer")}
+                        value="Composer"
+                        onChange={handleCheckboxChange}
                       />
                       <Form.Check
                         type="checkbox"
                         label="Songwriter"
-                        id="songwriterCheck" checked={selectedValues.includes('Songwriter')} value="Songwriter" onChange={handleCheckboxChange}
+                        id="songwriterCheck"
+                        checked={selectedValues.includes("Songwriter")}
+                        value="Songwriter"
+                        onChange={handleCheckboxChange}
                       />
                       <Form.Check
                         type="checkbox"
                         label="Music Producer"
-                        id="musicProducerCheck" checked={selectedValues.includes('Music Producer')} value="Music Producer" onChange={handleCheckboxChange}
+                        id="musicProducerCheck"
+                        checked={selectedValues.includes("Music Producer")}
+                        value="Music Producer"
+                        onChange={handleCheckboxChange}
                       />
                       <Form.Check
                         type="checkbox"
                         label="Others"
-                        id="othersCheck" checked={selectedValues.includes('Others')} value="Others" onChange={handleCheckboxChange}
+                        id="othersCheck"
+                        checked={selectedValues.includes("Others")}
+                        value="Others"
+                        onChange={handleCheckboxChange}
                       />
                     </div>
-                    {
-                      (selectedValues.includes('Others')) ?
+                    {selectedValues.includes("Others") ? (
                       <>
-                      <Col md={12}>
-                        <Form.Group className="mt-2">
-                          <Form.Control type="text" placeholder="Enter Your Other Roles" name="other_roles" onChange={handleChange} maxLength={255}/>
-                          
-                          <p className="text-danger">{error.other_roles}</p>
-                        </Form.Group>
-                      </Col>
-                      </> : ''
-                    }
-                    
+                        <Col md={12}>
+                          <Form.Group className="mt-2">
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter Your Other Roles"
+                              name="other_roles"
+                              onChange={handleChange}
+                              maxLength={255}
+                            />
+
+                            <p className="text-danger">{error.other_roles}</p>
+                          </Form.Group>
+                        </Col>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </Form.Group>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
@@ -414,7 +493,11 @@ function Participate() {
                     <Form.Control
                       as="textarea"
                       placeholder="Leave your story here"
-                      style={{ height: "100px" }} maxLength={100} name="story" onChange={handleChange} required
+                      style={{ height: "100px" }}
+                      maxLength={100}
+                      name="story"
+                      onChange={handleChange}
+                      required
                     />
                   </Form.Group>
                   <Form.Group className="mb-4">
@@ -427,19 +510,25 @@ function Participate() {
                         type="radio"
                         label="Mentorship"
                         id="mentorshipCheck"
-                        name="dream_remarks" value="Mentorship" onChange={handleChange}
+                        name="dream_remarks"
+                        value="Mentorship"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="Performance Opportunities"
                         id="performanceCheck"
-                        name="dream_remarks" value="Performance Opportunities" onChange={handleChange}
+                        name="dream_remarks"
+                        value="Performance Opportunities"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="Collaborations"
                         id="collaborationsCheck"
-                        name="dream_remarks" value="Collaborations" onChange={handleChange}
+                        name="dream_remarks"
+                        value="Collaborations"
+                        onChange={handleChange}
                       />
                     </div>
                   </Form.Group>
@@ -452,7 +541,7 @@ function Participate() {
                       <p className="mt-2 text-sm text-red-600">
                         ⚠️ {fileError}
                       </p>
-                    )} 
+                    )}
                     <div
                       onDragEnter={handleDrag}
                       onDragOver={handleDrag}
@@ -475,7 +564,8 @@ function Participate() {
                       </p>
                       <p className="text-muted">
                         <small>
-                          (Formats allowed: MP3, MP4, MOV, AVI, WMV, YouTube, SoundCloud etc.)
+                          (Formats allowed: MP3, MP4, MOV, AVI, WMV, YouTube,
+                          SoundCloud etc.)
                         </small>
                       </p>
                       <button
@@ -485,16 +575,17 @@ function Participate() {
                       >
                         <span>Browse Files</span>
                       </button>
-                      {
-                        (uploadMediaFile) ?
+                      {uploadMediaFile ? (
                         <>
                           <div className="mt-3">
-                              <span className="text-sm">
-                                📄 {uploadMediaFile.name}
-                              </span>
+                            <span className="text-sm">
+                              📄 {uploadMediaFile.name}
+                            </span>
                           </div>
-                        </>:''
-                      }      
+                        </>
+                      ) : (
+                        ""
+                      )}
                       {/* {files.length > 0 && (
                         <div className="mt-3">
                           {files.map((file, index) => (
@@ -517,31 +608,41 @@ function Participate() {
                         type="radio"
                         label="Social Media"
                         id="socialMediaCheck"
-                        name="how_to_know_about_this" value="Social Media" onChange={handleChange}
+                        name="how_to_know_about_this"
+                        value="Social Media"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="Email"
                         id="emailCheck"
-                        name="how_to_know_about_this" value="Email" onChange={handleChange}
+                        name="how_to_know_about_this"
+                        value="Email"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="WhatsApp"
                         id="whatsappCheck"
-                        name="how_to_know_about_this" value="WhatsApp" onChange={handleChange}
+                        name="how_to_know_about_this"
+                        value="WhatsApp"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="One on One"
                         id="oneCheck"
-                        name="how_to_know_about_this" value="One on One" onChange={handleChange}
+                        name="how_to_know_about_this"
+                        value="One on One"
+                        onChange={handleChange}
                       />
                       <Form.Check
                         type="radio"
                         label="Other"
                         id="otherCheck"
-                        name="how_to_know_about_this" value="Other" onChange={handleChange}
+                        name="how_to_know_about_this"
+                        value="Other"
+                        onChange={handleChange}
                       />
                     </div>
                   </Form.Group>
@@ -557,14 +658,20 @@ function Participate() {
                     <Form.Check
                       type="checkbox"
                       label="I confirm this is my original work."
-                      id="confirmForm" name="i_confim"  onChange={handleChange} checked={formData.i_confim}
+                      id="confirmForm"
+                      name="i_confim"
+                      onChange={handleChange}
+                      checked={formData.i_confim}
                     />
                   </Form.Group>
                   <Form.Group className="mb-2">
                     <Form.Check
                       type="checkbox"
                       id="confirmForm2"
-                      label="I have read the T&C and i understand them" name="read_tnc" checked={formData.read_tnc}  onChange={handleChange}
+                      label="I have read the T&C and i understand them"
+                      name="read_tnc"
+                      checked={formData.read_tnc}
+                      onChange={handleChange}
                     />
                   </Form.Group>
                   <Form.Group className="mb-2">
@@ -572,7 +679,10 @@ function Participate() {
                       <input
                         type="checkbox"
                         id="confirmForm3"
-                        className="form-check-input" name="agree_tnc" checked={formData.agree_tnc}  onChange={handleChange}
+                        className="form-check-input"
+                        name="agree_tnc"
+                        checked={formData.agree_tnc}
+                        onChange={handleChange}
                       />
                       <label htmlFor="confirmForm3">
                         I agree to the Havells mYOUsic{" "}
@@ -592,7 +702,8 @@ function Participate() {
                         <Button
                           variant="primary pill"
                           className="w-100"
-                          size="lg" type="submit"
+                          size="lg"
+                          type="submit"
                           disabled={!isSubmitEnabled}
                         >
                           <span>Submit</span>
