@@ -5,10 +5,10 @@ import { Button } from "react-bootstrap";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("isAuthenticated");
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   sessionStorage.removeItem("isAuthenticated");
+  //   navigate("/");
+  // };
 
   return (
     <div className="d-flex align-items-center justify-content-center h-100">

@@ -6,7 +6,7 @@ const ProtectedRoute = ({ isAuthenticated, loading = false, children }) => {
     return null; // avoid redirect flicker while auth state is restoring
   }
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    // return <Navigate to="/login" />;
   }
   return children;
 };

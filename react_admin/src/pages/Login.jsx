@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { Image, Form, Button, Alert } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 import wallpaper from "../assets/wallpaper.jpg";
+import { login } from "../api";
+import { decode as base64_decode, encode as base64_encode } from "base-64";
 
 const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
   const [email, setEmail] = useState("");
@@ -11,30 +13,70 @@ const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
   const [azureUser, setAzureUser] = useState(true);
   const navigate = useNavigate();
 
-  const handleEmailLogin = (e) => {
+  const showAlert = (message) => {
+    setError(message);
+    setTimeout(() => {
+      setError(null);
+    }, 2000);
+  };
+  const handleEmailLogin = async(e) => {
     e.preventDefault();
 
-    // ✅ Dummy credentials
-    const dummyEmail = "admin@gmail.com";
-    const dummyPassword = "admin123";
+    if (email != '' && password != '') {
+      const body = {
+        email: email, password: base64_encode(password)
+        };        
+      let result = await login(body);
+      // console.log('>>> ', result);
+      if(result?.status == "success" ){
+        if(result?.data){
 
-    // ✅ Validation check
-    if (email === dummyEmail && password === dummyPassword) {
-      setIsAuthenticated(true);
-      sessionStorage.setItem("isAuthenticated", "true");
+          const authToken = result.data.token;
+          const userName = result.data.userName;
+          const userEmail = result.data.userEmail;
+          localStorage.setItem("auth-token", authToken);
+          localStorage.setItem("userName", userName);
+          localStorage.setItem("userEmail", userEmail);
 
-      if (onAuthStateChange) {
-        onAuthStateChange(true, {
-          name: "Admin User",
-          username: "admin@gmail.com",
-          localAccountId: "email-admin",
-        });
+          setIsAuthenticated(true);
+          sessionStorage.setItem("isAuthenticated", "true");
+          if (onAuthStateChange) {
+            onAuthStateChange(true, {
+              name: userName,
+              username: userEmail,
+              localAccountId: "email-admin",
+            });
+          }
+          navigate("/dashboard");
+        }
+      }else if(result?.status == "error"){
+        showAlert(result?.message);
       }
-
-      navigate("/dashboard");
-    } else {
-      setError("Invalid email or password");
+    }else{
+      showAlert("Invalid email or password");
     }
+    
+    // // ✅ Dummy credentials
+    // const dummyEmail = "admin@gmail.com";
+    // const dummyPassword = "admin123";
+
+    // // ✅ Validation check
+    // if (email === dummyEmail && password === dummyPassword) {
+    //   setIsAuthenticated(true);
+    //   sessionStorage.setItem("isAuthenticated", "true");
+
+    //   if (onAuthStateChange) {
+    //     onAuthStateChange(true, {
+    //       name: "Admin User",
+    //       username: "admin@gmail.com",
+    //       localAccountId: "email-admin",
+    //     });
+    //   }
+
+    //   navigate("/dashboard");
+    // } else {
+    //   setError("Invalid email or password");
+    // }
   };
 
   return (
@@ -67,7 +109,7 @@ const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
           {/* Email Field */}
           <Form.Group>
             <Form.Control
-              type="email"
+              type="email" name="email"
               placeholder="Enter your Email ID"
               value={email}
               size="lg"
@@ -78,7 +120,7 @@ const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
           {/* Password Field */}
           <Form.Group>
             <Form.Control
-              type="password"
+              type="password" name="password"
               placeholder="Enter your Password"
               value={password}
               size="lg"
