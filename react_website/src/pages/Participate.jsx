@@ -246,9 +246,14 @@ function Participate() {
   }, [formData.stateId]);
   return (
     <>
+    {
+      (loading == true)?
+      <>
       <div className="loader">
         <div className="loader-spinner"></div>
       </div>
+      </>:''
+    }      
       <section className="sec sec-form">
         <Container className="mt-5">
           <div className="artist-card">
