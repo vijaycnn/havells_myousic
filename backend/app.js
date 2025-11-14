@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 var debug = require('debug')('app.multi-tenant-node-app.api:server');
-var http = require('http');
+var https = require('https');
 // const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require("cors");
@@ -109,8 +109,16 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+const keyFile = require(__dirname + '/config/star_havells_com.key');
+const crtFile = require(__dirname + '/config/star_havells_com.crt');
+console.log('keyFile', keyFile);
 
-var server = http.createServer(app);
+var options = {
+  key: fs.readFileSync(keyFile),
+  cert: fs.readFileSync(crtFile),
+  // ca: fs.readFileSync("/home/ec2-user/IntermediateCA23.crt"),
+};
+var server = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.

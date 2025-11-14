@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5174, // 👈 change this to your custom port
-    host: true, // allows LAN access
+    strictPort: true,
+    allowedHosts: ['myousic-uat.havells.com']
   },
 })
