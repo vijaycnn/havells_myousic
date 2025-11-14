@@ -32,10 +32,10 @@ function Header() {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="flex-grow-0 ms-auto me-4">
           <Nav className="me-auto">
-            <Nav.Link href="/">About mYOUsic</Nav.Link>
-            <Nav.Link href="/">Mentors & Experts</Nav.Link>
-            <Nav.Link href="/">Bootcamps & Events</Nav.Link>
-            <Nav.Link href="/">Success Stories</Nav.Link>
+            <Nav.Link href="/#aboutmYOUsic">About mYOUsic</Nav.Link>
+            <Nav.Link href="/#mentors">Mentors & Experts</Nav.Link>
+            <Nav.Link href="/#bootcamps">Bootcamps & Events</Nav.Link>
+            <Nav.Link href="/#stories">Success Stories</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <a className="btn rounded-pill btn-primary" href="/participate">

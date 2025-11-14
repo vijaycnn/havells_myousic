@@ -5,7 +5,7 @@
     &.scrolled {
       -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
-      background: #ffffff1a;
+      background: rgba(255, 255, 255, 0.5);
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
     & .navbar-nav {

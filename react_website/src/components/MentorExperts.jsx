@@ -8,7 +8,7 @@ import Arijit from "../assets/arijit.jpg";
 function MentorExperts() {
   return (
     <>
-      <section className="sec sec-mentor">
+      <section className="sec sec-mentor" id="mentors">
         <Container fluid>
           <div className="sec-head text-center mb-5">
             <p className="sec-sub-title mb-2">Mentors &amp; Experts</p>

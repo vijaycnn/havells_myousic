@@ -4,7 +4,7 @@ import dj from "../assets/dj-speaker.jpg";
 function Stories() {
   return (
     <>
-      <section className="sec sec-stories">
+      <section className="sec sec-stories" id="stories">
         <Container>
           <header className="sec-head text-center mb-5">
             <p className="sec-sub-title mb-2">Stories &amp; Stories</p>
