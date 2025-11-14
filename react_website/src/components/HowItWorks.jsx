@@ -8,7 +8,7 @@ import stageFive from "../assets/stage-icon-5.svg";
 function HowItWorks() {
   return (
     <>
-      <section className="sec sec-process">
+      <section className="sec sec-process" id="aboutmYOUsic">
         <Container>
           <Row>
             <Col md={7} className="mx-auto">

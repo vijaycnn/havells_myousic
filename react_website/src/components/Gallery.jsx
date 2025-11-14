@@ -16,28 +16,36 @@ function Gallery() {
           </div>
           <Row className="gy-4">
             <Col md={3}>
-              <div className="gallery-item"></div>
+              <div className="gallery-item">
+                <Image
+                  src="https://img.freepik.com/free-photo/medium-shot-man-performing-stage_23-2149247126.jpg"
+                  alt=""
+                />
+              </div>
             </Col>
             <Col md={3}>
-              <div className="gallery-item"></div>
+              <div className="gallery-item">
+                <Image
+                  src="https://www.careersinmusic.com/wp-content/uploads/2019/03/recording-artist.jpg"
+                  alt=""
+                />
+              </div>
             </Col>
             <Col md={3}>
-              <div className="gallery-item"></div>
+              <div className="gallery-item">
+                <Image
+                  src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
+                  alt=""
+                />
+              </div>
             </Col>
             <Col md={3}>
-              <div className="gallery-item"></div>
-            </Col>
-            <Col md={3}>
-              <div className="gallery-item"></div>
-            </Col>
-            <Col md={3}>
-              <div className="gallery-item"></div>
-            </Col>
-            <Col md={3}>
-              <div className="gallery-item"></div>
-            </Col>
-            <Col md={3}>
-              <div className="gallery-item"></div>
+              <div className="gallery-item">
+                <Image
+                  src="https://himanshunanda.com/wp-content/uploads/2020/12/Why-you-should-learn-the-bansuri.webp"
+                  alt=""
+                />
+              </div>
             </Col>
           </Row>
         </Container>
