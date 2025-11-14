@@ -1,11 +1,15 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
-import ArtistBg from "../assets/artist-bg.jpg";
+import ArtistBg from "../assets/collabrate.mp4";
 
 function ArtistUsp() {
   return (
     <>
       <section className="sec sec-usp">
-        <Image src={ArtistBg} alt="" className="cover-img" />
+        <video className="cover-img" muted autoPlay loop>
+          <source src={ArtistBg} type="video/mp4" />
+          <source src={ArtistBg} type="video/ogg" />
+        </video>
+
         <Container>
           <Row>
             <Col md={7} className="mx-auto">
