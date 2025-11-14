@@ -9,10 +9,10 @@ function Bootcamp() {
           <div className="artist-video">
             <Image src={bootcampImage} alt="" />
             <div className="artist-video-text text-center justify-content-center align-items-center">
-              <a href="#" className="artist-video-play">
+              {/* <a href="#" className="artist-video-play">
                 &nbsp;
-              </a>
-              <p className="sec-sub-title">Bootcamps &amp; Events</p>
+              </a> */}
+              <p className="sec-sub-title mb-0">Bootcamps &amp; Events</p>
               <h2 className="sec-title font-secondary">
                 Learn.Collabrate.Perform.
               </h2>

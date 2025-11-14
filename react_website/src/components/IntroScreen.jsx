@@ -1,4 +1,4 @@
-import { Image } from "react-bootstrap";
+import { Image, Button } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 
 function IntroScreen({ onEnter }) {
@@ -20,13 +20,9 @@ function IntroScreen({ onEnter }) {
               screens - to be seen, heard, and celebrated.
             </p>
           </div>
-          <a
-            href="#"
-            className="btn rounded-pill btn-outline-secondary"
-            onClick={onEnter}
-          >
-            Enter Website
-          </a>
+          <Button variant="primary rounded-pill" size="lg" onClick={onEnter}>
+            <span>Enter Website</span>
+          </Button>
         </div>
       </section>
     </>
