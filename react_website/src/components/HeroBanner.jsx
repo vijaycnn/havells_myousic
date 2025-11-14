@@ -1,9 +1,15 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
-import animatedBanner from "../assets/hero-animation.gif";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
+import mohan from "../assets/mohan-nadar.jpg";
+import neha from "../assets/neha-sharma.jpg";
+import nehal from "../assets/nehal-singh.jpg";
+import miguel from "../assets/miguel-dsouza.jpg";
+import daulat from "../assets/daulat-singh.jpg";
+import namita from "../assets/namita-gogoi.jpg";
+import ritika from "../assets/ritika-reddy.jpg";
 
 function HeroBanner() {
   return (
@@ -52,10 +58,7 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://www.careersinmusic.com/wp-content/uploads/2019/03/recording-artist.jpg"
-                          alt=""
-                        />
+                        <Image src={nehal} alt="Nehal Singh" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Nehal Singh
@@ -70,10 +73,7 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://www.careersinmusic.com/wp-content/uploads/2019/03/recording-artist.jpg"
-                          alt=""
-                        />
+                        <Image src={ritika} alt="Ritika Reddy" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Ritika Reddy
@@ -88,10 +88,7 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://m.media-amazon.com/images/M/MV5BZDQxZDNkMTQtMmEyMi00NTg0LTgzYzktZDgwMDQ4ZThlYTg2XkEyXkFqcGc@._V1_.jpg"
-                          alt=""
-                        />
+                        <Image src={daulat} alt="Daulat Singh" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Daulat Singh
@@ -106,10 +103,7 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
-                          alt=""
-                        />
+                        <Image src={neha} alt="Nisha Sharma" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Nisha Sharma
@@ -117,17 +111,14 @@ function HeroBanner() {
                       <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Haryana</span>
                         <span>|</span>
-                        <span>Lyrics Writter</span>
+                        <span>Lyrics Writer</span>
                       </div>
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
-                          alt=""
-                        />
+                        <Image src={namita} alt="Nimita Gogoi" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Nimita Gogoi
@@ -142,10 +133,7 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
-                          alt=""
-                        />
+                        <Image src={miguel} alt="Miguel D'Souza" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Miguel D'Souza
@@ -153,17 +141,14 @@ function HeroBanner() {
                       <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Goa</span>
                         <span>|</span>
-                        <span>Voilin</span>
+                        <span>violin</span>
                       </div>
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image
-                          src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
-                          alt=""
-                        />
+                        <Image src={mohan} alt="Mohan Nadar" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
                         Mohan Nadar
@@ -177,8 +162,6 @@ function HeroBanner() {
                   </SwiperSlide>
                 </Swiper>
               </div>
-
-              {/* <Image src={animatedBanner} alt="" /> */}
             </Col>
           </Row>
         </Container>

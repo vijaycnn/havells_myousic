@@ -4,7 +4,7 @@ import bootcampImage from "../assets/bootcamp-video-thumb.jpg";
 function Bootcamp() {
   return (
     <>
-      <section className="sec sec-bootcamp">
+      <section className="sec sec-bootcamp" id="bootcamps">
         <Container>
           <div className="artist-video">
             <Image src={bootcampImage} alt="" />
