@@ -12,6 +12,7 @@ import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Forgot from "./pages/ForgotPassword";
 import Participate from "./pages/Participate";
+const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,7 +32,7 @@ function App() {
       <Router>
         <Routes>
           <Route
-            path="/login"
+            path={adminAlias}
             element={
               <Login
                 setIsAuthenticated={setIsAuthenticated}
@@ -49,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
+            path={`${adminAlias}/dashboard`}
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
@@ -59,7 +60,7 @@ function App() {
             }
           />
           <Route
-            path="/participant"
+            path={`${adminAlias}/participant`}
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
@@ -69,7 +70,7 @@ function App() {
             }
           />
 
-          <Route path="*" element={<Navigate to="/login" />} />
+          {/* <Route path="*" element={<Navigate to="/admin" />} /> */}
         </Routes>
       </Router>
     </>

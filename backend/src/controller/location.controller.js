@@ -9,7 +9,7 @@ let LocationController = {
 
       let stateData = await locationService.getStateList();
       //   console.log("Data module",moduledata)
-      responder.sendResponse(response, 200, "success", stateData, "State retrieved successfully.");
+      return responder.sendResponse(response, 200, "success", stateData, "State retrieved successfully.");
     } catch (error) {
       return next(error);
     }
@@ -19,7 +19,7 @@ let LocationController = {
     try {
       const stateId = request.params.stateId;
       let cityGetByState = await locationService.getByStateCity(stateId);
-      responder.sendResponse(response, 200, "success", cityGetByState, "Cities By State retrieved successfully.");
+      return responder.sendResponse(response, 200, "success", cityGetByState, "Cities By State retrieved successfully.");
     } catch (error) {
       return next(error);
     }

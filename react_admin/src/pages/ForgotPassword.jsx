@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Image, Form, Button, Alert } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 import wallpaper from "../assets/wallpaper.jpg";
+const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
         });
       }
 
-      navigate("/dashboard");
+      navigate(`${adminAlias}/dashboards`);
     } else {
       setError("Invalid email or password");
     }
@@ -85,7 +86,7 @@ const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
               <span>Continue</span>
             </Button>
             <p className="text-center mt-3">
-              <Link to="/login">Back to Login</Link>
+              <Link to={adminAlias}>Back to Login</Link>
             </p>
           </Form.Group>
         </Form>

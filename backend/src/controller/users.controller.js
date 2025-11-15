@@ -10,13 +10,12 @@ let userController = {
 
   loginUser: async (request, response, next) => {
     try {
-    console.log("HHHHHHHHHHHHHHHHHHHHHH", request.body)
+    console.log(":::", request.body)
       let password=  request.body.password;
       let email=  request.body.email;
 
       if(email == '' || password == ''){
-        responder.sendResponse(response, 400, "error", null, "Password and email can't be empty.");
-        return false;
+        return responder.sendResponse(response, 400, "error", null, "Password and email can't be empty.");
       }
       let base64string = request.body.password;
       let bufferObj = Buffer.from(base64string, "base64");
@@ -26,7 +25,7 @@ let userController = {
  
       if(decodedString=='' || email=='' || password == '')
        {
-        responder.sendResponse(response, 400, "error", null, "Password and email can't be empty.");
+        return responder.sendResponse(response, 400, "error", null, "Password and email can't be empty.");
        }
        else{
             // var hash = md5(password).toString();
@@ -52,13 +51,13 @@ let userController = {
 
                 // let permissions = JSON.parse((findUser.Role).role_permissions);
                 let userPermission = {};    //await usersService.findAllPermissionGivenUser(null,permissions);
-                responder.sendResponse(response, 200, "success", {type:"activated",token:token,userName:findUser.userName, userEmail:findUser.userEmail, userId: findUser.id, userPermission:userPermission}, "Valid User login.");
+                return responder.sendResponse(response, 200, "success", {type:"activated",token:token,userName:findUser.userName, userEmail:findUser.userEmail, userId: findUser.id, userPermission:userPermission}, "Valid User login.");
                 }else{
-                responder.sendResponse(response, 200, "error", {type:"deactivated"}, "This user deactivated please contact to admin");
+                return responder.sendResponse(response, 200, "error", {type:"deactivated"}, "This user deactivated please contact to admin");
                 }   
             }
             else{
-                responder.sendResponse(response, 200, "error", {type:"Unauthorized"}, "Unauthorized User.");
+                return responder.sendResponse(response, 200, "error", {type:"Unauthorized"}, "Unauthorized User.");
             }              
        }    
     } catch (error) {
@@ -72,7 +71,7 @@ let userController = {
       let refreshToken=  request.body.refreshToken;     
       if(!refreshToken)
        {
-        responder.sendResponse(response, 400, "false", null, "Refresh Token Required");
+        return responder.sendResponse(response, 400, "false", null, "Refresh Token Required");
        }
        else{
 
@@ -106,17 +105,17 @@ let userController = {
                         // let permissions = JSON.parse((findUser.Role).role_permissions);
                         let userPermission = {};    //await usersService.findAllPermissionGivenUser(null,permissions);
                         // userPermission=userPermission.permissions;
-                        responder.sendResponse(response, 200, "true", {type:"activated",token:token}, "Regenerate token  successfully");
+                        return responder.sendResponse(response, 200, "true", {type:"activated",token:token}, "Regenerate token  successfully");
                     }else{
-                        responder.sendResponse(response, 200, "false", {type:"deactivated"}, "This user deactivated please contact to admin");
+                        return responder.sendResponse(response, 200, "false", {type:"deactivated"}, "This user deactivated please contact to admin");
                     }   
                 }
           }
           else{          
-            responder.sendResponse(response, 200, "true", {type:"activated",token:refreshToken}, "Token Not expired");
+            return responder.sendResponse(response, 200, "true", {type:"activated",token:refreshToken}, "Token Not expired");
           }
         }else{
-            responder.sendResponse(response, 200, "false", {type:"Unauthorized"}, "Unauthorized User.");
+            return responder.sendResponse(response, 200, "false", {type:"Unauthorized"}, "Unauthorized User.");
         }              
        }    
     } catch (error) {

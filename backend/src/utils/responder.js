@@ -2,7 +2,7 @@
 let Responder = {
 
   sendResponse: (response, statusCode, status, data, message) => {
-    response.status(statusCode).json({
+    return response.status(statusCode).json({
       status: status,
       data: data,
       dataList: (data)?data.list:null,
@@ -11,7 +11,7 @@ let Responder = {
     });
   },
   sendFilterResponse: (response, statusCode, status, data, message) => {
-    response.status(statusCode).json({
+    return response.status(statusCode).json({
       status: status,
       data: data.list,
       totalRecords: data.totalRecord,
@@ -19,7 +19,7 @@ let Responder = {
     });
   },
   sendErrorResponse: (response, message) => {
-    response.status(422).json({
+    return response.status(422).json({
       error: message
     });
   }

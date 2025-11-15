@@ -5,6 +5,7 @@ import logo from "../assets/logo.svg";
 import wallpaper from "../assets/wallpaper.jpg";
 import { login } from "../api";
 import { decode as base64_decode, encode as base64_encode } from "base-64";
+const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
   const [email, setEmail] = useState("");
@@ -47,7 +48,7 @@ const Login = ({ setIsAuthenticated, onAuthStateChange }) => {
               localAccountId: "email-admin",
             });
           }
-          navigate("/dashboard");
+          navigate(`${adminAlias}/dashboard`);
         }
       }else if(result?.status == "error"){
         showAlert(result?.message);
