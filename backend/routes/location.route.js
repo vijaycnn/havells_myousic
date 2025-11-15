@@ -12,4 +12,9 @@ router.get("/city/getByState/:stateId", function (request, response, next) {
     locationController.getByStateCity(request, response, next)
 })
 
+router.get('/testHello', function (request, response, next) {
+    console.log('Hi, route is reaching:::');
+    response.send( { 'status': 'success', message: 'route is reaching'});
+});
+
 module.exports = router;
