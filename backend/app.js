@@ -1,10 +1,11 @@
 const createError = require('http-errors');
 const express = require('express');
 var debug = require('debug')('app.multi-tenant-node-app.api:server');
-var https = require('https');
+var http = require('http');
 // const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const fs = require('fs');
 const helmet = require("helmet");
 
 const dotenv = require('dotenv');
@@ -23,6 +24,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use((req, res, next) => {
+//   console.log("REQ PATH:", req.originalUrl);
+//   console.log("REQ HOST:", req.headers.host);
+//   next();
+// });
 app.use(async function (req, res, next) {
   next();
 });
@@ -79,24 +85,6 @@ app.use('/api/user',  userRouter);
 app.use('/api/enquiry',  enquiryRouter);
 app.use('/api/location',  locationRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-    // render the error page
-    console.error(err);
-  res.status(err.status || 500);
-  res.json({
-    status: 'error',
-    data: err.message,
-    message: 'Something went wrong!!! Please try again later.'
-  });
-});
-
-
 
 /**
  * Get port from environment and store in Express.
@@ -109,25 +97,40 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-const keyFile = require(__dirname + '/config/star_havells_com.key');
-const crtFile = require(__dirname + '/config/star_havells_com.crt');
-console.log('keyFile', keyFile);
+// const keyFile = __dirname + '/config/star_havells_com.key';
+// const crtFile = __dirname + '/config/star_havells_com.crt';
+// // console.log('keyFile', keyFile);
 
-var options = {
-  key: fs.readFileSync(keyFile),
-  cert: fs.readFileSync(crtFile),
-  // ca: fs.readFileSync("/home/ec2-user/IntermediateCA23.crt"),
-};
-var server = https.createServer(options, app);
+// var options = {
+//   key: fs.readFileSync(keyFile),
+//   cert: fs.readFileSync(crtFile),
+//   // ca: fs.readFileSync("/home/ec2-user/IntermediateCA23.crt"),
+// };
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, "0.0.0.0");
+// server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404, 'Route not found'));
+});
+
+// error handler
+app.use((err, req, res, next) => {
+  console.error("Global Error:", err);
+  res.status(err.status || 500).json({
+    status: 'error',
+    data: err.message,
+    message: "Something went wrong!!! Please try again later."
+  });
+});
 /**
  * Normalize a port into a number, string, or false.
  */

@@ -7,7 +7,6 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-// const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
@@ -28,7 +27,6 @@ let DB = process.env.LIVE_DB;
 let max_connection = 90;  //parseInt(process.env.MAX_POOL_CONNECTION);
 let logging = false;
 
-
  sequelize = new Sequelize(DB, USER, PASSWORD, {
           host: HOST,
           dialect: DIALECT,
@@ -36,7 +34,12 @@ let logging = false;
     dialectOptions: {
       useUTC: false, 
       dateStrings: true,
-      typeCast: true
+      typeCast: true,
+      ssl:{
+        require: true, // This enforces SSL
+        rejectUnauthorized: false, // This enables verify-full
+        // ca: fs.readFileSync(crtFile).toString(),
+      }
     },
    timezone: '+05:30',
           logging: false,
