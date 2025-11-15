@@ -155,7 +155,7 @@ let EnquiryDataProvider = {
         }
       ],
       order: [['id', 'DESC']],
-      logging:console.log,
+      // logging:console.log,
       limit: limit,
       offset: offset,
     })

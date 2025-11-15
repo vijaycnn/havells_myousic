@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Nav, Image, Button } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 import { BiGridAlt, BiGroup, BiLogOut } from "react-icons/bi";
+const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -10,23 +11,23 @@ const Sidebar = () => {
     sessionStorage.removeItem("isAuthenticated");
     localStorage.clear("auth-token");
     localStorage.clear();
-    navigate("/");
+    navigate(adminAlias);
   };
   return (
     <>
       <aside className="app-sidebar">
-        <Link className="app-sidebar-logo" to="/dashboard">
+        <Link className="app-sidebar-logo" to={`${adminAlias}/dashboard`}>
           <Image src={logo} alt="" />
         </Link>
         <div className="app-sidebar-nav">
           <Nav className="flex-column">
-            <Link to="/dashboard" className="nav-link">
+            <Link to={`${adminAlias}/dashboard`} className="nav-link">
               <span className="nav-link-icon">
                 <BiGridAlt />
               </span>
               <span className="nav-link-text">Dashboard</span>
             </Link>
-            <Link to="/participant" className="nav-link">
+            <Link to={`${adminAlias}/participant`} className="nav-link">
               <span className="nav-link-icon">
                 <BiGroup />
               </span>

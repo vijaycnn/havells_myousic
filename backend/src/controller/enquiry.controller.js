@@ -1,7 +1,7 @@
 var momentz = require('moment-timezone');
 const responder = require('../utils/responder');
 const enquiryService = require('../services/enquiry.service');
-const { uploadBufferToS3, listS3Objects } = require('../utils/s3');
+const { uploadBufferToS3, uploadS3, listS3Objects } = require('../utils/s3');
 const moment = require('moment');
 
 let EnquiryController = {
@@ -10,15 +10,15 @@ let EnquiryController = {
         let basePath = process.env.S3_BASE_PATH || '';
         let s3_result = await listS3Objects(basePath);
         if(s3_result){
-            responder.sendResponse(response, 200, "success", s3_result, "MediaList fetched successfully.");
+            return responder.sendResponse(response, 200, "success", s3_result, "MediaList fetched successfully.");
         }else{
-            responder.sendResponse(response, 200, "error", {}, "MediaList fetched failed.");
+            return responder.sendResponse(response, 200, "error", {}, "MediaList fetched failed.");
         }
     },
     getEnquiryListByFilter: async (request, response, next) => {
         try {
             let documentData = await enquiryService.getEnquiryListByFilter(request);
-            responder.sendFilterResponse(response, 200, "success", documentData, "Enquiry List retrieved successfully.");
+            return responder.sendFilterResponse(response, 200, "success", documentData, "Enquiry List retrieved successfully.");
         } catch (error) {
             return next(error);
         }
@@ -40,7 +40,7 @@ let EnquiryController = {
             // if(extList.includes(Imgext.toLowerCase())){   
                 let documentFilePath = '';
                 if (request.file) {
-                    let s3_result = await uploadBufferToS3(request.file.buffer, request.file.originalname,
+                    let s3_result = await uploadS3(request.file.buffer, request.file.originalname,
                 request.file.mimetype);
                     documentFilePath = s3_result.fileName;
                     console.log('documentFilePath', documentFilePath);
