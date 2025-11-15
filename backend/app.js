@@ -128,7 +128,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     status: 'error',
     data: err.message,
-    message: err.status === 404 ? "Route not found" : "Something went wrong!!! Please try again later."
+    message: "Something went wrong!!! Please try again later."
   });
 });
 /**
