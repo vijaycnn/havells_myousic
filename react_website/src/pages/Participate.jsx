@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
-import { submitForm, stateList, cityList } from "../api";
+import { getUploadUrl, submitForm, stateList, cityList } from "../api";
 
 function Participate() {
   const navigate = useNavigate();
@@ -215,27 +215,44 @@ function Participate() {
 
     let hasError = validation(formData);
     console.log("hasError >>", hasError, formData, uploadMediaFile);
+    try{
+      if (!hasError) {
+        if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc){
+          return;
+        }
+        setLoading(true);
+        let videoUrl = '';
+        if(uploadMediaFile){
+          const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+          console.log('s3 url >>', uploadUrl,' ::::', fileUrl);
 
-    if (!hasError) {
-      if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc)
-        return;
-      setLoading(true);
+          await fetch(uploadUrl, {
+            method: "PUT",
+            headers: { "Content-Type": uploadMediaFile.type },
+            body: uploadMediaFile
+          });
+          videoUrl = fileUrl;
+        }
+        const data = new FormData();
+        Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+        data.append("uploadMediaFile", videoUrl);
+        data.append("interest_in_role", selectedValues.join(","));
 
-      const data = new FormData();
-      Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-      if (uploadMediaFile) data.append("uploadMediaFile", uploadMediaFile);
-      data.append("interest_in_role", selectedValues.join(","));
+        console.log('data >>', data);
+        const res = await submitForm(data);
+        console.log("res >>", res);
 
-      // console.log('data >>', data);
-      const res = await submitForm(data);
-      console.log("res >>", res);
-
-      setLoading(false);
-      if (res.status == "success") navigate("/thankyou");
-      else {
-        setError({ allError: res.message });
-        alert(res.message);
+        setLoading(false);
+        if (res.status == "success") navigate("/thankyou");
+        else {
+          setError({ allError: res.message });
+          alert(res.message);
+        }
       }
+    }catch(error){
+      console.log("Catch Err >>", error);
+      setError({ allError: error.message });
+      alert(error.message);
     }
   };
 
@@ -578,7 +595,7 @@ function Participate() {
                       </p>
                       <button
                         type="button"
-                        onClick={onButtonClick}
+                        // onClick={onButtonClick}
                         className="btn btn-sm btn-primary"
                       >
                         <span>Browse Files</span>
