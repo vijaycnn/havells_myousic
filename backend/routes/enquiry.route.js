@@ -3,44 +3,19 @@ const router = express.Router();
 const multer = require('multer')
 const path = require('path')
 const enquiryController = require('../src/controller/enquiry.controller');
+const {generateUploadUrl} = require('../src/controller/upload.controller');
 const auth = require('../middleware/auth');  
 
 // const uservalidate = require('../middleware/validate.middelware');
 // const schemas = require('../src/validation/document.validate');
 
-// // Imports the Google Cloud client library
-// const { Storage } = require('@google-cloud/storage');
-// // Creates a client
-// const gspstorage = new Storage({
-//   keyFilename: path.join(__dirname + '/../config', process.env.GCS_KEY_FILE_NAME),
-//   projectId: process.env.GCS_PROJECT_ID
-// });
-
-// var storage = multer.diskStorage({
-//   destination: (req, file, callBack) => {
-//     callBack(null, './assets/siteDocuments/')
-//   },
-//   filename: (req, file, callBack) => {
-//     callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-//   }
-// })
-
-// var upload = multer({
-//   storage: storage,
-//   fileFilter: (req, file, cb) => {
-//     // console.log('mime ',file.mimetype)
-//     // console.log('file>>>>>>>>> ', file)
-//     if (file.mimetype == "application/pdf" || file.mimetype == "image/png" || file.mimetype == "image/jpeg" || file.mimetype == "image/JPEG") {
-//       cb(null, true);
-//     } else {
-//       cb(null, false);
-//       return cb(new Error('Only pdf and images allowed!'));
-//     }
-//   }
-// });
-//[upload.single("documentFile")]
-
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 100* 1024 * 1024 } }); // 100MB limit
+
+router.post("/upload-url", generateUploadUrl);
+
+router.post("/create", function (request, response, next) {
+    enquiryController.createEnquiry(request, response, next)
+});
 
 router.get('/file/:image', function (request, response, next) {
     const bucket = gspstorage.bucket(process.env.GCS_BUCKET_NAME);
@@ -72,9 +47,9 @@ router.get('/file/:image', function (request, response, next) {
 router.get('/mediaList', function (request, response, next) {
     enquiryController.getMediaList(request, response, next);
 });
-router.post("/create", upload.single('uploadMediaFile'), function (request, response, next) {
-    enquiryController.createEnquiry(request, response, next)
-});
+// router.post("/create", upload.single('uploadMediaFile'), function (request, response, next) {
+//     enquiryController.createEnquiry(request, response, next)
+// });
 
 router.get('/', [auth.login],function (request, response, next) {
     enquiryController.getEnquiryListByFilter(request, response, next);

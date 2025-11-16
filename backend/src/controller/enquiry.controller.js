@@ -38,13 +38,13 @@ let EnquiryController = {
             // let Imgext= request.file.filename.split('.').pop();
 
             // if(extList.includes(Imgext.toLowerCase())){   
-                let documentFilePath = '';
-                if (request.file) {
-                    let s3_result = await uploadS3(request.file.buffer, request.file.originalname,
-                request.file.mimetype);
-                    documentFilePath = s3_result.fileName;
-                    console.log('documentFilePath', documentFilePath);
-                }
+                // let documentFilePath = '';
+                // if (request.file) {
+                //     let s3_result = await uploadS3(request.file.buffer, request.file.originalname,
+                // request.file.mimetype);
+                //     documentFilePath = s3_result.fileName;
+                //     console.log('documentFilePath', documentFilePath);
+                // }
 
                 let dob = '';
                 if(request.body.dob){
@@ -67,7 +67,7 @@ let EnquiryController = {
                     i_confim : 1,
                     read_tnc : 1,
                     agree_tnc : 1,
-                    media_url: documentFilePath,
+                    media_url: request.body.videoUrl ? request.body.videoUrl : '',
                     status: 1
                 };
                 let enquiryCreate = await enquiryService.createEnquiry(enquiryData);

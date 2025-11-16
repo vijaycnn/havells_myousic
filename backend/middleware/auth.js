@@ -10,7 +10,7 @@ module.exports.login = function(req, res, next) {
     console.log(err)
     if (err) res.status(403).send({ message: "Invalid Token",invalid_token:1 });
     //return res.sendStatus(403)
-    console.log(user)
+    // console.log(user)
     req.user = user
 
     next()
