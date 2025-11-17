@@ -35,7 +35,7 @@ function FAQs() {
             </header>
           </div>
 
-          <section className="sec pb-0">
+          <section className="sec pb-0" id="FAQs">
             <Row className="justify-content-center">
               <Col md={10}>
                 <h2 className="text-center fw-medium mb-5">

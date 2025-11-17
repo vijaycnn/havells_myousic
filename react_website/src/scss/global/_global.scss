@@ -296,51 +296,58 @@ textarea {
   padding-top: 5rem;
   padding-bottom: 5rem;
   &-qr {
-    position: relative;
-    &:before {
-      content: "";
-      position: absolute;
-      left: 70%;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 50%;
-      width: 10vw;
-      height: 10vw;
-      background: linear-gradient(
-        31deg,
-        rgba(194, 29, 0, 1) 0%,
-        rgba(234, 139, 113, 1) 100%
-      );
-      filter: blur(20px);
-      opacity: 0.3;
-      z-index: 1;
-      user-select: none;
-      pointer-events: none;
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      left: 20%;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 50%;
-      width: 10vw;
-      height: 10vw;
-      background: linear-gradient(
-        31deg,
-        rgba(0, 194, 65, 1) 0%,
-        rgba(55, 216, 11, 1) 100%
-      );
-      filter: blur(20px);
-      opacity: 0.3;
-      z-index: 1;
-      user-select: none;
-      pointer-events: none;
-    }
     & .card-qr {
       -webkit-backdrop-filter: blur(5px);
       backdrop-filter: blur(5px);
       background: rgba(255, 255, 255, 0.8);
+      position: relative;
+      &:before {
+        content: "";
+        position: absolute;
+        left: 70%;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        width: 10vw;
+        height: 10vw;
+        background: linear-gradient(
+          31deg,
+          rgba(194, 29, 0, 1) 0%,
+          rgba(234, 139, 113, 1) 100%
+        );
+        filter: blur(20px);
+        opacity: 0.3;
+        z-index: 1;
+        user-select: none;
+        pointer-events: none;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        left: 20%;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        width: 10vw;
+        height: 10vw;
+        background: linear-gradient(
+          31deg,
+          rgba(0, 194, 65, 1) 0%,
+          rgba(55, 216, 11, 1) 100%
+        );
+        filter: blur(20px);
+        opacity: 0.3;
+        z-index: 1;
+        user-select: none;
+        pointer-events: none;
+      }
+      & > div {
+        position: relative;
+        z-index: 2;
+      }
+      & .btn:after {
+        display: none;
+      }
     }
     & .qr-code {
       max-width: 120px;
@@ -381,7 +388,8 @@ textarea {
   }
   &-sub-title {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
   }
   &-usp {
     position: relative;
@@ -847,9 +855,9 @@ textarea {
   & .swiper-slide .card-artist {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    filter: blur(10px);
+    filter: blur(5px);
     & img {
-      opacity: 0.2;
+      opacity: 0.9;
     }
   }
   & .swiper-slide-active .card-artist {
@@ -992,5 +1000,12 @@ textarea {
   overflow: hidden;
   & img {
     @include mixins.cover;
+  }
+}
+
+.dropdown {
+  &-item {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
   }
 }
