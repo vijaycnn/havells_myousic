@@ -46,13 +46,15 @@ function Footer() {
                   <h4 className="app-footer-title">Brand</h4>
                   <Nav as="ul" className="flex-column">
                     <Nav.Item as="li">
-                      <Nav.Link href="#">About Havells mYOUsic</Nav.Link>
+                      <Nav.Link href="/#aboutmYOUsic">
+                        About Havells mYOUsic
+                      </Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                      <Nav.Link href="#">How it Works</Nav.Link>
+                      <Nav.Link href="/#aboutmYOUsic">How it Works</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                      <Nav.Link href="#">FAQs</Nav.Link>
+                      <Nav.Link href="/#FAQs">FAQs</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
                       <Nav.Link href="#">Contact Us</Nav.Link>
@@ -63,16 +65,18 @@ function Footer() {
                   <h4 className="app-footer-title">For Artist</h4>
                   <Nav as="ul" className="flex-column">
                     <Nav.Item as="li">
-                      <Nav.Link href="#">Programs & Bootcamps</Nav.Link>
+                      <Nav.Link href="/#bootcamps">
+                        Programs & Bootcamps
+                      </Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
                       <Nav.Link href="#">Auditions & Submissions</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                      <Nav.Link href="#">Mentors & Experts</Nav.Link>
+                      <Nav.Link href="/#mentors">Mentors & Experts</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                      <Nav.Link href="#">Success Stories</Nav.Link>
+                      <Nav.Link href="/#stories">Success Stories</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
                       <Nav.Link href="#">Participation Rules</Nav.Link>

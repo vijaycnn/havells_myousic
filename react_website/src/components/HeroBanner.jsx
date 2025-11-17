@@ -111,7 +111,7 @@ function HeroBanner() {
                       <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Haryana</span>
                         <span>|</span>
-                        <span>Lyrics Writer</span>
+                        <span>Lyricist</span>
                       </div>
                     </div>
                   </SwiperSlide>

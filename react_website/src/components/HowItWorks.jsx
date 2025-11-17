@@ -54,7 +54,7 @@ function HowItWorks() {
               <div className="step-card-text">
                 <Image src={stageFour} className="mb-4" alt="" />
                 <span>Stage 4</span>
-                <span className="font-secondary fs-4 fw-bold">Collabrate</span>
+                <span className="font-secondary fs-4 fw-bold">Collaborate</span>
               </div>
             </div>
             <div className="step-card">

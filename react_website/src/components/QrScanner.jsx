@@ -1,10 +1,40 @@
-import { Container, Image, Row, Col } from "react-bootstrap";
+import { Container, Image, Row, Col, Dropdown, Button } from "react-bootstrap";
 // import QrCode from "../assets/QR-code.png";
 import QrCode from "../assets/uat-QR-code.png";
 
 import shareIcon from "../assets/share-icon.svg";
 
 function QrScanner() {
+  const handleShare = async () => {
+    const productUrl =
+      "https://havells.com/meditate-ap-250-air-purifier-ghrapmae50.html";
+    const productName = "Meditate AP 250 Air Purifier";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: productName,
+          text: `Check out this amazing product: ${productName}`,
+          url: productUrl,
+        });
+        console.log("Content shared successfully");
+      } catch (error) {
+        console.error("Error sharing content:", error);
+      }
+    } else {
+      const fallbackText = `Check out this amazing product: ${productName} - ${productUrl}`;
+      try {
+        await navigator.clipboard.writeText(fallbackText);
+        alert("Share link copied to clipboard!");
+      } catch (err) {
+        console.error("Failed to copy to clipboard:", err);
+        alert(
+          "Could not share the content, please copy the link manually: " +
+            productUrl
+        );
+      }
+    }
+  };
   return (
     <>
       <section className="sec sec-qr p-0">
@@ -26,11 +56,35 @@ function QrScanner() {
                   Sing, Write, or Compose - Participate Now or Share This QR
                   with a Friend.
                 </p>
-                <a href="#" className="btn btn-primary rounded-pill">
-                  <span>
-                    <Image src={shareIcon} alt="" /> Share the QR
-                  </span>
-                </a>
+                <Dropdown className="d-lg-flex d-none">
+                  <Dropdown.Toggle variant="primary rounded-pill">
+                    <span>
+                      <Image src={shareIcon} alt="" /> Share the QR
+                    </span>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="https://web.whatsapp.com/send?text=https://havells.com/">
+                      WhatsApp
+                    </Dropdown.Item>
+                    <Dropdown.Item href="https://www.facebook.com/sharer/sharer.php?u=https://havells.com/">
+                      Facebook
+                    </Dropdown.Item>
+                    <Dropdown.Item href="https://www.linkedin.com/shareArticle?mini=true&url=https://havells.com/">
+                      Linkedin
+                    </Dropdown.Item>
+                    <Dropdown.Item href="https://twitter.com/intent/tweet?via=havellsindia&text=Checkout%20this%20product&url=https://havells.com/">
+                      Twitter
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                <div className="d-lg-none">
+                  <Button onClick={handleShare} variant="primary rounded-pill">
+                    <span>
+                      <Image src={shareIcon} alt="" /> Share the QR
+                    </span>
+                  </Button>
+                </div>
               </Col>
             </Row>
           </div>
