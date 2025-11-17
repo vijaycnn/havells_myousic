@@ -3,7 +3,7 @@ import { BiPencil } from "react-icons/bi";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from 'react-paginate';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { enquiryList, stateList, cityList } from "../api";
+import { enquiryList, getDownloadUrl, cityList } from "../api";
 import moment from "moment";
 
 function Participate() {
@@ -41,6 +41,19 @@ function Participate() {
     setIsLoading(false);
   };
 
+  const getMediaFile = async(fileUrl)=>{
+    if(fileUrl != ''){
+      setIsLoading(true);
+      const key = fileUrl.split(".amazonaws.com/")[1];
+      console.log('key :: ', key);
+      let result = await getDownloadUrl(key);
+      console.log('>>> ', result);
+      const { downloadUrl } = result;
+      window.open(downloadUrl, "_blank");
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     if(!isLoading){
       getEnquiryList()
@@ -70,7 +83,7 @@ function Participate() {
             items.map((item) => {
               // let fileUrl =   item.media_url; 
               // if(!item.media_url.contains('http')){
-                let fileUrl = `${S3_baseurl}`+item.media_url;
+                let fileUrl = item.media_url;
               // }
               return (
                 <>
@@ -84,7 +97,10 @@ function Participate() {
                     <td>{item.how_to_know_about_this}</td>
                     <td>
                       {item.media_url ? 
-                      <><a href={fileUrl} target="_blank" >View File</a></>  : 'NA'}
+                      <>
+                      {/* <button >View File</button> */}
+                      <a onClick={()=>getMediaFile(item.media_url)} target="_blank" >View File</a>
+                      </>  : 'NA'}
                     </td>
                     <td className='col-fixed'>
                       <Button variant="default btn-icon">

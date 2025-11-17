@@ -13,6 +13,16 @@ export const login = async (formData) => {
   return response.json();
 };
 
+export const getDownloadUrl = async (key) => {
+  if(key){
+    const response = await fetch(`${baseURL}/api/enquiry/download-url`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key })
+    });
+    return await response.json();
+  }
+};
 export const enquiryList = async (params) => {
   const response = await fetch(`${baseURL}/api/enquiry?${params.toString()}`, {
     method: "GET",
