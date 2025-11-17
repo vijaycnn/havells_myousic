@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3 = new S3Client({
@@ -28,4 +28,17 @@ export const generateUploadUrl = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ status: "error", message: err.message });
   }
+};
+
+export const getDownloadUrl = async (req, res) => {
+  const { key } = req.body; // example: uploads/12345_video.mp4
+
+  const command = new GetObjectCommand({
+    Bucket: "e-mobility",
+    Key: key
+  });
+
+  const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
+
+  res.json({ downloadUrl: url });
 };

@@ -14,7 +14,8 @@ export const getUploadUrl = async (file) => {
 export const submitForm = async (formData) => {
   const response = await fetch(`${baseURL}/api/enquiry/create`, {
     method: "POST",
-    body: formData, // includes file
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData), // includes file
   });
   return response.json();
 };

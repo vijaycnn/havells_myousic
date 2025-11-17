@@ -232,7 +232,7 @@ function Participate() {
         });
         console.log('uploadRes', uploadRes);
         videoUrl = fileUrl;
-        if(uploadRes){          
+        if(uploadRes.status == 200){  
           let data = {
             name        : formData.name,
             contact     : formData.contact,
@@ -247,7 +247,7 @@ function Participate() {
             how_to_know_about_this : formData.how_to_know_about_this,
             interest_in_role       : selectedValues.join(","),
             other_roles            : formData.other_roles,
-            uploadMediaFile        : videoUrl
+            videoUrl               : videoUrl
           };
           // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
           // data.append("uploadMediaFile", videoUrl);
