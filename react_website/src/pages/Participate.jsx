@@ -222,37 +222,54 @@ function Participate() {
         }
         setLoading(true);
         let videoUrl = '';
-        if(uploadMediaFile){
-          const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
-          console.log('s3 url >>', uploadUrl,' ::::', fileUrl);
+        const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+        console.log('s3 url >>', uploadUrl,' ::::', fileUrl);
+        
+        const uploadRes = await fetch(uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": uploadMediaFile.type },
+          body: uploadMediaFile
+        });
+        console.log('uploadRes', uploadRes);
+        videoUrl = fileUrl;
+        if(uploadRes){          
+          let data = {
+            name        : formData.name,
+            contact     : formData.contact,
+            email       : formData.email,
+            dob         : formData.dob,
+            stateId     : formData.stateId,
+            cityId      : formData.cityId,
+            address     : formData.address,
+            pincode     : formData.pincode,
+            story       : formData.story,
+            dream_remarks          : formData.dream_remarks,
+            how_to_know_about_this : formData.how_to_know_about_this,
+            interest_in_role       : selectedValues.join(","),
+            other_roles            : formData.other_roles,
+            uploadMediaFile        : videoUrl
+          };
+          // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+          // data.append("uploadMediaFile", videoUrl);
+          // data.append("interest_in_role", selectedValues.join(","));
 
-          await fetch(uploadUrl, {
-            method: "PUT",
-            headers: { "Content-Type": uploadMediaFile.type },
-            body: uploadMediaFile
-          });
-          videoUrl = fileUrl;
-        }
-        const data = new FormData();
-        Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-        data.append("uploadMediaFile", videoUrl);
-        data.append("interest_in_role", selectedValues.join(","));
+          console.log('data >>', data);
+          const res = await submitForm(data);
+          console.log("res >>", res);
 
-        console.log('data >>', data);
-        const res = await submitForm(data);
-        console.log("res >>", res);
-
-        setLoading(false);
-        if (res.status == "success") navigate("/thankyou");
-        else {
-          setError({ allError: res.message });
-          alert(res.message);
+          setLoading(false);
+          if (res.status == "success") navigate("/thankyou");
+          else {
+            setError({ allError: res.message });
+            alert(res.message);
+          }
         }
       }
     }catch(error){
       console.log("Catch Err >>", error);
       setError({ allError: error.message });
       alert(error.message);
+      setLoading(false);
     }
   };
 
