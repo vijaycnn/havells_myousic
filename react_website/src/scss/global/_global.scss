@@ -744,7 +744,7 @@ textarea {
 
 .step {
   &-card {
-    background: url(../../assets/step-card.png) no-repeat top center;
+    background: url(../../assets/step-card.png) no-repeat center;
     background-size: 100%;
     width: 100%;
     padding: 0 0 21%;
@@ -944,6 +944,45 @@ textarea {
     border-radius: 1.5rem;
     &-text {
       text-decoration: none;
+    }
+  }
+  & .swiper {
+    &-pagination {
+      position: static;
+      margin: 2rem 0;
+    }
+    &-button-prev,
+    &-button-next {
+      top: 100% !important;
+      margin-top: -40px !important;
+      color: black !important;
+      & svg {
+        height: 20px;
+      }
+    }
+    &-nav {
+      & .nav-btn {
+        background: none;
+        border: none;
+        padding: 0.2rem 1rem;
+        font-size: 1.5rem;
+        font-weight: 300;
+      }
+      & .progress {
+        &-line {
+          width: 120px;
+          height: 2px;
+          background: rgba(0, 0, 0, 0.2);
+          position: relative;
+        }
+        &-fill {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background: variables.$black;
+        }
+      }
     }
   }
 }
