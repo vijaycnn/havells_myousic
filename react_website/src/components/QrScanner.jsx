@@ -6,23 +6,22 @@ import shareIcon from "../assets/share-icon.svg";
 
 function QrScanner() {
   const handleShare = async () => {
-    const productUrl =
-      "https://havells.com/meditate-ap-250-air-purifier-ghrapmae50.html";
-    const productName = "Meditate AP 250 Air Purifier";
+    const artistUrl = "https://havells.com/";
+    const artistName = "Artist Participate";
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: productName,
-          text: `Check out this amazing product: ${productName}`,
-          url: productUrl,
+          title: artistName,
+          text: `Get Ready to ${artistName}`,
+          url: artistUrl,
         });
         console.log("Content shared successfully");
       } catch (error) {
         console.error("Error sharing content:", error);
       }
     } else {
-      const fallbackText = `Check out this amazing product: ${productName} - ${productUrl}`;
+      const fallbackText = `Get Ready to ${artistName} - ${artistUrl}`;
       try {
         await navigator.clipboard.writeText(fallbackText);
         alert("Share link copied to clipboard!");
@@ -30,7 +29,7 @@ function QrScanner() {
         console.error("Failed to copy to clipboard:", err);
         alert(
           "Could not share the content, please copy the link manually: " +
-            productUrl
+            artistUrl
         );
       }
     }
