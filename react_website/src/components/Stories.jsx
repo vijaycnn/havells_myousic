@@ -7,7 +7,7 @@ function Stories() {
       <section className="sec sec-stories" id="stories">
         <Container>
           <header className="sec-head text-center mb-5">
-            <p className="sec-sub-title mb-2">Stories &amp; Stories</p>
+            <p className="sec-sub-title mb-2">Stories &amp; FAQs</p>
             <h2 className="sec-title mb-0">The Sound of Tomorrow</h2>
           </header>
           <Row>

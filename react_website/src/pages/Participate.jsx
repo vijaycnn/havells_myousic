@@ -104,7 +104,7 @@ function Participate() {
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
   const handleFileChange = (e) => {
-    console.log('handleFileChange >>');
+    console.log("handleFileChange >>");
     const selected = e.target.files[0];
     setFileError(""); // reset
     if (!selected) return;
@@ -136,11 +136,11 @@ function Participate() {
     } else if (e.type === "dragleave") {
       setDragActive(false);
     }
-    console.log('handleDrag >>');
+    console.log("handleDrag >>");
   };
 
   const handleDrop = (e) => {
-    console.log('handleDrop >>');
+    console.log("handleDrop >>");
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -215,45 +215,45 @@ function Participate() {
 
     let hasError = validation(formData);
     console.log("hasError >>", hasError, formData, uploadMediaFile);
-    try{
+    try {
       if (!hasError) {
-        if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc){
+        if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc) {
           return;
         }
         setLoading(true);
-        let videoUrl = '';
+        let videoUrl = "";
         const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
-        console.log('s3 url >>', uploadUrl,' ::::', fileUrl);
-        
+        console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
+
         const uploadRes = await fetch(uploadUrl, {
           method: "PUT",
           headers: { "Content-Type": uploadMediaFile.type },
-          body: uploadMediaFile
+          body: uploadMediaFile,
         });
-        console.log('uploadRes', uploadRes);
+        console.log("uploadRes", uploadRes);
         videoUrl = fileUrl;
-        if(uploadRes.status == 200){  
+        if (uploadRes.status == 200) {
           let data = {
-            name        : formData.name,
-            contact     : formData.contact,
-            email       : formData.email,
-            dob         : formData.dob,
-            stateId     : formData.stateId,
-            cityId      : formData.cityId,
-            address     : formData.address,
-            pincode     : formData.pincode,
-            story       : formData.story,
-            dream_remarks          : formData.dream_remarks,
-            how_to_know_about_this : formData.how_to_know_about_this,
-            interest_in_role       : selectedValues.join(","),
-            other_roles            : formData.other_roles,
-            videoUrl               : videoUrl
+            name: formData.name,
+            contact: formData.contact,
+            email: formData.email,
+            dob: formData.dob,
+            stateId: formData.stateId,
+            cityId: formData.cityId,
+            address: formData.address,
+            pincode: formData.pincode,
+            story: formData.story,
+            dream_remarks: formData.dream_remarks,
+            how_to_know_about_this: formData.how_to_know_about_this,
+            interest_in_role: selectedValues.join(","),
+            other_roles: formData.other_roles,
+            videoUrl: videoUrl,
           };
           // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
           // data.append("uploadMediaFile", videoUrl);
           // data.append("interest_in_role", selectedValues.join(","));
 
-          console.log('data >>', data);
+          console.log("data >>", data);
           const res = await submitForm(data);
           console.log("res >>", res);
 
@@ -265,7 +265,7 @@ function Participate() {
           }
         }
       }
-    }catch(error){
+    } catch (error) {
       console.log("Catch Err >>", error);
       setError({ allError: error.message });
       alert(error.message);
@@ -283,14 +283,15 @@ function Participate() {
   }, [formData.stateId]);
   return (
     <>
-    {
-      (loading == true)?
-      <>
-      <div className="loader">
-        <div className="loader-spinner"></div>
-      </div>
-      </>:''
-    }      
+      {loading == true ? (
+        <>
+          <div className="loader">
+            <div className="loader-spinner"></div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
       <section className="sec sec-form">
         <Container className="mt-5">
           <div className="artist-card">
@@ -393,11 +394,7 @@ function Participate() {
                     >
                       <option value="">Select State</option>
                       {state.map((data) => {
-                        return (
-                          <option value={data.id}>
-                            {data.name}
-                          </option>
-                        );
+                        return <option value={data.id}>{data.name}</option>;
                       })}
                     </Form.Select>
                   </Form.Group>
@@ -414,11 +411,7 @@ function Participate() {
                     >
                       <option value="">Select City</option>
                       {city.map((data) => {
-                        return (
-                          <option value={data.id}>
-                            {data.name}
-                          </option>
-                        );
+                        return <option value={data.id}>{data.name}</option>;
                       })}
                       <option value="0">Other</option>
                     </Form.Select>
@@ -728,10 +721,7 @@ function Participate() {
                       />
                       <label htmlFor="confirmForm3">
                         I agree to the Havells mYOUsic{" "}
-                        <a
-                          href="https://docs.google.com/document/d/1aycizPTUc9y7IwgArMqbkPeV8i3wJTFeuX5sqV_uCOc/edit?tab=t.0"
-                          target="_blank"
-                        >
+                        <a href="/terms-conditions" target="_blank">
                           Terms & Conditions.
                         </a>
                       </label>

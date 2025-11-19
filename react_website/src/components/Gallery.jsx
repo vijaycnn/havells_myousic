@@ -5,7 +5,7 @@ import shareIcon from "../assets/share-icon.svg";
 function Gallery() {
   return (
     <>
-      <section className="sec sec-gallery pb-0">
+      <section className="sec sec-gallery pb-0" id="gallery">
         <Container>
           <div className="sec-head text-center mb-5">
             <h2 className="sec-title">Captured Beats, Endless Memories</h2>
