@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import IntroScreen from "./components/IntroScreen";
 import Participate from "./pages/Participate";
 import Thankyou from "./pages/Thankyou";
+import TermsConditions from "./pages/TermsConditions";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -32,6 +33,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/participate" element={<Participate />} />
+              <Route path="/terms-conditions" element={<TermsConditions />} />
               <Route path="/thankyou" element={<Thankyou />} />
             </Routes>
           </Router>

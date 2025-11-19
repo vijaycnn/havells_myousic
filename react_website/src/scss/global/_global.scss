@@ -682,7 +682,7 @@ textarea {
 }
 
 .accordion {
-  gap: 1rem;
+  gap: 0.75rem;
   display: grid;
   &-item {
     border-radius: 3rem !important;
@@ -1046,5 +1046,14 @@ textarea {
   &-item {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
+  }
+}
+
+.text-tnc {
+  & ul {
+    margin: 0 0 1rem;
+  }
+  & li {
+    margin: 0 0 0.5rem;
   }
 }

@@ -41,7 +41,8 @@ function FAQs() {
                 <h2 className="text-center fw-medium mb-5">
                   Got Questions? We’ve Got Answers
                 </h2>
-                <Tabs
+                <FaqsAccordion />
+                {/* <Tabs
                   defaultActiveKey="TabOne"
                   className="mb-3 justify-content-center"
                 >
@@ -57,7 +58,7 @@ function FAQs() {
                   <Tab eventKey="TabFour" title="General">
                     <FaqsAccordion />
                   </Tab>
-                </Tabs>
+                </Tabs> */}
               </Col>
             </Row>
           </section>
