@@ -25,10 +25,10 @@ function Footer() {
                 <Image src={Logo} alt="" />
               </a>
               <p className="my-4">
-                A Havells initiative dedicated to discovering and nurturing
-                grassroots musical talent across India-helping emerging artists
-                build skills, gain exposure, and create original music with
-                expert mentorship.
+                A Havells initiative committed to discovering and nurturing
+                grassroots musical talent across India-empowering emerging
+                artists to build skills, gain exposure, and create original
+                music with guidance from expert mentors.
               </p>
               <h4 className="app-footer-title mb-4">Follow us</h4>
               <div className="app-footer-social d-flex gap-4 align-items-center">

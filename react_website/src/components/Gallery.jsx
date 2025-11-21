@@ -8,10 +8,10 @@ function Gallery() {
       <section className="sec sec-gallery pb-0" id="gallery">
         <Container>
           <div className="sec-head text-center mb-5">
-            <h2 className="sec-title">Captured Beats, Endless Memories</h2>
+            <h2 className="sec-title">Captured Beats. Endless Memories.</h2>
             <p className="sec-sub-title">
-              Experience the essence of myYOUsic through moments that celebrate
-              creativity and connection.
+              Experience the essence of mYOUsic through moments that celebrate
+              creativity, passion, and connection.
             </p>
           </div>
           <Row className="gy-4">

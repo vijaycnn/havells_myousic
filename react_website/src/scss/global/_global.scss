@@ -58,6 +58,9 @@ h6 {
 }
 
 .text {
+  &-justify {
+    text-align: justify;
+  }
   &-blue {
     color: variables.$blue !important;
   }

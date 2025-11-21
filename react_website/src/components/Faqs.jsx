@@ -3,7 +3,7 @@ import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
 import arrowDown from "../assets/arrow-down.svg";
-import FaqsAccordion from "./FaqsAccordion";
+import FaqsAbout, { FaqsFees, FaqsGeneral, FaqsProcess } from "./FaqsAccordion";
 
 function FAQs() {
   return (
@@ -41,24 +41,24 @@ function FAQs() {
                 <h2 className="text-center fw-medium mb-5">
                   Got Questions? We’ve Got Answers
                 </h2>
-                <FaqsAccordion />
-                {/* <Tabs
+
+                <Tabs
                   defaultActiveKey="TabOne"
                   className="mb-3 justify-content-center"
                 >
                   <Tab eventKey="TabOne" title="About Participation">
-                    <FaqsAccordion />
+                    <FaqsAbout />
                   </Tab>
                   <Tab eventKey="TabTwo" title="Application Process">
-                    <FaqsAccordion />
+                    <FaqsProcess />
                   </Tab>
                   <Tab eventKey="TabThree" title="Fees & Eligibility">
-                    <FaqsAccordion />
+                    <FaqsFees />
                   </Tab>
                   <Tab eventKey="TabFour" title="General">
-                    <FaqsAccordion />
+                    <FaqsGeneral />
                   </Tab>
-                </Tabs> */}
+                </Tabs>
               </Col>
             </Row>
           </section>

@@ -17,10 +17,30 @@ function HowItWorks() {
                 <h2 className="sec-title mb-5">
                   A Journey That Celebrates India’s True Music Spirit
                 </h2>
-                <p className="sec-sub-title mb-2">
-                  India’s music is full of soul - from folk songs in villages to
-                  classical ragas, from film music to street rhythms. Havells
-                  mYOUsic brings all this together on one stage.
+              </div>
+            </Col>
+          </Row>
+          <Row className="sec-sub-title text-justify">
+            <Col md={6}>
+              <div className="sec-sub-title">
+                <p>
+                  India’s music is a living, breathing story-woven through folk
+                  melodies in villages, timeless classical ragas, vibrant film
+                  scores, and the raw rhythms of its streets. Havells mYOUsic is
+                  the stage where these voices unite.
+                </p>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="sec-sub-title">
+                <p>
+                  This platform is designed to discover and nurture grassroots
+                  talent-singers, lyricists, composers, and
+                  instrumentalists-giving them the stage they deserve. Through
+                  mentorship from industry legends, immersive bootcamps, and
+                  opportunities to create original music, mYOUsic is more than a
+                  program-it’s a movement to amplify India’s authentic sound and
+                  empower the artists behind it.
                 </p>
               </div>
             </Col>
