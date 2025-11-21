@@ -13,8 +13,8 @@ function MentorExperts() {
             <p className="sec-sub-title mb-2">Mentors &amp; Experts</p>
             <h2 className="sec-title mb-5">Guided by the Best</h2>
           </div>
-          <Row className="align-items-center">
-            <Col md={8}>
+          <Row className="align-items-center justify-content-center">
+            <Col md={6}>
               <Row>
                 <Col md={6}>
                   <div className="mentor-card text-center">
@@ -38,7 +38,7 @@ function MentorExperts() {
                 </Col>
               </Row>
             </Col>
-            <Col md={4}>
+            {/* <Col md={4}>
               <div className="card-expert d-flex flex-column gap-4 rounded-5 p-5">
                 <div className="badge-weekly text-center fw-semi-bold rounded-pill p-3 fs-6">
                   Weekly Guest Mentor
@@ -61,8 +61,9 @@ function MentorExperts() {
                     <span className="text-muted">Singer</span>
                   </div>
                 </div>
+                
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </Container>
       </section>
