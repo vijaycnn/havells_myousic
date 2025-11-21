@@ -636,7 +636,6 @@ function Participate() {
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
                       Where did you get to know about this?
-                      <span className="text-danger">*</span>
                     </Form.Label>
                     <div className="d-flex gap-4 flex-wrap">
                       <Form.Check

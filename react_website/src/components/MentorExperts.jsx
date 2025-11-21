@@ -1,7 +1,6 @@
-import { Container, Tab, Tabs, Image, Row, Col, Button } from "react-bootstrap";
-import Meiyang from "../assets/Meiyang-Chang.png";
-import SonuNigam from "../assets/Sonu-NIgam.png";
-import Shreya from "../assets/Shreya-Ghoswal.png";
+import { Container, Image, Row, Col } from "react-bootstrap";
+import AtulChuramani from "../assets/Atul-Churamani.png";
+import Tarsame from "../assets/Tarsame.png";
 import GoldStar from "../assets/gold-star.svg";
 import Arijit from "../assets/arijit.jpg";
 
@@ -17,30 +16,23 @@ function MentorExperts() {
           <Row className="align-items-center">
             <Col md={8}>
               <Row>
-                <Col md={4}>
+                <Col md={6}>
                   <div className="mentor-card text-center">
-                    <Image src={Meiyang} alt="" />
+                    <Image src={Tarsame} alt="" />
                     <div className="mentor-card-title text-center">
-                      <h4 className="font-secondary">Meiyang-Chang</h4>
+                      <h4 className="font-secondary">Tarsame Mittal</h4>
                       <p className="m-0 text-large">Music Entrepreneur</p>
                     </div>
                   </div>
                 </Col>
-                <Col md={4}>
+                <Col md={6}>
                   <div className="mentor-card text-center">
-                    <Image src={SonuNigam} alt="" />
+                    <Image src={AtulChuramani} alt="" />
                     <div className="mentor-card-title text-center">
-                      <h4 className="font-secondary">Sonu Nigam</h4>
-                      <p className="m-0 text-large">Music Mentor</p>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="mentor-card text-center">
-                    <Image src={Shreya} alt="" />
-                    <div className="mentor-card-title text-center">
-                      <h4 className="font-secondary">Shreya Ghoshal</h4>
-                      <p className="m-0 text-large">Bollywood Composer</p>
+                      <h4 className="font-secondary">Atul Churamani</h4>
+                      <p className="m-0 text-large">
+                        Music and Publishing Veteran
+                      </p>
                     </div>
                   </div>
                 </Col>

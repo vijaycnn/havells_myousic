@@ -32,16 +32,25 @@ function Footer() {
               </p>
               <h4 className="app-footer-title mb-4">Follow us</h4>
               <div className="app-footer-social d-flex gap-4 align-items-center">
-                <a href="#">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61581173831849"
+                  target="_blank"
+                >
                   <Image src={FbIcon} alt="Facebook" />
                 </a>
                 {/* <a href="#">
                   <Image src={Linkedin} alt="Linkedin" />
                 </a> */}
-                <a href="#">
+                <a
+                  href="https://www.instagram.com/havellsmyousic/"
+                  target="_blank"
+                >
                   <Image src={InstaIcon} alt="Instagram" />
                 </a>
-                <a href="#">
+                <a
+                  href="https://www.youtube.com/@HavellsMyousic"
+                  target="_blank"
+                >
                   <Image src={YtubeIcon} alt="YouTube" />
                 </a>
               </div>
@@ -82,26 +91,26 @@ function Footer() {
                             Terms & Conditions
                           </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item as="li">
+                        {/* <Nav.Item as="li">
                           <Nav.Link href="#">Contact Us</Nav.Link>
-                        </Nav.Item>
+                        </Nav.Item> */}
                       </Nav>
                     </Col>
                   </Row>
                 </Col>
                 <Col md={5}>
                   <h4 className="app-footer-title">Contact</h4>
-                  {/* <div className="d-flex flex-column gap-3">
+                  <div className="d-flex flex-column gap-3">
                     <div className="d-flex flex-column gap-1">
                       <span className="opacity-75">For general queries:</span>
                       <a
                         className="fs-6 fw-semi-bold"
-                        href="mailto:info@myousic.havells.com"
+                        href="mailto:myousichavells@gmail.com"
                       >
-                        info@myousic.havells.com
+                        myousichavells@gmail.com
                       </a>
                     </div>
-                    <div className="d-flex flex-column gap-1">
+                    {/* <div className="d-flex flex-column gap-1">
                       <span className="opacity-75">For media & press:</span>
                       <a
                         className="fs-6 fw-semi-bold"
@@ -118,8 +127,8 @@ function Footer() {
                       >
                         partnerships@myousic.havells.com
                       </a>
-                    </div>
-                  </div> */}
+                    </div> */}
+                  </div>
                 </Col>
               </Row>
             </Col>
