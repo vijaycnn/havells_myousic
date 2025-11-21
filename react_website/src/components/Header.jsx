@@ -35,7 +35,7 @@ function Header() {
             <Nav.Link href="/#aboutmYOUsic">About mYOUsic</Nav.Link>
             <Nav.Link href="/#mentors">Mentors & Experts</Nav.Link>
             <Nav.Link href="/#bootcamps">Bootcamps & Events</Nav.Link>
-            <Nav.Link href="/#stories">Success Stories</Nav.Link>
+            {/* <Nav.Link href="/#stories">Success Stories</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
         <a className="btn rounded-pill btn-primary" href="/participate">

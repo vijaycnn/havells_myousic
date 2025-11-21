@@ -27,8 +27,11 @@ function HeroBanner() {
                   from every corner of India to showcase their talent and get
                   noticed
                 </p>
-                <a href="#" className="btn btn-primary btn-lg rounded-pill">
-                  <span>See How it Works</span>
+                <a
+                  href="/participate"
+                  className="btn btn-primary btn-lg rounded-pill"
+                >
+                  <span>Free Registration</span>
                 </a>
               </div>
             </Col>
@@ -148,15 +151,15 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={mohan} alt="Tabla Maestro" />
+                        <Image src={mohan} alt="Tabla Player" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Tabla Maestro
+                        Tabla Player
                       </h4>
                       {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Tamil Nadu</span>
                         <span>|</span>
-                        <span>Tabla Maestro</span>
+                        <span>Tabla Player</span>
                       </div> */}
                     </div>
                   </SwiperSlide>
