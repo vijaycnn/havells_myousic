@@ -20,12 +20,16 @@ function HeroBanner() {
             <Col md={6}>
               <div className="sec-head">
                 <h2 className="sec-title mb-5">
-                  Sing, Write, or Compose. This Stage Is Yours
+                  Sing. Write. Compose. This Stage Is Yours!
                 </h2>
                 <p className="sec-sub-title mb-5">
-                  A platform that helps new voices, songwriters, and composers
-                  from every corner of India to showcase their talent and get
-                  noticed
+                  <strong>Your art deserves a spotlight.</strong> Havells
+                  mYOUsic is a platform for{" "}
+                  <strong>grassroots artists-singers</strong>, lyricists,
+                  composers, and instrumentalists from every corner of India.
+                  This is where raw passion meets real opportunity. Showcase
+                  your talent, learn from industry legends, and take your first
+                  step toward being heard.
                 </p>
                 <a
                   href="/participate"

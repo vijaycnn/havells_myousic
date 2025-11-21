@@ -41,8 +41,7 @@ function QrScanner() {
             <Row className="align-items-center">
               <Col md={6} className="sec-head">
                 <h2 className="sec-title m-0">
-                  Scan and Participate to <br />
-                  Showcase Your Talent!
+                  Scan to Participate and Showcase Your Talent!
                 </h2>
               </Col>
               <Col md={2} className="text-center">
@@ -51,7 +50,7 @@ function QrScanner() {
               </Col>
               <Col md={4}>
                 <p className="text-large fw-medium">
-                  Sing, Write, or Compose - Participate Now or Share This QR
+                  Sing. Write. Compose. Participate Now-or Share the QR Code
                   with a Friend.
                 </p>
                 <Dropdown className="d-lg-flex d-none">

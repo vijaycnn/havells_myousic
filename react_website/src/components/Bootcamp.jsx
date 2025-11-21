@@ -19,14 +19,13 @@ function Bootcamp() {
               <Row>
                 <Col md={8} className="mx-auto fs-5">
                   <p>
-                    Selected talent will be invited to an intensive 3-day
-                    bootcamp - a crash course in turning passion into
-                    performance.
+                    Selected talent will step into an intensive 3-day bootcamp-a
+                    power-packed journey to transform passion into performance.
                   </p>
                 </Col>
               </Row>
               <span className="notes rounded-pill text-black px-5 py-3">
-                Note: Workshops/bootcamps are exclusively for shortlisted
+                Note: Workshops and bootcamps are exclusively for shortlisted
                 participants.
               </span>
             </div>
