@@ -20,12 +20,12 @@ function HeroBanner() {
             <Col md={6}>
               <div className="sec-head">
                 <h2 className="sec-title mb-5">
-                  Sing, Write, or Compose This Stage Is Yours.
+                  Sing, Write, or Compose. This Stage Is Yours
                 </h2>
                 <p className="sec-sub-title mb-5">
                   A platform that helps new voices, songwriters, and composers
                   from every corner of India to showcase their talent and get
-                  noticed.
+                  noticed
                 </p>
                 <a href="#" className="btn btn-primary btn-lg rounded-pill">
                   <span>See How it Works</span>
@@ -58,106 +58,106 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={nehal} alt="Nehal Singh" />
+                        <Image src={nehal} alt="Singer" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Nehal Singh
+                        Singer
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>New Delhi</span>
                         <span>|</span>
-                        <span>Single</span>
-                      </div>
+                        <span>Singer</span>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={ritika} alt="Ritika Reddy" />
+                        <Image src={ritika} alt="Music Composer" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Ritika Reddy
+                        Music Composer
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Telangana</span>
                         <span>|</span>
                         <span>Music Composer</span>
-                      </div>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={daulat} alt="Daulat Singh" />
+                        <Image src={daulat} alt="Kamaicha" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Daulat Singh
+                        Kamaicha
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Rajasthan</span>
                         <span>|</span>
                         <span>Kamaicha</span>
-                      </div>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={neha} alt="Nisha Sharma" />
+                        <Image src={neha} alt="Lyricist" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Nisha Sharma
+                        Lyricist
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Haryana</span>
                         <span>|</span>
                         <span>Lyricist</span>
-                      </div>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={namita} alt="Nimita Gogoi" />
+                        <Image src={namita} alt="guitarist" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Nimita Gogoi
+                        Guitarist
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Assam</span>
                         <span>|</span>
                         <span>Guitar</span>
-                      </div>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={miguel} alt="Miguel D'Souza" />
+                        <Image src={miguel} alt="Violin" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Miguel D'Souza
+                        Violin
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Goa</span>
                         <span>|</span>
-                        <span>violin</span>
-                      </div>
+                        <span>Violin</span>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={mohan} alt="Mohan Nadar" />
+                        <Image src={mohan} alt="Tabla Maestro" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Mohan Nadar
+                        Tabla Maestro
                       </h4>
-                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Tamil Nadu</span>
                         <span>|</span>
                         <span>Tabla Maestro</span>
-                      </div>
+                      </div> */}
                     </div>
                   </SwiperSlide>
                 </Swiper>

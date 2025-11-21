@@ -6,7 +6,7 @@ import shareIcon from "../assets/share-icon.svg";
 
 function QrScanner() {
   const handleShare = async () => {
-    const artistUrl = "https://havells.com/";
+    const artistUrl = "https://havellsmyousic.com/participate";
     const artistName = "Artist Participate";
 
     if (navigator.share) {
@@ -62,16 +62,16 @@ function QrScanner() {
                     </span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item href="https://web.whatsapp.com/send?text=https://havells.com/">
+                    <Dropdown.Item href="https://web.whatsapp.com/send?text=https://havellsmyousic.com/participate">
                       WhatsApp
                     </Dropdown.Item>
-                    <Dropdown.Item href="https://www.facebook.com/sharer/sharer.php?u=https://havells.com/">
+                    <Dropdown.Item href="https://www.facebook.com/sharer/sharer.php?u=https://havellsmyousic.com/participate">
                       Facebook
                     </Dropdown.Item>
-                    <Dropdown.Item href="https://www.linkedin.com/shareArticle?mini=true&url=https://havells.com/">
+                    <Dropdown.Item href="https://www.linkedin.com/shareArticle?mini=true&url=https://havellsmyousic.com/participate">
                       Linkedin
                     </Dropdown.Item>
-                    <Dropdown.Item href="https://twitter.com/intent/tweet?via=havellsindia&text=Checkout%20this%20product&url=https://havells.com/">
+                    <Dropdown.Item href="https://twitter.com/intent/tweet?via=havellsindia&text=Checkout%20this%20product&url=https://havellsmyousic.com/participate">
                       Twitter
                     </Dropdown.Item>
                   </Dropdown.Menu>

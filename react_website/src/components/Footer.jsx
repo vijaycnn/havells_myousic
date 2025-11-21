@@ -35,9 +35,9 @@ function Footer() {
                 <a href="#">
                   <Image src={FbIcon} alt="Facebook" />
                 </a>
-                <a href="#">
+                {/* <a href="#">
                   <Image src={Linkedin} alt="Linkedin" />
-                </a>
+                </a> */}
                 <a href="#">
                   <Image src={InstaIcon} alt="Instagram" />
                 </a>
@@ -78,13 +78,12 @@ function Footer() {
                           <Nav.Link href="/#FAQs">FAQs</Nav.Link>
                         </Nav.Item>
                         <Nav.Item as="li">
-                          <Nav.Link href="#">Terms & Conditions</Nav.Link>
+                          <Nav.Link href="/terms-conditions">
+                            Terms & Conditions
+                          </Nav.Link>
                         </Nav.Item>
                         <Nav.Item as="li">
-                          <Nav.Link href="/#mentors">Privacy Policy</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item as="li">
-                          <Nav.Link href="/#stories">Contact Us</Nav.Link>
+                          <Nav.Link href="#">Contact Us</Nav.Link>
                         </Nav.Item>
                       </Nav>
                     </Col>
@@ -92,7 +91,7 @@ function Footer() {
                 </Col>
                 <Col md={5}>
                   <h4 className="app-footer-title">Contact</h4>
-                  <div className="d-flex flex-column gap-3">
+                  {/* <div className="d-flex flex-column gap-3">
                     <div className="d-flex flex-column gap-1">
                       <span className="opacity-75">For general queries:</span>
                       <a
@@ -120,7 +119,7 @@ function Footer() {
                         partnerships@myousic.havells.com
                       </a>
                     </div>
-                  </div>
+                  </div> */}
                 </Col>
               </Row>
             </Col>
