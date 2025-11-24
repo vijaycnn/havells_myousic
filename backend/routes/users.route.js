@@ -11,14 +11,12 @@ const schemas = {
             'string.pattern.base': `Enter valid email id`
         }),   
         resetPasswordToken: Joi.string().required(),
-        //  newPassword: Joi.string().regex(/^[ A-Za-z0-9_@./#&+-]*$/).required()
-        newPassword: Joi.string().regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).required().messages({
-            'string.pattern.base': `Password should have alphanumaric and one special charactor and minimum length 8`
+        newPassword: Joi.string().required().messages({
+            'string.pattern.base': `Password Required`
         }),
-        confirmPassword: Joi.string().regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).required()
-        .messages({
-            'string.pattern.base': `Password should have alphanumaric and one special charactor and minimum length 8`
-        }),  
+        confirmPassword: Joi.string().required().messages({
+            'string.pattern.base': `Password Required`
+        }), 
     }),
 
 }

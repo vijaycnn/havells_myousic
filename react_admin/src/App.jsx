@@ -48,7 +48,7 @@ function App() {
             }
           />
           <Route
-            path="/forgot-password-update/:id"
+            path={`${adminAlias}/forgot-password-update/:id`}
             element={
               <UpdatePassword />
             }
