@@ -37,10 +37,10 @@ function QrScanner() {
     <>
       <section className="sec sec-qr p-0">
         <Container>
-          <div className="rounded-5 p-5 card-qr">
+          <div className="rounded-5 p-md-5 p-4 card-qr text-md-start text-center">
             <Row className="align-items-center">
               <Col md={6} className="sec-head">
-                <h2 className="sec-title m-0">
+                <h2 className="sec-title mb-md-0 mb-4">
                   Scan to Participate and Showcase Your Talent!
                 </h2>
               </Col>

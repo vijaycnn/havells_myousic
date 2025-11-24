@@ -14,9 +14,9 @@ function MentorExperts() {
             <h2 className="sec-title mb-5">Guided by the Best</h2>
           </div>
           <Row className="align-items-center justify-content-center">
-            <Col md={6}>
+            <Col lg={6} md={10}>
               <Row>
-                <Col md={6}>
+                <Col xs={6}>
                   <div className="mentor-card text-center">
                     <Image src={Tarsame} alt="" />
                     <div className="mentor-card-title text-center">
@@ -25,7 +25,7 @@ function MentorExperts() {
                     </div>
                   </div>
                 </Col>
-                <Col md={6}>
+                <Col xs={6}>
                   <div className="mentor-card text-center">
                     <Image src={AtulChuramani} alt="" />
                     <div className="mentor-card-title text-center">

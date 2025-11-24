@@ -14,7 +14,7 @@ function Bootcamp() {
               </a> */}
               <p className="sec-sub-title mb-0">Bootcamps &amp; Events</p>
               <h2 className="sec-title font-secondary">
-                Learn.Collabrate.Perform.
+                Learn. Collabrate. Perform.
               </h2>
               <Row>
                 <Col md={8} className="mx-auto fs-5">
@@ -24,7 +24,7 @@ function Bootcamp() {
                   </p>
                 </Col>
               </Row>
-              <span className="notes rounded-pill text-black px-5 py-3">
+              <span className="notes rounded-pill text-black px-md-5 px-4 py-3">
                 Note: Workshops and bootcamps are exclusively for shortlisted
                 participants.
               </span>

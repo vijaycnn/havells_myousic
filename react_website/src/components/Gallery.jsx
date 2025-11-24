@@ -14,8 +14,8 @@ function Gallery() {
               celebrate creativity, passion, and connection.
             </p>
           </div>
-          <Row className="gy-4">
-            <Col md={3}>
+          <Row className="g-md-4 g-3">
+            <Col md={3} xs={6}>
               <div className="gallery-item">
                 <Image
                   src="https://img.freepik.com/free-photo/medium-shot-man-performing-stage_23-2149247126.jpg"
@@ -23,7 +23,7 @@ function Gallery() {
                 />
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} xs={6}>
               <div className="gallery-item">
                 <Image
                   src="https://www.careersinmusic.com/wp-content/uploads/2019/03/recording-artist.jpg"
@@ -31,7 +31,7 @@ function Gallery() {
                 />
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} xs={6}>
               <div className="gallery-item">
                 <Image
                   src="https://dnwp63qf32y8i.cloudfront.net/e25550d67ca25f8c7bb95c68b4fab8f6e5e63c4f"
@@ -39,7 +39,7 @@ function Gallery() {
                 />
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} xs={6}>
               <div className="gallery-item">
                 <Image
                   src="https://himanshunanda.com/wp-content/uploads/2020/12/Why-you-should-learn-the-bansuri.webp"

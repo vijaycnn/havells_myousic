@@ -1,27 +1,27 @@
-$mobile: 575.5px;
-$tablet: 767.5px;
-$laptop: 991.5px;
-$desktop: 1199.5px;
-$desktopL: 1280px;
+$deviceXs: 575.5px;
+$deviceSm: 767.5px;
+$deviceMd: 991.5px;
+$deviceLg: 1199.5px;
+$deviceXl: 1366.5px;
 @mixin respond($breakpoint) {
-  @if $breakpoint == mobile {
-    @media (max-width: #{$mobile}) {
+  @if $breakpoint == deviceXs {
+    @media (max-width: #{$deviceXs}) {
       @content;
     }
-  } @else if $breakpoint == tablet {
-    @media (max-width: #{$tablet}) {
+  } @else if $breakpoint == deviceSm {
+    @media (max-width: #{$deviceSm}) {
       @content;
     }
-  } @else if $breakpoint == laptop {
-    @media (max-width: #{$laptop}) {
+  } @else if $breakpoint == deviceMd {
+    @media (max-width: #{$deviceMd}) {
       @content;
     }
-  } @else if $breakpoint == desktop {
-    @media (max-width: #{$desktop}) {
+  } @else if $breakpoint == deviceLg {
+    @media (max-width: #{$deviceLg}) {
       @content;
     }
-  } @else if $breakpoint == desktopL {
-    @media (max-width: #{$desktopL}) {
+  } @else if $breakpoint == deviceXl {
+    @media (max-width: #{$deviceXl}) {
       @content;
     }
   }
