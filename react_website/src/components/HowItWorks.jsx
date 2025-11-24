@@ -21,7 +21,7 @@ function HowItWorks() {
             </Col>
           </Row>
           <Row className="sec-sub-title text-justify">
-            <Col md={6}>
+            <Col lg={6}>
               <div className="sec-sub-title">
                 <p>
                   India’s music is a living, breathing story-woven through folk
@@ -31,7 +31,7 @@ function HowItWorks() {
                 </p>
               </div>
             </Col>
-            <Col md={6}>
+            <Col lg={6}>
               <div className="sec-sub-title">
                 <p>
                   This platform is designed to discover and nurture grassroots
@@ -45,46 +45,57 @@ function HowItWorks() {
               </div>
             </Col>
           </Row>
-
-          <div className="step d-flex gap-4">
-            <div className="step-card">
-              <div className="step-card-text">
-                <Image src={stageOne} className="mb-4" alt="" />
-                <span>Stage 1</span>
-                <span className="font-secondary fs-4 fw-bold">Apply</span>
+          <Row className="g-md-4 g-3 step mt-md-5 mt-4 justify-content-md-start justify-content-center">
+            <Col md xs={6} className="step-item">
+              <div className="step-card">
+                <div className="step-card-text">
+                  <Image src={stageOne} className="mb-lg-4 m-2" alt="" />
+                  <span>Stage 1</span>
+                  <span className="font-secondary fs-4 fw-bold">Apply</span>
+                </div>
               </div>
-            </div>
-            <div className="step-card">
-              <div className="step-card-text">
-                <Image src={stageTwo} className="mb-4" alt="" />
-                <span>Stage 2</span>
-                <span className="font-secondary fs-4 fw-bold">Audition</span>
+            </Col>
+            <Col md xs={6} className="step-item">
+              <div className="step-card">
+                <div className="step-card-text">
+                  <Image src={stageTwo} className="mb-lg-4 m-2" alt="" />
+                  <span>Stage 2</span>
+                  <span className="font-secondary fs-4 fw-bold">Audition</span>
+                </div>
               </div>
-            </div>
-            <div className="step-card">
-              <div className="step-card-text">
-                <Image src={stageThree} className="mb-4" alt="" />
-                <span>Stage 3</span>
-                <span className="font-secondary fs-4 fw-bold">
-                  Membership Bootcamp
-                </span>
+            </Col>
+            <Col md xs={6} className="step-item">
+              <div className="step-card">
+                <div className="step-card-text">
+                  <Image src={stageThree} className="mb-lg-4 m-2" alt="" />
+                  <span>Stage 3</span>
+                  <span className="font-secondary fs-4 fw-bold">
+                    Membership Bootcamp
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="step-card">
-              <div className="step-card-text">
-                <Image src={stageFour} className="mb-4" alt="" />
-                <span>Stage 4</span>
-                <span className="font-secondary fs-4 fw-bold">Collaborate</span>
+            </Col>
+            <Col md xs={6} className="step-item">
+              <div className="step-card">
+                <div className="step-card-text">
+                  <Image src={stageFour} className="mb-lg-4 m-2" alt="" />
+                  <span>Stage 4</span>
+                  <span className="font-secondary fs-4 fw-bold">
+                    Collaborate
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="step-card">
-              <div className="step-card-text">
-                <Image src={stageFive} className="mb-4" alt="" />
-                <span>Stage 5</span>
-                <span className="font-secondary fs-4 fw-bold">Release</span>
+            </Col>
+            <Col md xs={6} className="step-item">
+              <div className="step-card">
+                <div className="step-card-text">
+                  <Image src={stageFive} className="mb-lg-4 m-2" alt="" />
+                  <span>Stage 5</span>
+                  <span className="font-secondary fs-4 fw-bold">Release</span>
+                </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Container>
       </section>
     </>
