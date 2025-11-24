@@ -34,7 +34,7 @@ export const getDownloadUrl = async (req, res) => {
   const { key } = req.body; // example: uploads/12345_video.mp4
 
   const command = new GetObjectCommand({
-    Bucket: "e-mobility",
+    Bucket: process.env.S3_BUCKET,
     Key: key
   });
 

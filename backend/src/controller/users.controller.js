@@ -1,8 +1,8 @@
 const md5 = require('md5-nodejs');
 const jwt = require('jsonwebtoken');
 const moment = require("moment");
-// var crypto = require("crypto");
-// const helper = require('../utils/helper');
+var crypto = require("crypto");
+const helper = require('../utils/helper');
 const responder = require('../utils/responder');
 const usersService = require('../services/users.service');
 
@@ -117,6 +117,148 @@ let userController = {
         }else{
             return responder.sendResponse(response, 200, "false", {type:"Unauthorized"}, "Unauthorized User.");
         }              
+       }    
+    } catch (error) {
+        console.log(error)
+        return next(error);
+    }
+  },
+  generateForgotPasswordLink: async (request, response, next) => {
+    try {
+   
+      let emailId=  request.body.emailId;
+      let  BackEndBaseUrl = process.env.BASE_URL_BACK_END;
+      if(!emailId){
+        return responder.sendResponse(response, 400, "false", null, "Email ID  Required");
+      }else{
+        let  userdata= await usersService.checkExistByEmail(emailId);       
+         if(userdata){
+             let userId= userdata.id;
+             let userName= userdata.userName;
+             crypto.randomBytes(20, async function (err, buf) {
+             var token = buf.toString("hex");
+
+            //  console.log("generated id ", token);
+             if (err) {
+               console.log(err);
+             } else {
+               let userData = {
+                 userId: userId,
+                 email: userdata.userEmail,
+                 resetPasswordGenerated: new Date(),
+                 resetPasswordToken: token,
+                 status: 1,
+                 resetPasswordExpires: moment()
+                   .add(24, "hours")
+                   .format("YYYY-MM-DD HH:mm:ss"),
+               };
+
+               let linkCreated = await usersService.createFotgotPasswordLink(userData);
+
+               if (linkCreated) {
+                 let link = BackEndBaseUrl + "/forgot-password-update/" + token;
+                 console.log('link ::', link);                 
+
+                 let templateDetails= await conn.Notifications.findOne({where: {stateSlug:'password-reset'}, raw:true});
+                 if(templateDetails){
+                    let emailTemplate = templateDetails.emailTemplate;
+                    let replaceObj={
+                      rm_CusName:userName,
+                      rm_Link:link,                     
+                    }
+                    emailTemplate= await helper.stringReplace(emailTemplate,replaceObj)
+                    //send mail to all assign mail
+                    helper.send_mail_byEmailer(emailId,templateDetails.subjectLine, emailTemplate,[])
+                 }
+                 return responder.sendResponse(response, 200, "success", { token: token, da: linkCreated }, "Forgot password link sent successfully your registered email.");
+               }
+               else {
+                 return responder.sendResponse(response, 200, "false", { type: "link not created" }, "link not created");
+               }
+             }
+
+           })
+         }
+        else{
+            return responder.sendResponse(response, 200, "false", {type:"Unauthorized"}, "Unauthorized User.");
+        }
+              
+       }    
+    } catch (error) {
+      console.log(error)
+      return next(error);
+    }
+  },
+  forgotPasswordLinkVerify: async (request, response, next) => {
+    try {
+   // console.log(request)
+      let tokenId=  request.params.id;     
+      if(!tokenId)
+       {
+        responder.sendResponse(response, 200, "false", {type:"link not valid"}, "Link is not valid");
+       }
+       else{
+        let  userdata= await usersService.verifyForgotToken(tokenId);
+      
+        if(userdata && userdata.id)
+        {            
+            responder.sendResponse(response, 200, "success", {type:"valid",userdata:userdata}, "Forgot Password link is valid");            
+        }
+        else{
+            responder.sendResponse(response, 200, "false", {type:"expired"}, "Password reset token is invalid or has expired.");
+        }
+              
+       }    
+    } catch (error) {
+          console.log(error)
+          return next(error);
+    }
+  },
+  updateForgotPassword: async (request, response, next) => {
+    try {
+   
+      let resetPasswordToken=  request.body.resetPasswordToken;
+      let emailId=  request.body.emailId;
+      let newPassword=  request.body.newPassword;
+      let confirmPassword=  request.body.confirmPassword;
+
+      const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if(!pwdRegex.test(newPassword)){
+          return responder.sendResponse(response, 200, "false", null, "Password contains 1 Uppercase letter, 1 lowercase letter, 1 number, 1 special character and minimum length should be 8");
+      }
+     
+      if(newPassword !== confirmPassword)
+       {
+        return responder.sendResponse(response, 200, "false", null, "New Password and confirm password not matched");
+       }
+       else{
+        let  userdata= await usersService.verifyForgotToken(resetPasswordToken);
+         if(userdata)
+         {
+          let userId= userdata.userId;
+            confirmPassword= md5(confirmPassword).toString();
+            let userData = {
+              userPassword:confirmPassword,
+              resetPasswordExpires: new Date(),
+            };
+
+            let where = {
+              userEmail: emailId,
+            };
+
+            let userEdit = await usersService.updateForgotPassword(userData,where,userId,resetPasswordToken);
+            if(userEdit)
+            {
+              return responder.sendResponse(response, 200, "success", {type:"password reset"}, "Password reset successfully");
+            }
+            else{
+              return responder.sendResponse(response, 200, "false", {type:"password not reset"}, "Password not reset please try again");
+            }
+           
+         }else{
+            return responder.sendResponse(response, 200, "false", {type:"Unauthorized"}, " This link is not valid");
+        }
+              
        }    
     } catch (error) {
         console.log(error)

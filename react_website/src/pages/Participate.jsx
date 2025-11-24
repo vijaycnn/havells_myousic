@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
-import { getUploadUrl, submitForm, stateList, cityList } from "../api";
+import { getUploadUrl, submitForm, checkValidEnquiry, stateList, cityList } from "../api";
 
 function Participate() {
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ function Participate() {
     "3gp",
     "3g2",
   ];
-  const MAX_SIZE = 100 * 1024 * 1024; // 100 MB
+  const MAX_SIZE = 500 * 1024 * 1024; // 500 MB
   const [selectedValues, setSelectedValues] = useState([]);
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -99,7 +99,7 @@ function Participate() {
     // console.log('handleChange', name, e.target.value, formData);
   };
   const isSubmitEnabled =
-    formData.i_confim && formData.read_tnc && formData.agree_tnc;
+    formData.i_confim && formData.agree_tnc;
 
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
@@ -118,7 +118,7 @@ function Participate() {
     }
 
     if (selected.size > MAX_SIZE) {
-      setFileError("File size must be less than 100 MB.");
+      setFileError("File size must be less than 500 MB.");
       setUploadMediaFile(null);
       return;
     }
@@ -160,11 +160,26 @@ function Participate() {
   // };
 
   const onButtonClick = () => inputRef.current.click();
+  const validateAge = (dob) => {
+    if (!dob) return false;
+
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+    return age >= 18;
+  };
 
   const validation = (values) => {
     const formErrors = {};
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
+    
     let hasError = false;
     if (
       !values.name ||
@@ -176,8 +191,6 @@ function Participate() {
       !values.dob ||
       !values.story ||
       values.story == "" ||
-      !values.dream_remarks ||
-      values.dream_remarks == "" ||
       !values.how_to_know_about_this ||
       values.how_to_know_about_this == "" ||
       !uploadMediaFile ||
@@ -200,6 +213,12 @@ function Participate() {
         hasError = true;
       }
     }
+    if(values.dob){
+      if (!validateAge(values.dob)) {
+        formErrors.dob = "Age must be 18 or older";
+        hasError = true;
+      }
+    }
     if (selectedValues.includes("Others")) {
       if (!values.other_roles || values.other_roles == "") {
         formErrors.other_roles = "Please enter other role";
@@ -217,53 +236,68 @@ function Participate() {
     console.log("hasError >>", hasError, formData, uploadMediaFile);
     try {
       if (!hasError) {
-        if (!formData.i_confim || !formData.read_tnc || !formData.agree_tnc) {
+        if (!formData.i_confim || !formData.agree_tnc) {
           return;
         }
         setLoading(true);
-        let videoUrl = "";
-        const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
-        console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
 
-        const uploadRes = await fetch(uploadUrl, {
-          method: "PUT",
-          headers: { "Content-Type": uploadMediaFile.type },
-          body: uploadMediaFile,
-        });
-        console.log("uploadRes", uploadRes);
-        videoUrl = fileUrl;
-        if (uploadRes.status == 200) {
-          let data = {
-            name: formData.name,
+        //checkValidEnquiry
+        let validateBody = {
             contact: formData.contact,
-            email: formData.email,
-            dob: formData.dob,
-            stateId: formData.stateId,
-            cityId: formData.cityId,
-            address: formData.address,
-            pincode: formData.pincode,
-            story: formData.story,
-            dream_remarks: formData.dream_remarks,
-            how_to_know_about_this: formData.how_to_know_about_this,
-            interest_in_role: selectedValues.join(","),
-            other_roles: formData.other_roles,
-            videoUrl: videoUrl,
+            email: formData.email,            
           };
-          // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-          // data.append("uploadMediaFile", videoUrl);
-          // data.append("interest_in_role", selectedValues.join(","));
+        const validateRes = await checkValidEnquiry(validateBody);
+        if(validateRes.status == 'success'){        
 
-          console.log("data >>", data);
-          const res = await submitForm(data);
-          console.log("res >>", res);
+          let videoUrl = "";
+          const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+          console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
 
-          setLoading(false);
-          if (res.status == "success") navigate("/thankyou");
-          else {
-            setError({ allError: res.message });
-            alert(res.message);
+          const uploadRes = await fetch(uploadUrl, {
+            method: "PUT",
+            headers: { "Content-Type": uploadMediaFile.type },
+            body: uploadMediaFile,
+          });
+          console.log("uploadRes", uploadRes);
+          videoUrl = fileUrl;
+          if (uploadRes.status == 200) {
+            let data = {
+              name: formData.name,
+              contact: formData.contact,
+              email: formData.email,
+              dob: formData.dob,
+              stateId: formData.stateId,
+              cityId: formData.cityId,
+              address: formData.address,
+              pincode: formData.pincode,
+              story: formData.story,
+              dream_remarks: formData.dream_remarks ? formData.dream_remarks : '',
+              how_to_know_about_this: formData.how_to_know_about_this ? formData.how_to_know_about_this : '',
+              interest_in_role: selectedValues.join(","),
+              other_roles: formData.other_roles,
+              videoUrl: videoUrl,
+            };
+            // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+            // data.append("uploadMediaFile", videoUrl);
+            // data.append("interest_in_role", selectedValues.join(","));
+
+            // console.log("data >>", data);
+            const res = await submitForm(data);
+            console.log("res >>", res);
+
+            setLoading(false);
+            if (res.status == "success") navigate("/thankyou");
+            else {
+              setError({ allError: res.message });
+              alert(res.message);
+            }
           }
+        }//End of checkValidEnquiry
+        else{
+          alert('Contact Number or Email already exist');
+          setError({ allError: 'Contact Number or Email already exist' });
         }
+        setLoading(false);
       }
     } catch (error) {
       console.log("Catch Err >>", error);
@@ -380,6 +414,7 @@ function Participate() {
                       onChange={handleChange}
                       required
                     />
+                    <p className="text-danger">{error.dob}</p>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -538,7 +573,7 @@ function Participate() {
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
                       Your dream as an artist — what do you hope to achieve with
-                      Havells mYOUsic? <span className="text-danger">*</span>
+                      Havells mYOUsic? 
                     </Form.Label>
                     <div className="d-flex gap-4 flex-wrap">
                       <Form.Check
@@ -569,7 +604,7 @@ function Participate() {
                   </Form.Group>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
-                      Upload / Share one sample of your work
+                      Upload / Share one sample of your work <small className="text-muted">(Max. 500 mb)</small>
                       <span className="text-danger">*</span>
                     </Form.Label>
                     {fileError && (
@@ -686,7 +721,7 @@ function Participate() {
                     considered. Selected artists will be contacted directly by
                     the Havells mYOUsic team.
                     <br />
-                    *T&C apply.
+                    <span className="text-danger">*</span>T&C apply.
                   </Form.Text>
                   <Form.Group className="mb-2">
                     <Form.Check
@@ -698,7 +733,7 @@ function Participate() {
                       checked={formData.i_confim}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-2">
+                  {/* <Form.Group className="mb-2">
                     <Form.Check
                       type="checkbox"
                       id="confirmForm2"
@@ -707,7 +742,7 @@ function Participate() {
                       checked={formData.read_tnc}
                       onChange={handleChange}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group className="mb-2">
                     <div className="form-check">
                       <input
@@ -719,9 +754,9 @@ function Participate() {
                         onChange={handleChange}
                       />
                       <label htmlFor="confirmForm3">
-                        I agree to the Havells mYOUsic{" "}
+                        I have read and understand the T&C of Havells mYOUsic{" "}
                         <a href="/terms-conditions" target="_blank">
-                          Terms & Conditions.
+                          Terms and conditions
                         </a>
                       </label>
                     </div>

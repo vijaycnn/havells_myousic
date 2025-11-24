@@ -23,6 +23,21 @@ let EnquiryController = {
             return next(error);
         }
     },
+    
+    validateEnquiry: async (request, response, next) => {
+    try {
+        console.log('validate controller reached', request.body);
+        let checkIfExist = false;
+        checkIfExist = await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
+        if (checkIfExist == true) {
+            responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
+        } else {
+            responder.sendResponse(response, 200, "success", {}, "No Enquiry Found");
+        }
+    } catch (error) {
+        return next(error);
+    }
+    },
     createEnquiry: async (request, response, next) => {
     try {
         console.log('create controller reached', request.body, request.file);
