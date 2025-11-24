@@ -10,8 +10,8 @@ function Gallery() {
           <div className="sec-head text-center mb-5">
             <h2 className="sec-title">Captured Beats. Endless Memories.</h2>
             <p className="sec-sub-title">
-              Experience the essence of mYOUsic through moments that celebrate
-              creativity, passion, and connection.
+              Experience the essence of Havells mYOUsic through moments that
+              celebrate creativity, passion, and connection.
             </p>
           </div>
           <Row className="gy-4">

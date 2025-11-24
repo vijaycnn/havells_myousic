@@ -20,7 +20,7 @@ export default function FaqsAbout() {
             2. Do I need formal music training?
           </Accordion.Header>
           <Accordion.Body>
-            No. mYOUsic is for real, raw, passionate artists. Skill and
+            No. Havells mYOUsic is for real, raw, passionate artists. Skill and
             sincerity matter more than professional training.
           </Accordion.Body>
         </Accordion.Item>
@@ -33,11 +33,13 @@ export default function FaqsAbout() {
           </Accordion.Body>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
-          <Accordion.Header>4. Is mYOUsic a competition?</Accordion.Header>
+          <Accordion.Header>
+            4. Is Havells mYOUsic a competition?
+          </Accordion.Header>
           <Accordion.Body>
             <p>
-              No. This is not a contest or elimination show. mYOUsic is a
-              platform built to nurture potential, not pit artists against one
+              No. This is not a contest or elimination show. Havells mYOUsic is
+              a platform built to nurture potential, not pit artists against one
               another.
             </p>
           </Accordion.Body>
@@ -82,11 +84,11 @@ export default function FaqsAbout() {
         </Accordion.Item>
         <Accordion.Item eventKey="8">
           <Accordion.Header>
-            9. Will there be future seasons of mYOUsic?
+            9. Will there be future seasons of Havells mYOUsic?
           </Accordion.Header>
           <Accordion.Body>
-            Yes. mYOUsic is envisioned as a long-term platform contributing to
-            India’s musical landscape.
+            Yes. Havells mYOUsic is envisioned as a long-term platform
+            contributing to India’s musical landscape.
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -102,8 +104,9 @@ export function FaqsProcess() {
           <Accordion.Header>1. How do I register?</Accordion.Header>
           <Accordion.Body>
             All entries must be submitted through our official microsite. You
-            can also reach the form by scanning the mYOUsic QR code available
-            across our social media channels and communication materials.
+            can also reach the form by scanning the Havells mYOUsic QR code
+            available across our social media channels and communication
+            materials.
           </Accordion.Body>
         </Accordion.Item>
 
@@ -146,8 +149,8 @@ export function FaqsProcess() {
           </Accordion.Header>
           <Accordion.Body>
             If you have been on a major reality show with national visibility,
-            you may not be eligible. mYOUsic is designed for truly undiscovered
-            talent.
+            you may not be eligible. Havells mYOUsic is designed for truly
+            undiscovered talent.
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -196,7 +199,7 @@ export function FaqsGeneral() {
         </Accordion.Item>
         <Accordion.Item eventKey="2">
           <Accordion.Header>
-            3. What happens at the mYOUsic Bootcamp?
+            3. What happens at the Havells mYOUsic Bootcamp?
           </Accordion.Header>
           <Accordion.Body>
             <p>
@@ -216,7 +219,7 @@ export function FaqsGeneral() {
         <Accordion.Item eventKey="3">
           <Accordion.Header>4. Who are the mentors involved?</Accordion.Header>
           <Accordion.Body>
-            mYOUsic brings together a diverse panel of experts in music
+            Havells mYOUsic brings together a diverse panel of experts in music
             creation, production, talent development, and artist rights. Names
             and profiles will be published on the website as they are onboarded.
           </Accordion.Body>
@@ -274,11 +277,11 @@ export function FaqsGeneral() {
         </Accordion.Item>
         <Accordion.Item eventKey="9">
           <Accordion.Header>
-            10. Will there be future seasons of mYOUsic?
+            10. Will there be future seasons of Havells mYOUsic?
           </Accordion.Header>
           <Accordion.Body>
-            Yes. mYOUsic is envisioned as a long-term platform contributing to
-            India’s musical landscape.
+            Yes. Havells mYOUsic is envisioned as a long-term platform
+            contributing to India’s musical landscape.
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>

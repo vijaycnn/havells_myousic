@@ -320,7 +320,7 @@ function TermsConditions() {
                 <strong>
                   digital communication, updates, and marketing messages
                 </strong>{" "}
-                from Havells related to mYOUsic.
+                from Havells related to Havells mYOUsic.
               </li>
 
               <li>
@@ -408,7 +408,7 @@ function TermsConditions() {
             </p>
             <ul>
               <li>
-                Participation in mYOUsic constitutes{" "}
+                Participation in Havells mYOUsic constitutes{" "}
                 <strong>acceptance of all Terms & Conditions.</strong>
               </li>
 

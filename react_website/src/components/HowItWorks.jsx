@@ -38,9 +38,9 @@ function HowItWorks() {
                   talent-singers, lyricists, composers, and
                   instrumentalists-giving them the stage they deserve. Through
                   mentorship from industry legends, immersive bootcamps, and
-                  opportunities to create original music, mYOUsic is more than a
-                  program-it’s a movement to amplify India’s authentic sound and
-                  empower the artists behind it.
+                  opportunities to create original music, Havells mYOUsic is
+                  more than a program-it’s a movement to amplify India’s
+                  authentic sound and empower the artists behind it.
                 </p>
               </div>
             </Col>

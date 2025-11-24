@@ -1,6 +1,10 @@
 @use "../abstracts/variables";
+@use "../abstracts/mixins";
 .app {
   &-navbar {
+    @include mixins.respond(desktop) {
+      background: red;
+    }
     transform-origin: 0.4s;
     &.scrolled {
       -webkit-backdrop-filter: blur(20px);
