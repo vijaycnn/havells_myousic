@@ -16,6 +16,7 @@ body {
 }
 #root {
   @include mixins.wh100;
+  padding: 0;
 }
 img {
   max-width: 100%;
@@ -43,6 +44,7 @@ h6 {
   font-weight: 700;
   color: variables.$black;
 }
+
 .rounded,
 .card {
   border-radius: 0.75rem;
@@ -55,6 +57,17 @@ h6 {
 }
 .font-secondary {
   font-family: variables.$font-secondary;
+}
+.container {
+  @include mixins.respond(deviceLg) {
+    max-width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  @include mixins.respond(deviceMd) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .text {
@@ -72,6 +85,9 @@ h6 {
   }
   &-large {
     font-size: variables.$large;
+    @include mixins.respond(deviceSm) {
+      font-size: variables.$medium;
+    }
   }
   &-medium {
     font-size: variables.$medium;
@@ -98,6 +114,11 @@ h6 {
   gap: 0.5rem;
   white-space: nowrap;
   transition-duration: 0.4s;
+  @include mixins.respond(deviceSm) {
+    padding: 0 1rem;
+    height: 36px;
+    font-size: 0.8rem;
+  }
   &.pill {
     border-radius: 4rem;
   }
@@ -109,6 +130,11 @@ h6 {
     font-size: 1rem;
     height: 54px;
     padding: 0 2rem;
+    @include mixins.respond(deviceSm) {
+      padding: 0 1.5rem;
+      height: 42px;
+      font-size: 0.875rem;
+    }
   }
   &-primary {
     background: variables.$gradient;
@@ -121,6 +147,11 @@ h6 {
       display: inline-flex;
       gap: 0.75rem;
       align-items: center;
+      & img {
+        @include mixins.respond(deviceSm) {
+          height: 0.8rem;
+        }
+      }
     }
     &:before,
     &:after {
@@ -354,6 +385,7 @@ textarea {
     }
     & .qr-code {
       max-width: 120px;
+      width: 100%;
     }
   }
   &-form {
@@ -362,11 +394,23 @@ textarea {
   &-bootcamp {
     & .artist-video {
       padding-bottom: 45%;
+      @include mixins.respond(deviceMd) {
+        padding-bottom: 60%;
+      }
+      @include mixins.respond(deviceSm) {
+        padding-bottom: 120%;
+      }
+    }
+    & .fs-5 {
+      font-size: 1rem !important;
     }
     & .notes {
       -webkit-backdrop-filter: blur(5px);
       backdrop-filter: blur(5px);
       background: rgba(255, 255, 255, 0.6);
+      @include mixins.respond(deviceSm) {
+        font-size: 0.75rem;
+      }
     }
   }
   &-process {
@@ -375,7 +419,7 @@ textarea {
   &-title {
     font-size: 3.5rem;
     font-weight: 900;
-    display: inline-block;
+    display: block;
     font-family: variables.$font-secondary;
     background: linear-gradient(
       90deg,
@@ -388,15 +432,30 @@ textarea {
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    @include mixins.respond(deviceXl) {
+      font-size: 2.5rem;
+    }
+    @include mixins.respond(deviceMd) {
+      font-size: 2rem;
+    }
   }
   &-sub-title {
     margin: 0;
     font-size: 1.25rem;
     font-weight: 500;
+    @include mixins.respond(deviceXl) {
+      font-size: 1rem;
+    }
   }
   &-usp {
     position: relative;
     overflow: hidden;
+
+    & h4 {
+      @include mixins.respond(deviceSm) {
+        font-size: 1rem;
+      }
+    }
     & .cover-img {
       @include mixins.cover;
       user-select: none;
@@ -441,6 +500,11 @@ textarea {
     align-items: center;
     overflow: hidden;
     position: relative;
+    padding-top: 10rem;
+    @include mixins.respond(deviceSm) {
+      padding-top: 7rem;
+    }
+
     &:before {
       content: "";
       position: absolute;
@@ -467,6 +531,14 @@ textarea {
   }
   &-mentor {
     background: url(../../assets/peacock.svg) no-repeat calc(100% + 100px) top;
+    @include mixins.respond(deviceLg) {
+      background-size: 250px;
+      background-position: calc(100% + 100px) 50px;
+    }
+    @include mixins.respond(deviceLg) {
+      background-size: 150px;
+      background-position: calc(100% + 50px) 50px;
+    }
   }
 }
 
@@ -498,6 +570,15 @@ textarea {
     box-shadow: 0 0 0 8px rgba(224, 218, 202, 0.6);
     position: relative;
     min-height: 350px;
+    @include mixins.respond(deviceLg) {
+      padding: 3rem 5rem;
+      margin: 2rem 5rem;
+    }
+    @include mixins.respond(deviceSm) {
+      padding: 3rem 2rem 5rem;
+      margin: 1rem;
+      min-height: inherit;
+    }
     &-element {
       position: absolute;
       user-select: none;
@@ -506,16 +587,46 @@ textarea {
         top: -60px;
         left: -100px;
         width: 200px;
+        @include mixins.respond(deviceLg) {
+          top: -40px;
+          left: -50px;
+          width: 120px;
+        }
+        @include mixins.respond(deviceSm) {
+          top: -20px;
+          left: -40px;
+          width: 80px;
+        }
       }
       &.tabla {
         bottom: -60px;
         left: -100px;
         width: 200px;
+        @include mixins.respond(deviceLg) {
+          bottom: -40px;
+          left: -60px;
+          width: 140px;
+        }
+        @include mixins.respond(deviceSm) {
+          bottom: -20px;
+          left: -20px;
+          width: 100px;
+        }
       }
       &.guitar {
         bottom: -100px;
         right: -150px;
         width: 400px;
+        @include mixins.respond(deviceLg) {
+          bottom: -40px;
+          right: -80px;
+          width: 200px;
+        }
+        @include mixins.respond(deviceSm) {
+          bottom: -40px;
+          right: -30px;
+          width: 140px;
+        }
       }
     }
   }
@@ -662,6 +773,9 @@ textarea {
       justify-content: flex-end;
       padding: 2rem;
       gap: 2rem;
+      @include mixins.respond(deviceSm) {
+        gap: 1rem;
+      }
       & h2 {
         background: linear-gradient(
           90deg,
@@ -713,6 +827,16 @@ textarea {
 
 .nav-tabs {
   border: none;
+  @include mixins.respond(deviceSm) {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    justify-content: flex-start;
+    margin: 0 -1rem;
+    padding: 0 1rem 1rem;
+    gap: 1rem;
+  }
   & .nav-item {
     border: none;
   }
@@ -722,6 +846,10 @@ textarea {
     color: variables.$default;
     border: none;
     position: relative;
+    @include mixins.respond(deviceSm) {
+      font-size: 1rem;
+      padding: 0.75rem 0;
+    }
     &:before {
       content: "";
       width: 100%;
@@ -746,17 +874,32 @@ textarea {
 }
 
 .step {
+  &-item {
+    &:nth-child(odd) {
+      margin-top: 3rem;
+      @include mixins.respond(deviceSm) {
+        margin-top: 1rem;
+      }
+    }
+  }
   &-card {
     background: url(../../assets/step-card.png) no-repeat center;
     background-size: 100%;
     width: 100%;
-    padding: 0 0 21%;
+    padding: 0 0 108%;
     position: relative;
-    &:nth-child(odd) {
-      margin-top: 3rem;
-    }
+
     & img {
       max-width: 100px;
+      max-height: 100px;
+      @include mixins.respond(deviceLg) {
+        max-width: 64px;
+        max-height: 64px;
+      }
+      @include mixins.respond(deviceMd) {
+        max-width: 48px;
+        max-height: 48px;
+      }
     }
     &-text {
       position: absolute;
@@ -771,6 +914,14 @@ textarea {
       text-align: center;
       & .font-secondary {
         line-height: 1;
+      }
+      & .fs-4 {
+        @include mixins.respond(deviceLg) {
+          font-size: 1.25rem !important;
+        }
+        @include mixins.respond(deviceMd) {
+          font-size: 1rem !important;
+        }
       }
     }
   }
@@ -878,9 +1029,12 @@ textarea {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  height: auto;
   z-index: 1031;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & .scrolling-bg {
     position: absolute;
     top: 0;
@@ -890,14 +1044,18 @@ textarea {
     background: url(../../assets/hero-banner.jpg) repeat-x;
     background-size: contain;
     animation: scrollBg 200s linear infinite;
+    @include mixins.respond(deviceLg) {
+      background-size: 110%;
+      animation: scrollBg 80s linear infinite;
+    }
+    @include mixins.respond(deviceMd) {
+      background-size: cover;
+    }
   }
   & .circle-content {
-    position: absolute;
-    top: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vh;
-    height: 90vh;
+    position: relative;
+    width: 85vh;
+    height: 85vh;
     border-radius: 50%;
     background: #ede9de;
     box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.2);
@@ -906,18 +1064,49 @@ textarea {
     justify-content: center;
     align-items: center;
     gap: 2rem;
+    @include mixins.respond(deviceXl) {
+      gap: 1rem;
+    }
+    @include mixins.respond(deviceLg) {
+      width: 70vh;
+      height: 70vh;
+    }
+    @include mixins.respond(deviceMd) {
+      width: 60vh;
+      height: 60vh;
+    }
+    @include mixins.respond(deviceSm) {
+      width: 90%;
+      height: auto;
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
     & h5 {
       text-transform: uppercase;
       letter-spacing: 5px;
+      @include mixins.respond(deviceSm) {
+        font-size: 0.875rem;
+      }
     }
     & .circle-logo {
       height: 120px;
+      @include mixins.respond(deviceXl) {
+        height: 90px;
+      }
+      @include mixins.respond(deviceSm) {
+        height: 70px;
+      }
     }
     & .circle-text {
       max-width: 70%;
       margin: 0 auto;
       text-align: center;
       font-size: 1rem;
+      @include mixins.respond(deviceSm) {
+        max-width: 100%;
+      }
     }
     & .btn {
       background: variables.$white;

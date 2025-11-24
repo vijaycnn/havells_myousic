@@ -17,13 +17,14 @@ function HeroBanner() {
       <section className="sec sec-hero">
         <Container>
           <Row className="align-items-center">
-            <Col md={6}>
-              <div className="sec-head">
-                <h2 className="sec-title mb-5">
-                  Sing. Write. Compose. This Stage Is Yours!
+            <Col lg={6}>
+              <div className="sec-head text-lg-start text-center mb-lg-0 mb-5 px-lg-0 px-md-5">
+                <h2 className="sec-title mb-md-5 mb-4">
+                  Sing. Write. Compose. <br />
+                  This Stage Is Yours!
                 </h2>
-                <p className="sec-sub-title mb-5">
-                  <strong>Your art deserves a spotlight.</strong> Havells
+                <p className="sec-sub-title mb-md-5 mb-4">
+                  <strong>Your art deserves a spotlight. </strong>
                   Havells mYOUsic is a platform for{" "}
                   <strong>grassroots artists-singers</strong>, lyricists,
                   composers, and instrumentalists from every corner of India.
@@ -39,7 +40,7 @@ function HeroBanner() {
                 </a>
               </div>
             </Col>
-            <Col md={6}>
+            <Col lg={6}>
               <div className="artist-slider slider-wrapper">
                 <Swiper
                   effect={"coverflow"}
@@ -61,6 +62,10 @@ function HeroBanner() {
                   }}
                   modules={[EffectCoverflow, Autoplay]}
                   className="coverflow-swiper"
+                  breakpoints={{
+                    320: { slidesPerView: 1.3 },
+                    576: { slidesPerView: 2 },
+                  }}
                 >
                   <SwiperSlide>
                     <div className="card-artist">

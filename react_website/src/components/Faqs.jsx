@@ -22,8 +22,8 @@ function FAQs() {
               alt="Guitar"
               className="artist-card-element guitar"
             />
-            <header className="sec-head text-center mb-5">
-              <h2 className="sec-title mb-5">
+            <div className="sec-head text-center">
+              <h2 className="sec-title mb-md-5 mb-4">
                 Artist-friendly <br />
                 participation rules
               </h2>
@@ -32,19 +32,19 @@ function FAQs() {
                   <Image src={arrowDown} alt="" /> Download full guidelines
                 </span>
               </a>
-            </header>
+            </div>
           </div>
 
           <section className="sec pb-0" id="FAQs">
             <Row className="justify-content-center">
-              <Col md={10}>
-                <h2 className="text-center fw-medium mb-5">
+              <Col lg={10}>
+                <h2 className="text-center fw-medium mb-md-5 mb-3">
                   Got Questions? We’ve Got Answers
                 </h2>
 
                 <Tabs
                   defaultActiveKey="TabOne"
-                  className="mb-3 justify-content-center"
+                  className="mb-3 justify-content-md-center"
                 >
                   <Tab eventKey="TabOne" title="About Participation">
                     <FaqsAbout />
