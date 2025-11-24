@@ -191,8 +191,6 @@ function Participate() {
       !values.dob ||
       !values.story ||
       values.story == "" ||
-      !values.how_to_know_about_this ||
-      values.how_to_know_about_this == "" ||
       !uploadMediaFile ||
       uploadMediaFile == null ||
       values.cityId == "" ||
