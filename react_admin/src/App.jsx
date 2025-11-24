@@ -11,6 +11,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Forgot from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 import Participate from "./pages/Participate";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
@@ -43,10 +44,13 @@ function App() {
           <Route
             path="/forgot-password"
             element={
-              <Forgot
-                setIsAuthenticated={setIsAuthenticated}
-                onAuthStateChange={handleAuthStateChange}
-              />
+              <Forgot/>
+            }
+          />
+          <Route
+            path="/forgot-password-update/:id"
+            element={
+              <UpdatePassword />
             }
           />
           <Route

@@ -14,6 +14,9 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 100
 router.post("/upload-url", generateUploadUrl);
 router.post("/download-url", getDownloadUrl);
 
+router.post("/validate", function (request, response, next) {
+    enquiryController.validateEnquiry(request, response, next)
+});
 router.post("/create", function (request, response, next) {
     enquiryController.createEnquiry(request, response, next)
 });

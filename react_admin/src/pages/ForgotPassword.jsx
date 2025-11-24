@@ -1,40 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Image, Form, Button, Alert } from "react-bootstrap";
+import { Image, Form, Button, Alert, CardText } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 import wallpaper from "../assets/wallpaper.jpg";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
+import { generateForgotPasswordLink } from "../api";
+// import Alert from  "../components/Alert";
 
-const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // ✅ Added password state
-  const [error, setError] = useState(null);
+const Forgot = () => {
   const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState('')
+  const [validateEmail, setValidateEmail] = useState(null)
+  const [submitForm, setSubmitForm] = useState(false)
+  const [error, setError] = useState(null);
+  const [alert, setAlert] = useState(null)
 
-  const handleEmailLogin = (e) => {
-    e.preventDefault();
+  const updatePassword = async(e) => {
+      e.preventDefault();
+      setSubmitForm(true)
+      setValidateEmail(validateEmailform(userEmail));
 
-    // ✅ Dummy credentials
-    const dummyEmail = "admin@gmail.com";
-    const dummyPassword = "admin123";
+      // console.log("updatePassword called",validateEmail)
+      if(submitForm && validateEmail==''){
+        console.log(userEmail);
 
-    // ✅ Validation check
-    if (email === dummyEmail && password === dummyPassword) {
-      setIsAuthenticated(true);
-      sessionStorage.setItem("isAuthenticated", "true");
-
-      if (onAuthStateChange) {
-        onAuthStateChange(true, {
-          name: "Admin User",
-          username: "admin@gmail.com",
-          localAccountId: "email-admin",
-        });
+        const body = { "emailId": userEmail }
+        try{
+          let result = await generateForgotPasswordLink(body);
+          console.log('res >>', result);
+          if(result?.status == "success" ){
+            showAlert(result?.message)
+              setTimeout(() => {
+                navigate(adminAlias);
+              }, 2000); 
+            
+          }else{
+            showAlert(result?.message)
+          }
+        }catch(err){
+          showAlert(err)
+        }
       }
+  }
+  const validateEmailform = (values) => {
+      let formErr = ""
+      const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+      if (!values) {
+          formErr = "Please Enter a email"
+      }
+      else if (!regex.test(values)) {
+          formErr = "Please enter a valid email";
+      }
+      setError(formErr);
 
-      navigate(`${adminAlias}/dashboards`);
-    } else {
-      setError("Invalid email or password");
-    }
+      return formErr
+  }
+  // const showAlert = (message, type) => {
+  //     setAlert({
+  //         message: message,
+  //         type: type
+  //     })
+  //     setTimeout(() => {
+  //         setAlert(null)
+  //     }, 2000);
+  // }
+  const showAlert = (message) => {
+    setError(message);
+    setTimeout(() => {
+      setError(null);
+    }, 2000);
   };
 
   return (
@@ -44,10 +78,7 @@ const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
       </div>
 
       <div className="app-login-right bg-white d-flex flex-column align-items-center justify-content-center p-5">
-        <Form
-          onSubmit={handleEmailLogin}
-          className="app-login-form d-grid gap-4"
-        >
+        <Form onSubmit={updatePassword} className="app-login-form d-grid gap-4">
           <div className="sec-head mb-4">
             <Image
               className="app-login-logo mb-5 d-block"
@@ -55,23 +86,25 @@ const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
               alt="Logo"
             />
             <h2 className="sec-title fs-2">Forgot Password?</h2>
-            <p className="sec-sub-title fw-medium">
+            {/* <p className="sec-sub-title fw-medium">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
               Corporis, officiis?
-            </p>
+            </p> */}
           </div>
 
           {/* Error Message */}
           {error && <Alert variant="danger">{error}</Alert>}
+          {/* <Alert alert={alert} /> */}
+          {/* <Alert alert="hello this is mesage" /> */}
 
           {/* Email Field */}
           <Form.Group>
             <Form.Control
               type="email"
               placeholder="Enter your Email ID"
-              value={email}
+              value={userEmail}
               size="lg"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUserEmail(e.target.value)}
             />
           </Form.Group>
 
@@ -83,7 +116,7 @@ const Forgot = ({ setIsAuthenticated, onAuthStateChange }) => {
               className="w-100 pill"
               size="lg"
             >
-              <span>Continue</span>
+              <span>Submit</span>
             </Button>
             <p className="text-center mt-3">
               <Link to={adminAlias}>Back to Login</Link>

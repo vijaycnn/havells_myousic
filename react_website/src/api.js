@@ -11,6 +11,14 @@ export const getUploadUrl = async (file) => {
   });
   return response.json();
 };
+export const checkValidEnquiry = async (formData) => {
+  const response = await fetch(`${baseURL}/api/enquiry/validate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData), // includes file
+  });
+  return response.json();
+};
 export const submitForm = async (formData) => {
   const response = await fetch(`${baseURL}/api/enquiry/create`, {
     method: "POST",

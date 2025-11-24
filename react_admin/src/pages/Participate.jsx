@@ -50,6 +50,8 @@ function Participate() {
       console.log('>>> ', result);
       const { downloadUrl } = result;
       window.open(downloadUrl, "_blank");
+      // <video src={downloadUrl} controls width="400" />
+
       setIsLoading(false);
     }
   }
