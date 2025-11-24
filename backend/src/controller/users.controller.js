@@ -222,7 +222,9 @@ let userController = {
       let newPassword=  request.body.newPassword;
       let confirmPassword=  request.body.confirmPassword;
 
-      const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      // const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+
       if(!pwdRegex.test(newPassword)){
           return responder.sendResponse(response, 200, "false", null, "Password contains 1 Uppercase letter, 1 lowercase letter, 1 number, 1 special character and minimum length should be 8");
       }

@@ -14,7 +14,7 @@ const UpdatePassword = () => {
     const [isSubmit, setisSubmit] = useState(false)
     const [isLinkValid, setisLinkValid] = useState(false)
     const [error, seterror] = useState({})
-    const [alert, setAlert] = useState(null)
+    // const [alert, setAlert] = useState(null)
 
     const [user, setUser] = useState({
         emailId: "",
@@ -65,7 +65,7 @@ const UpdatePassword = () => {
                 const body = user;
 
                 let result = await updateForgotPassword(body);
-                //   console.log('res >>', result);
+                  console.log('res >>', result);
                 if(result?.status == "success" ){
                     showAlert(result?.message)
                     navigate(adminAlias);           
@@ -104,7 +104,7 @@ const UpdatePassword = () => {
     }
 
     const showAlert = (message) => {
-        seterror(message);
+        seterror({message});
         setTimeout(() => {
         seterror(null);
         }, 2000);
@@ -119,27 +119,6 @@ const UpdatePassword = () => {
     //     }, 2000);
     // }
 
-  const handleEmailLogin = (e) => {
-    e.preventDefault();
-
-    // ✅ Validation check
-    if (email === dummyEmail && password === dummyPassword) {
-      setIsAuthenticated(true);
-      sessionStorage.setItem("isAuthenticated", "true");
-
-      if (onAuthStateChange) {
-        onAuthStateChange(true, {
-          name: "Admin User",
-          username: "admin@gmail.com",
-          localAccountId: "email-admin",
-        });
-      }
-
-      navigate(`${adminAlias}/dashboards`);
-    } else {
-      setError("Invalid email or password");
-    }
-  };
 
   return (
     <section className="h-100 app-login d-flex">
@@ -155,8 +134,9 @@ const UpdatePassword = () => {
                 <Image className="app-login-logo mb-5 d-block" src={logo} alt="Logo"/>
                 <h2 className="sec-title fs-2">Update Password?</h2>
                 </div>
-                
-                <Form onSubmit={updatePassword} className="login-form p-xl-0 p-md-5 p-4 col-xl-12 m-auto">
+                {/* Error Message */}
+                {error && error.message  && <Alert variant="danger">{error.message}</Alert>}
+                <Form onSubmit={ updatePassword} className="login-form p-xl-0 p-md-5 p-4 col-xl-12 m-auto">
                     {/* <Alert alert={alert} /> */}
                     <Form.Group>
                         <Form.Control
