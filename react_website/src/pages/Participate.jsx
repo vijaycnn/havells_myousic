@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
-import { getUploadUrl, submitForm, checkValidEnquiry, stateList, cityList } from "../api";
+import {
+  getUploadUrl,
+  submitForm,
+  checkValidEnquiry,
+  stateList,
+  cityList,
+} from "../api";
 
 function Participate() {
   const navigate = useNavigate();
@@ -98,8 +104,7 @@ function Participate() {
     }));
     // console.log('handleChange', name, e.target.value, formData);
   };
-  const isSubmitEnabled =
-    formData.i_confim && formData.agree_tnc;
+  const isSubmitEnabled = formData.i_confim && formData.agree_tnc;
 
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
@@ -179,7 +184,7 @@ function Participate() {
   const validation = (values) => {
     const formErrors = {};
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-    
+
     let hasError = false;
     if (
       !values.name ||
@@ -211,7 +216,7 @@ function Participate() {
         hasError = true;
       }
     }
-    if(values.dob){
+    if (values.dob) {
       if (!validateAge(values.dob)) {
         formErrors.dob = "Age must be 18 or older";
         hasError = true;
@@ -241,12 +246,11 @@ function Participate() {
 
         //checkValidEnquiry
         let validateBody = {
-            contact: formData.contact,
-            email: formData.email,            
-          };
+          contact: formData.contact,
+          email: formData.email,
+        };
         const validateRes = await checkValidEnquiry(validateBody);
-        if(validateRes.status == 'success'){        
-
+        if (validateRes.status == "success") {
           let videoUrl = "";
           const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
           console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
@@ -269,8 +273,12 @@ function Participate() {
               address: formData.address,
               pincode: formData.pincode,
               story: formData.story,
-              dream_remarks: formData.dream_remarks ? formData.dream_remarks : '',
-              how_to_know_about_this: formData.how_to_know_about_this ? formData.how_to_know_about_this : '',
+              dream_remarks: formData.dream_remarks
+                ? formData.dream_remarks
+                : "",
+              how_to_know_about_this: formData.how_to_know_about_this
+                ? formData.how_to_know_about_this
+                : "",
               interest_in_role: selectedValues.join(","),
               other_roles: formData.other_roles,
               videoUrl: videoUrl,
@@ -290,10 +298,10 @@ function Participate() {
               alert(res.message);
             }
           }
-        }//End of checkValidEnquiry
-        else{
-          alert('Contact Number or Email already exist');
-          setError({ allError: 'Contact Number or Email already exist' });
+        } //End of checkValidEnquiry
+        else {
+          alert("Contact Number or Email already exist");
+          setError({ allError: "Contact Number or Email already exist" });
         }
         setLoading(false);
       }
@@ -571,7 +579,7 @@ function Participate() {
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
                       Your dream as an artist — what do you hope to achieve with
-                      Havells mYOUsic? 
+                      Havells mYOUsic?
                     </Form.Label>
                     <div className="d-flex gap-4 flex-wrap">
                       <Form.Check
@@ -602,7 +610,8 @@ function Participate() {
                   </Form.Group>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-semi-bold">
-                      Upload / Share one sample of your work <small className="text-muted">(Max. 500 mb)</small>
+                      Upload / Share one sample of your work{" "}
+                      <small className="text-muted">(Max. 500 mb)</small>
                       <span className="text-danger">*</span>
                     </Form.Label>
                     {fileError && (
@@ -752,10 +761,11 @@ function Participate() {
                         onChange={handleChange}
                       />
                       <label htmlFor="confirmForm3">
-                        I have read and understand the T&C of Havells mYOUsic{" "}
+                        I have read and understand the{" "}
                         <a href="/terms-conditions" target="_blank">
-                          Terms and conditions
-                        </a>
+                          Terms and Conditions
+                        </a>{" "}
+                        of Havells mYOUsic
                       </label>
                     </div>
                   </Form.Group>
