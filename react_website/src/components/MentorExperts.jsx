@@ -1,10 +1,15 @@
-import { Container, Image, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Image, Row, Col, Button } from "react-bootstrap";
 import AtulChuramani from "../assets/Atul-Churamani.png";
 import Tarsame from "../assets/Tarsame.png";
-import GoldStar from "../assets/gold-star.svg";
-import Arijit from "../assets/arijit.jpg";
+// import GoldStar from "../assets/gold-star.svg";
+// import Arijit from "../assets/arijit.jpg";
+import AtulChurmani from "./profile/AtulChuramani";
 
 function MentorExperts() {
+  const [show, setShow] = useState(false);
+  const openModal = () => setShow(true);
+  const closeModal = () => setShow(false);
   return (
     <>
       <section className="sec sec-mentor" id="mentors">
@@ -26,7 +31,10 @@ function MentorExperts() {
                   </div>
                 </Col>
                 <Col xs={6}>
-                  <div className="mentor-card text-center">
+                  <div
+                    className="mentor-card text-center cursor-pointer"
+                    onClick={openModal}
+                  >
                     <Image src={AtulChuramani} alt="" />
                     <div className="mentor-card-title text-center">
                       <h4 className="font-secondary">Atul Churamani</h4>
@@ -67,6 +75,12 @@ function MentorExperts() {
           </Row>
         </Container>
       </section>
+
+      <AtulChurmani
+        show={show}
+        handleClose={closeModal}
+        title="Atul Churmani"
+      />
     </>
   );
 }

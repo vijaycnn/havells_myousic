@@ -1273,3 +1273,35 @@ textarea {
     margin: 0 0 0.5rem;
   }
 }
+
+.modal {
+  &-xl {
+    max-width: 1100px;
+    width: 90%;
+  }
+  &-content {
+    border: none;
+    border-radius: 1.5rem;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  &-header {
+    padding: 1rem 2rem;
+  }
+  &-body {
+    padding: 2rem 4rem;
+    line-height: 1.6;
+    @include mixins.respond(deviceSm) {
+      padding: 2rem;
+    }
+    & h4,
+    & h5 {
+      font-family: variables.$font-secondary;
+      color: variables.$primary;
+    }
+  }
+}
+.cursor-pointer {
+  cursor: pointer;
+}
