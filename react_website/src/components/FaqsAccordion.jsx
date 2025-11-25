@@ -103,8 +103,8 @@ export function FaqsProcess() {
         <Accordion.Item eventKey="0">
           <Accordion.Header>1. How do I register?</Accordion.Header>
           <Accordion.Body>
-            All entries must be submitted through our official microsite. You
-            can also reach the form by scanning the Havells mYOUsic QR code
+            All entries must be submitted through our official site. You can
+            also reach the form by scanning the Havells mYOUsic QR code
             available across our social media channels and communication
             materials.
           </Accordion.Body>

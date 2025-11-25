@@ -36,7 +36,8 @@ function HeroBanner() {
                   href="/participate"
                   className="btn btn-primary btn-lg rounded-pill"
                 >
-                  <span>Free Registration</span>
+                  <span className="default-text">Free Registration</span>
+                  <span className="hover-text">Participate Now</span>
                 </a>
               </div>
             </Col>
@@ -103,7 +104,7 @@ function HeroBanner() {
                         <Image src={daulat} alt="Kamaicha" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Kamaicha
+                        Kamaicha Player
                       </h4>
                       {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Rajasthan</span>
@@ -145,10 +146,10 @@ function HeroBanner() {
                   <SwiperSlide>
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={miguel} alt="Violin" />
+                        <Image src={miguel} alt="Violinist" />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Violin
+                        Violinist
                       </h4>
                       {/* <div className="d-flex gap-3 align-items-center justify-content-center">
                         <span>Goa</span>

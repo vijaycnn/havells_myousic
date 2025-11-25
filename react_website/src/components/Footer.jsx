@@ -17,7 +17,8 @@ function Footer() {
                 href="/participate"
                 className="btn btn-lg btn-primary rounded-pill"
               >
-                <span>Participate Now</span>
+                <span className="default-text">Free Registration</span>
+                <span className="hover-text">Participate Now</span>
               </a>
             </div>
           </div>
