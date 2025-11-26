@@ -33,7 +33,7 @@ function Header() {
         >
           <Nav className="me-auto">
             <Nav.Link href="/#aboutmYOUsic" onClick={closeMenu}>
-              About mYOUsic
+              About Havells mYOUsic
             </Nav.Link>
             <Nav.Link href="/#mentors" onClick={closeMenu}>
               Mentors & Experts

@@ -20,29 +20,23 @@ function HowItWorks() {
               </div>
             </Col>
           </Row>
-          <Row className="sec-sub-title text-justify">
-            <Col lg={6}>
-              <div className="sec-sub-title">
-                <p>
-                  India’s music is a living, breathing story-woven through folk
-                  melodies in villages, timeless classical ragas, vibrant film
-                  scores, and the raw rhythms of its streets. Havells mYOUsic is
-                  the stage where these voices unite.
-                </p>
-              </div>
-            </Col>
-            <Col lg={6}>
-              <div className="sec-sub-title">
-                <p>
-                  This platform is designed to discover and nurture grassroots
-                  talent-singers, lyricists, composers, and
-                  instrumentalists-giving them the stage they deserve. Through
-                  mentorship from industry legends, immersive bootcamps, and
-                  opportunities to create original music, Havells mYOUsic is
-                  more than a program-it’s a movement to amplify India’s
-                  authentic sound and empower the artists behind it.
-                </p>
-              </div>
+          <Row className="text-justify justify-content-center text-center text-large">
+            <Col lg={10}>
+              <p>
+                India’s music is a living, breathing story-woven through folk
+                melodies in villages, timeless classical ragas, vibrant film
+                scores, and the raw rhythms of its streets. Havells mYOUsic is
+                the stage where these voices unite.
+              </p>
+              <p>
+                This platform is designed to discover and nurture grassroots
+                talent-singers, lyricists, composers, and
+                instrumentalists-giving them the stage they deserve. Through
+                mentorship from industry legends, immersive bootcamps, and
+                opportunities to create original music, Havells mYOUsic is more
+                than a program-it’s a movement to amplify India’s authentic
+                sound and empower the artists behind it.
+              </p>
             </Col>
           </Row>
           <Row className="g-md-4 g-3 step mt-md-5 mt-4 justify-content-md-start justify-content-center">
@@ -70,7 +64,7 @@ function HowItWorks() {
                   <Image src={stageThree} className="mb-lg-4 m-2" alt="" />
                   <span>Stage 3</span>
                   <span className="font-secondary fs-4 fw-bold">
-                    Membership Bootcamp
+                    Mentorship Bootcamp
                   </span>
                 </div>
               </div>
