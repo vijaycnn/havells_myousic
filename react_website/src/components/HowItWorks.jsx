@@ -21,7 +21,7 @@ function HowItWorks() {
             </Col>
           </Row>
           <Row className="text-justify justify-content-center text-center text-large">
-            <Col lg={8}>
+            <Col lg={10}>
               <p>
                 India’s music is a living, breathing story-woven through folk
                 melodies in villages, timeless classical ragas, vibrant film
@@ -64,7 +64,7 @@ function HowItWorks() {
                   <Image src={stageThree} className="mb-lg-4 m-2" alt="" />
                   <span>Stage 3</span>
                   <span className="font-secondary fs-4 fw-bold">
-                    Membership Bootcamp
+                    Mentorship Bootcamp
                   </span>
                 </div>
               </div>
