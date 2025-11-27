@@ -1,5 +1,5 @@
 const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND;
-let authToken = localStorage.getItem("auth-token");
+const authToken = localStorage.getItem("auth-token");
 
 
 export const login = async (formData) => {

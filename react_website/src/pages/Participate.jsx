@@ -65,6 +65,11 @@ function Participate() {
   });
   // Allowed file types
   const allowedTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "pdf",
+    "doc",
     "video/mp4",
     "audio/mpeg",
     "video/x-ms-wmv",
@@ -108,15 +113,14 @@ function Participate() {
 
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
 
-  const handleFileChange = (e) => {
-    console.log("handleFileChange >>");
-    const selected = e.target.files[0];
+  const fileUloadEvent = (file)=>{
+    const selected = file; //e.target.files[0];
     setFileError(""); // reset
     if (!selected) return;
     console.log("fileType", selected.type);
     if (!allowedTypes.includes(selected.type)) {
       setFileError(
-        "Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed."
+        "Only PDF, Word, WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed."
       );
       setUploadMediaFile(null);
       return;
@@ -128,6 +132,11 @@ function Participate() {
       return;
     }
     setUploadMediaFile(selected);
+  }
+
+  const handleFileChange = (e) => {
+    console.log("handleFileChange >>");
+    fileUloadEvent(e.target.files[0]);
     // console.log('file >>', selected);
     // setFiles([...files, ...Array.from(e.target.files[0])]);
     // console.log('fileArr >>', files);
@@ -135,24 +144,25 @@ function Participate() {
 
   const handleDrag = (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-    console.log("handleDrag >>");
+    // e.stopPropagation();
+    // if (e.type === "dragenter" || e.type === "dragover") {
+    //   setDragActive(true);
+    // } else if (e.type === "dragleave") {
+    //   setDragActive(false);
+    // }
+    // console.log("handleDrag >>");
   };
 
   const handleDrop = (e) => {
-    console.log("handleDrop >>");
+    // console.log("handleDrop >>");
     e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(e.dataTransfer.files);
-      e.dataTransfer.clearData();
-    }
+    fileUloadEvent(e.dataTransfer.files[0]);
+    // e.stopPropagation();
+    // setDragActive(false);
+    // if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    //   handleFiles(e.dataTransfer.files);
+    //   e.dataTransfer.clearData();
+    // }
   };
   // const handleFiles = (selectedFiles) => {
   //   setFiles([...files, ...Array.from(selectedFiles)]);
@@ -641,7 +651,7 @@ function Participate() {
                       </p>
                       <p className="text-muted">
                         <small>
-                          (Formats allowed: MP3, MP4, MOV, AVI, WMV, YouTube,
+                          (Formats allowed: PDF, Word File, MP3, MP4, MOV, AVI, WMV, YouTube,
                           SoundCloud etc.)
                         </small>
                       </p>
