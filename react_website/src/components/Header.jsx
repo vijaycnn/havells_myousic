@@ -44,7 +44,7 @@ function Header() {
             {/* <Nav.Link href="/#stories">Success Stories</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
-        <div className="app-navbar-cta d-flex gap-2 order-lg-2 order-1">
+        <div className="app-navbar-cta d-flex gap-sm-2 gap-1 order-lg-2 order-1">
           <a className="btn rounded-pill btn-primary" href="/participate">
             <span>Participate Now</span>
           </a>
