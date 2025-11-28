@@ -30,9 +30,9 @@ let EnquiryController = {
         let checkIfExist = false;
         checkIfExist = await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
         if (checkIfExist == true) {
-            responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
+            return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
         } else {
-            responder.sendResponse(response, 200, "success", {}, "No Enquiry Found");
+            return responder.sendResponse(response, 200, "success", {}, "No Enquiry Found");
         }
     } catch (error) {
         return next(error);
@@ -44,7 +44,7 @@ let EnquiryController = {
         let checkIfExist = false;
         checkIfExist = await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
         if (checkIfExist == true) {
-            responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
+            return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
         } else {
 
             // const tmpFilename = request.file.filename;
@@ -86,7 +86,7 @@ let EnquiryController = {
                     status: 1
                 };
                 let enquiryCreate = await enquiryService.createEnquiry(enquiryData);
-                responder.sendResponse(response, 200, "success", enquiryCreate, "Enquiry created successfully.");
+                return responder.sendResponse(response, 200, "success", enquiryCreate, "Enquiry created successfully.");
             // }else{
             //     responder.sendResponse(response, 200, "error", '', "Only Image OR PDF allowed.");
             // }
