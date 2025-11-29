@@ -398,7 +398,6 @@ function Participate() {
                       type="text"
                       placeholder="Your Email Address"
                       name="email"
-                      required
                       onChange={handleChange}
                     />
                     <p className="text-danger">{error.email}</p>
@@ -791,3 +790,4 @@ function Participate() {
 }
 
 export default Participate;
+
