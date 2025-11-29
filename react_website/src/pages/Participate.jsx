@@ -194,7 +194,7 @@ function Participate() {
       !uploadMediaFile ||
       uploadMediaFile == null ||
       values.cityId == "" ||
-      !values.stateId
+      !values.stateId || selectedValues.length == 0 || !selectedValues
     ) {
       formErrors.allError = "Mandatory fields are missing";
       hasError = true;
@@ -790,4 +790,5 @@ function Participate() {
 }
 
 export default Participate;
+
 
