@@ -1,6 +1,5 @@
 node_modules
 log
 .env
-models/index.js
 config/config.json
 package-lock.json
