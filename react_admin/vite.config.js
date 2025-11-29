@@ -8,6 +8,6 @@ export default defineConfig({
   server: {
     port: 5174, // 👈 change this to your custom port
     strictPort: true,
-    allowedHosts: ['havellsmyousic.com']
+    // allowedHosts: ['havellsmyousic.com']
   },
 })

@@ -195,17 +195,17 @@ let userController = {
       let tokenId=  request.params.id;     
       if(!tokenId)
        {
-        responder.sendResponse(response, 200, "false", {type:"link not valid"}, "Link is not valid");
+        return responder.sendResponse(response, 200, "false", {type:"link not valid"}, "Link is not valid");
        }
        else{
         let  userdata= await usersService.verifyForgotToken(tokenId);
       
         if(userdata && userdata.id)
         {            
-            responder.sendResponse(response, 200, "success", {type:"valid",userdata:userdata}, "Forgot Password link is valid");            
+            return responder.sendResponse(response, 200, "success", {type:"valid",userdata:userdata}, "Forgot Password link is valid");            
         }
         else{
-            responder.sendResponse(response, 200, "false", {type:"expired"}, "Password reset token is invalid or has expired.");
+            return responder.sendResponse(response, 200, "false", {type:"expired"}, "Password reset token is invalid or has expired.");
         }
               
        }    
