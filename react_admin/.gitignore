@@ -3,4 +3,3 @@ log
 .env
 package-lock.json
 vite.config.js
-uat-vite.config.js
