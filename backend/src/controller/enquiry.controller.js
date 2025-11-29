@@ -17,6 +17,7 @@ let EnquiryController = {
     },
     getEnquiryListByFilter: async (request, response, next) => {
         try {
+            console.log('enquiry controller reached', request.body, request.query);
             let documentData = await enquiryService.getEnquiryListByFilter(request);
             return responder.sendFilterResponse(response, 200, "success", documentData, "Enquiry List retrieved successfully.");
         } catch (error) {

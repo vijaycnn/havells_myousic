@@ -18,11 +18,11 @@ let EnquiryDataProvider = {
     return new Promise(function (resolve, reject) {
       conn.Enquiries.findOne({
         where: { 
-          // contact: contact.trim(), 
-          [conn.Sequelize.Op.or]: [
-            { contact: contact.trim() },
-            { email: email.trim() },
-          ],          
+          contact: contact.trim(), 
+          // [conn.Sequelize.Op.or]: [
+          //   { contact: contact.trim() },
+          //   { email: email.trim() },
+          // ],          
           id: { [Op.not]: id }       
         },
       })

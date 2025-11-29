@@ -26,8 +26,8 @@ function HeroBanner() {
                 <p className="sec-sub-title mb-md-5 mb-4">
                   <strong>Your art deserves a spotlight. </strong>
                   Havells mYOUsic is a platform for{" "}
-                  <strong>grassroots artists-singers</strong>, lyricists,
-                  composers, and instrumentalists from every corner of India.
+                  <strong>grassroots artists-singers, lyricists,
+                  composers, and instrumentalists</strong> from every corner of India.
                   This is where raw passion meets real opportunity. Showcase
                   your talent, learn from industry legends, and take your first
                   step toward being heard.
