@@ -144,25 +144,12 @@ function Participate() {
 
   const handleDrag = (e) => {
     e.preventDefault();
-    // e.stopPropagation();
-    // if (e.type === "dragenter" || e.type === "dragover") {
-    //   setDragActive(true);
-    // } else if (e.type === "dragleave") {
-    //   setDragActive(false);
-    // }
-    // console.log("handleDrag >>");
   };
 
   const handleDrop = (e) => {
     // console.log("handleDrop >>");
     e.preventDefault();
     fileUloadEvent(e.dataTransfer.files[0]);
-    // e.stopPropagation();
-    // setDragActive(false);
-    // if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-    //   handleFiles(e.dataTransfer.files);
-    //   e.dataTransfer.clearData();
-    // }
   };
   // const handleFiles = (selectedFiles) => {
   //   setFiles([...files, ...Array.from(selectedFiles)]);
@@ -201,8 +188,6 @@ function Participate() {
       values.name == "" ||
       !values.contact ||
       values.contact == "" ||
-      !values.email ||
-      values.email == "" ||
       !values.dob ||
       !values.story ||
       values.story == "" ||
@@ -220,7 +205,7 @@ function Participate() {
         hasError = true;
       }
     }
-    if (values.email) {
+    if (values.email && values.email != '') {
       if (!regex.test(values.email)) {
         formErrors.email = "Please enter a valid email";
         hasError = true;
@@ -407,7 +392,7 @@ function Participate() {
                 <Col md={6}>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-medium">
-                      Email <span className="text-danger">*</span>
+                      Email
                     </Form.Label>
                     <Form.Control
                       type="text"

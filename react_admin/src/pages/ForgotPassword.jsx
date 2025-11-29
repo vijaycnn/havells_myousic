@@ -13,6 +13,7 @@ const Forgot = () => {
   const [validateEmail, setValidateEmail] = useState(null)
   const [submitForm, setSubmitForm] = useState(false)
   const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
   const [alert, setAlert] = useState(null)
 
   const updatePassword = async(e) => {
@@ -27,9 +28,9 @@ const Forgot = () => {
         const body = { "emailId": userEmail }
         try{
           let result = await generateForgotPasswordLink(body);
-          console.log('res >>', result);
+          // console.log('res >>', result);
           if(result?.status == "success" ){
-            showAlert(result?.message)
+            showSuccessAlert(result?.message)
               setTimeout(() => {
                 navigate(adminAlias);
               }, 2000); 
@@ -70,6 +71,12 @@ const Forgot = () => {
       setError(null);
     }, 2000);
   };
+  const showSuccessAlert = (message) => {
+    setSuccessMsg(message);
+    setTimeout(() => {
+      setSuccessMsg(null);
+    }, 2000);
+  };
 
   return (
     <section className="h-100 app-login d-flex">
@@ -93,6 +100,7 @@ const Forgot = () => {
           </div>
 
           {/* Error Message */}
+          {successMsg && <Alert variant="success">{successMsg}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
           {/* <Alert alert={alert} /> */}
           {/* <Alert alert="hello this is mesage" /> */}
