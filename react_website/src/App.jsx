@@ -9,6 +9,8 @@ import IntroScreen from "./components/IntroScreen";
 import Participate from "./pages/Participate";
 import Thankyou from "./pages/Thankyou";
 import TermsConditions from "./pages/TermsConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Disclaimer from "./pages/Disclaimer";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -34,6 +36,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/participate" element={<Participate />} />
               <Route path="/terms-conditions" element={<TermsConditions />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="/thankyou" element={<Thankyou />} />
             </Routes>
           </Router>

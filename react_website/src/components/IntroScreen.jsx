@@ -15,9 +15,10 @@ function IntroScreen({ onEnter }) {
               From Gully Beats to Ghazals. All Find a Home Here.
             </p>
             <p className="circle-text">
-              Havells mYOUsic brings together India’s diverse sounds and
-              stories. A place for every artist - from local stages to digital
-              screens - to be seen, heard, and celebrated.
+              Havells mYOUsic brings together India’s diverse creators-singers,
+              lyricists, instrumentalists, and music composers-a place for every
+              grassroot artist, from local stages to digital screens, to be
+              seen, heard, and celebrated.
             </p>
           </div>
           <Button variant="primary rounded-pill" size="lg" onClick={onEnter}>
