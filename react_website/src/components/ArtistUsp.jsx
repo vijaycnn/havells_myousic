@@ -24,24 +24,24 @@ function ArtistUsp() {
           <Row className="g-md-4 g-2 my-md-5 pb-5 text-md-start text-center">
             <Col xs={4}>
               <div className="card-usp rounded-4 p-md-4 p-3 h-100">
-                <h4 className="mb-1">1000+ Projects</h4>
-                <p className="m-0 text-large">entries from across India</p>
+                <h4 className="mb-1">500+ Entries</h4>
+                <p className="m-0 text-large">
+                  of Grassroot artists received so far
+                </p>
               </div>
             </Col>
             <Col xs={4}>
               <div className="card-usp rounded-4 p-md-4 p-3 h-100">
                 <h4 className="mb-1">100+ Hours</h4>
                 <p className="m-0 text-large">
-                  of mentorship with leading experts
+                  of mentorship from leading industry experts
                 </p>
               </div>
             </Col>
             <Col xs={4}>
               <div className="card-usp rounded-4 p-md-4 p-3 h-100">
                 <h4 className="mb-1">25+ Original songs</h4>
-                <p className="m-0 text-large">
-                  in Year 1 with Digital Releases
-                </p>
+                <p className="m-0 text-large">to be released</p>
               </div>
             </Col>
           </Row>

@@ -3,6 +3,7 @@ import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
 import arrowDown from "../assets/arrow-down.svg";
+import guidelines from "../assets/participant-guidelines-terms-conditions.pdf";
 import FaqsAbout, { FaqsFees, FaqsGeneral, FaqsProcess } from "./FaqsAccordion";
 
 function FAQs() {
@@ -27,7 +28,11 @@ function FAQs() {
                 Artist-friendly <br />
                 participation rules
               </h2>
-              <a href="#" className="btn btn-lg btn-primary rounded-pill">
+              <a
+                href={guidelines}
+                target="_blank"
+                className="btn btn-lg btn-primary rounded-pill"
+              >
                 <span>
                   <Image src={arrowDown} alt="" /> Download full guidelines
                 </span>

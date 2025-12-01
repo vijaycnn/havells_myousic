@@ -94,9 +94,14 @@ function Footer() {
                             Terms & Conditions
                           </Nav.Link>
                         </Nav.Item>
-                        {/* <Nav.Item as="li">
-                          <Nav.Link href="#">Contact Us</Nav.Link>
-                        </Nav.Item> */}
+                        <Nav.Item as="li">
+                          <Nav.Link href="privacy-policy">
+                            Privacy Policy
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item as="li">
+                          <Nav.Link href="/disclaimer">Disclaimer</Nav.Link>
+                        </Nav.Item>
                       </Nav>
                     </Col>
                   </Row>
