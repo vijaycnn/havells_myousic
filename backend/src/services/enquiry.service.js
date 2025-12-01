@@ -2,6 +2,8 @@ const { QueryTypes } = require('sequelize');
 var fs = require('fs'),
   async = require('async'),
   csv = require('csv');
+const moment = require('moment');
+
 let EnquiryDataProvider = {
 
   createEnquiry: async (body) => {
@@ -132,16 +134,32 @@ let EnquiryDataProvider = {
     let offset = req.query.offset;
     let limit = req.query.perPage;
     let filterKeyword = (req.query.filterKeyword) ? req.query.filterKeyword : '';
-    let whereconserch = {};
+    let roleType = (req.query.roleType) ? req.query.roleType : '';
+    let startDate = (req.query.startDate) ? req.query.startDate.trim() : '';
+    let endDate = (req.query.endDate) ? req.query.endDate.trim() : '';
+    let whereconsearch = {};
 
     if (filterKeyword != '') {
-      whereconserch = {
+      whereconsearch = {
         name: { [conn.Sequelize.Op.iLike]: '%' + filterKeyword + '%' }
       }
     }
-
-    let enquiries = await conn.Enquiries.findAndCountAll({
-      where: whereconserch,
+    if (roleType != '') {
+      whereconsearch = {
+        interest_in_role: { [conn.Sequelize.Op.iLike]: '%' + roleType + '%' }
+      }
+    }
+    if(startDate!='' && endDate !='')
+    {
+        startDate = `${moment(startDate).format('YYYY-MM-DD')}T00:00:00.000Z`;
+        endDate = `${moment(endDate).format('YYYY-MM-DD')}T23:59:59.000Z`;
+        whereconsearch={...whereconsearch, createdAt: {
+          [Op.between]: [startDate, endDate],
+        }
+      }
+    }
+    const query = {
+      where: whereconsearch,
       include:[
         {
           model: conn.StateMaster,
@@ -156,9 +174,12 @@ let EnquiryDataProvider = {
       ],
       order: [['id', 'DESC']],
       // logging:console.log,
-      limit: limit,
-      offset: offset,
-    })
+    };
+    if(limit !== '0'){
+      query.limit = limit;
+      query.offset = offset;
+    }
+    let enquiries = await conn.Enquiries.findAndCountAll(query)
     return { 'totalRecord': enquiries.count, 'list': enquiries.rows };
   },
 };
