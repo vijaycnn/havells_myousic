@@ -29,7 +29,7 @@ module.exports.getEmailSettings = async function () {
 }
 
 module.exports.stringReplace = async function (str, replaceObj=null) {    
-    var str1=str.replace(/rm_CusName|rm_Link|rm_phone|rm_DOB|rm_CityName|rm_Email|rm_Interest_in_role|rm_Story|rm_Dream|rm_StateName|rm_HowToKnow/gi, function(matched){
+    var str1=str.replace(/rm_CusName|rm_Link|rm_phone|rm_DOB|rm_CityName|rm_Email|rm_Interest_in_role|rm_Story|rm_Dream|rm_StateName|rm_HowToKnow|rm_otp/gi, function(matched){
        if(replaceObj[matched])
        {
         return replaceObj[matched];
@@ -133,6 +133,74 @@ module.exports.send_mail_byEmailer = async function (to, subject, emailer, ccto 
         }
     }catch(err){
         console.error("MAil ERROR ::::",err)
+    }
+}
+
+module.exports.send_sms = async function (mobile_no, smsTemplate, template_Id){
+    try{
+        console.log("SMS Data :::",mobile_no, smsTemplate, template_Id);
+
+        let sms_gateway_url = '';
+        let sms_app_name = '';
+
+        let  whereconsearch = { settingsKey: {
+         [Op.or]: ['sms-api-url', 'sms-app-name']
+        }};
+         let ceroInfoSMSdata = await conn.Settings.findAll({where: whereconsearch, raw:true});
+     
+         if(ceroInfoSMSdata && ceroInfoSMSdata.length>0)
+         {     
+            for(let i=0;i<ceroInfoSMSdata.length;i++)
+            {
+                if(ceroInfoSMSdata[i] && ceroInfoSMSdata[i].settingsKey && ceroInfoSMSdata[i].settingsKey=='sms-api-url')
+                {
+                    sms_gateway_url =  ceroInfoSMSdata[i].settingsValue?ceroInfoSMSdata[i].settingsValue:"";
+                }
+                if(ceroInfoSMSdata[i] && ceroInfoSMSdata[i].settingsKey && ceroInfoSMSdata[i].settingsKey=='sms-app-name')
+                {
+                    sms_app_name =  ceroInfoSMSdata[i].settingsValue?ceroInfoSMSdata[i].settingsValue:"";
+                }
+            }     
+         }
+         console.log("SMS Data  Reached 1:::");
+        if(sms_gateway_url != '' && sms_app_name) {
+            console.log("SMS Data  Reached 2:::");
+
+            const requestBody = {
+                "mobileNumber": mobile_no,
+                "message": smsTemplate,
+                "template_Id": template_Id,
+                "appName": sms_app_name,
+                "messageType": "1",
+                "isOtp": false
+            };
+        
+            const fetchOptions = {
+                method: 'post',
+                body: JSON.stringify(requestBody),
+                headers: { 'Content-Type': 'application/json' },
+            };            
+            fetch(sms_gateway_url, fetchOptions)
+                .then((response) => response.json())
+                .then((json) => {
+                console.log('SMS ----------------', json)
+                })
+                .catch((error) => {
+                console.log({ data: error });
+               
+             });
+                
+            //console.log('SMS sent successfully  ============================================');
+            
+        }// SMS credential 
+        else{
+            console.log("SMS Data  Reached 8:::");
+             return new Promise((resolve, reject) => {
+                 return resolve(true);
+             })
+        }
+    }catch(err){
+        console.error("SMS ERROR ::::",err)
     }
 }
 

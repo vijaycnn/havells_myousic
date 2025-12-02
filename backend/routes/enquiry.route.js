@@ -17,6 +17,9 @@ router.post("/download-url", getDownloadUrl);
 router.post("/validate", function (request, response, next) {
     enquiryController.validateEnquiry(request, response, next)
 });
+router.post("/verifyOTP", function (request, response, next) {
+    enquiryController.verifyOTP(request, response, next)
+});
 router.post("/create", function (request, response, next) {
     enquiryController.createEnquiry(request, response, next)
 });

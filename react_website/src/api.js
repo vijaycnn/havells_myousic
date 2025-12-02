@@ -19,6 +19,14 @@ export const checkValidEnquiry = async (formData) => {
   });
   return response.json();
 };
+export const verifyOTP = async (formData) => {
+  const response = await fetch(`${baseURL}/api/enquiry/verifyOTP`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData), // includes file
+  });
+  return response.json();
+};
 export const submitForm = async (formData) => {
   const response = await fetch(`${baseURL}/api/enquiry/create`, {
     method: "POST",
