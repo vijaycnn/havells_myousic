@@ -39,7 +39,7 @@ let EnquiryController = {
                 const otpData = await verificationCodeService.getOTP(request.body.contact, 2);
                 console.log('otpData', otpData);
 
-                if (otpData != null && otpData?.phone.trim() == request.body.contact.trim()) {
+                if (otpData && otpData?.phone.trim() == request.body.contact.trim()) {
                     console.log('step::: 1');
                     return responder.sendResponse(response, 200, "successWithVerified", otpData, "ContactNumber already verified");
                 }
