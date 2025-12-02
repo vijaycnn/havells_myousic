@@ -13,16 +13,17 @@ let OtpDataProvider = {
         });
     });
   },
-  getOTP: async (contactNumber) => {
+  getOTP: async (contactNumber, verifiedStatus = 1) => {
     return new Promise(function (resolve, reject) {
       conn.OneTimeCodes.findOne({
-        where: { phone: contactNumber, verified : 1 },     //get only pending otp entry here (verified ::: 1)
+        where: { phone: contactNumber.trim(), verified : verifiedStatus },     //get only pending otp entry here (verified ::: 1)
+        raw:true,
+        // logging: console.log
       })
         .then(data => {
           if (data !== null) {
             resolve(data);
           } else {
-            // reject('No Record found');
             resolve(false)
           }
         }).catch(err => {
