@@ -26,7 +26,7 @@ function Participate() {
   const [city, setCity] = useState([]);
   const [show, setShow] = useState(false);
   
-  const [otpError, setOrpError] = useState("");  
+  const [otpError, setOtpError] = useState("");  
   const [otpSuccess, setOtpSuccess] = useState("");
   const [resend, setResend] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -233,10 +233,12 @@ function Participate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-          // setTimeout(() => { setResend(true); alert("it's calling") }, 2000);
+    setOtpSuccess('');
+    setOtpError('');
+    if(timer > 0)return;
 
     let hasError = validation(formData);
-    console.log("hasError >>", hasError, formData, uploadMediaFile);
+    // console.log("hasError >>", hasError, formData, uploadMediaFile);
     try {
       if (!hasError) {
         if (!formData.i_confim || !formData.agree_tnc) {
@@ -249,13 +251,21 @@ function Participate() {
         };
         //check validate and sent otp here
         const validateRes = await checkValidEnquiry(validateBody);
+        // console.log("validateRes >>", validateRes);
+
         if (validateRes.status == "success") {
           openModal();
           setTimer(60);
           setLoading(false);
-
-          // setTimeout(() => { setResend(true); alert("it's calling") }, 2000);
         } //End of checkValidEnquiry
+        else if (validateRes.status == "successWithVerified") {
+          closeModal();
+          setTimer(0);
+          // console.log("call Final submit >>");
+          setLoading(false);
+
+          await finalSubmitWithVerification();
+        }
         else {
           alert("Contact Number already exist");
           setError({ allError: "Contact Number already exist" });
@@ -273,10 +283,10 @@ function Participate() {
   const finalSubmit = async (e) => {
     e.preventDefault();
     setOtpSuccess('');
-    setOrpError('');
+    setOtpError('');
 
     let hasError = validation(formData);
-    console.log("final Error >>", hasError, formData, uploadMediaFile);
+    // console.log("final Error >>", hasError, formData, uploadMediaFile);
     try {
       if (!hasError) {
         if (!formData.i_confim || !formData.agree_tnc || !formData.verificationCode || formData.verificationCode == '') {
@@ -290,63 +300,17 @@ function Participate() {
             verificationCode: formData.verificationCode,
           };
           const verificationRes = await verifyOTP(verificationBody);  //replace with verify otp api 
-          console.log("verificationRes >>", verificationRes);
+          // console.log("verificationRes >>", verificationRes);
 
           if (verificationRes.status == "success") {  
             setOtpSuccess('OTP Verified');
-
+            closeModal();
             // setLoading(false); return;
-            let videoUrl = "";
-            const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
-            console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
-
-            const uploadRes = await fetch(uploadUrl, {
-              method: "PUT",
-              headers: { "Content-Type": uploadMediaFile.type },
-              body: uploadMediaFile,
-            });
-            console.log("uploadRes", uploadRes);
-            videoUrl = fileUrl;
-            if (uploadRes.status == 200) {
-              let data = {
-                name: formData.name,
-                contact: formData.contact,
-                email: formData.email,
-                dob: formData.dob,
-                stateId: formData.stateId,
-                cityId: formData.cityId,
-                address: formData.address,
-                pincode: formData.pincode,
-                story: formData.story,
-                dream_remarks: formData.dream_remarks
-                  ? formData.dream_remarks
-                  : "",
-                how_to_know_about_this: formData.how_to_know_about_this
-                  ? formData.how_to_know_about_this
-                  : "",
-                interest_in_role: selectedValues.join(","),
-                other_roles: formData.other_roles,
-                videoUrl: videoUrl,
-              };
-              // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-              // data.append("uploadMediaFile", videoUrl);
-              // data.append("interest_in_role", selectedValues.join(","));
-
-              // console.log("data >>", data);
-              const res = await submitForm(data);
-              console.log("res >>", res);
-
-              setLoading(false);
-              if (res.status == "success") navigate("/thankyou");
-              else {
-                setError({ allError: res.message });
-                alert(res.message);
-              }
-            }
+            await formProcess();
           } //End of checkValidEnquiry
           else {
             // alert("Invalid OTP");
-            setOrpError("Invalid OTP");
+            setOtpError(verificationRes.message);
           }
         }
         setLoading(false);
@@ -356,6 +320,76 @@ function Participate() {
       setError({ allError: error.message });
       alert(error.message);
       setLoading(false);
+    }
+  };
+
+  const finalSubmitWithVerification = async () => {
+    setOtpSuccess('');
+    setOtpError('');
+
+    let hasError = validation(formData);
+    // console.log("final Error >>", hasError, formData, uploadMediaFile);
+    try {
+      if (!hasError) {
+        if (!formData.i_confim || !formData.agree_tnc) {
+          return;
+        }
+        setLoading(true);
+        await formProcess();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Catch Err >>", error);
+      setError({ allError: error.message });
+      alert(error.message);
+      setLoading(false);
+    }
+  };
+
+  const formProcess = async () => {    
+    let videoUrl = "";
+    const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+    console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
+
+    const uploadRes = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": uploadMediaFile.type },
+      body: uploadMediaFile,
+    });
+    console.log("uploadRes", uploadRes);
+    videoUrl = fileUrl;
+    if (uploadRes.status == 200) {
+      let data = {
+        name: formData.name,
+        contact: formData.contact,
+        email: formData.email,
+        dob: formData.dob,
+        stateId: formData.stateId,
+        cityId: formData.cityId,
+        address: formData.address,
+        pincode: formData.pincode,
+        story: formData.story,
+        dream_remarks: formData.dream_remarks
+          ? formData.dream_remarks
+          : "",
+        how_to_know_about_this: formData.how_to_know_about_this
+          ? formData.how_to_know_about_this
+          : "",
+        interest_in_role: selectedValues.join(","),
+        other_roles: formData.other_roles,
+        videoUrl: videoUrl,
+      };
+      
+      // console.log("data >>", data);
+      const res = await submitForm(data);
+      console.log("res >>", res);
+
+      setLoading(false);
+      if (res.status == "success") navigate("/thankyou");
+      else {
+        setError({ allError: res.message });
+        alert(res.message);
+      }
     }
   };
 
@@ -855,8 +889,8 @@ function Participate() {
       </Modal.Header>
       <Modal.Body>
         <Form.Group >
-          {otpError && (<Alert variant="danger">otpError </Alert> )}
-          {otpSuccess && (<Alert variant="success">otpSuccess </Alert> )}
+          {otpError && (<Alert variant="danger">{otpError} </Alert> )}
+          {otpSuccess && (<Alert variant="success">{otpSuccess} </Alert> )}
           <FloatingLabel
             label="Enter OTP*"
             className="mb-3"
