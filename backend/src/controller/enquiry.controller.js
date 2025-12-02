@@ -1,7 +1,9 @@
 var momentz = require('moment-timezone');
 const responder = require('../utils/responder');
 const enquiryService = require('../services/enquiry.service');
+const verificationCodeService = require('../services/otp.service');
 const { uploadBufferToS3, uploadS3, listS3Objects } = require('../utils/s3');
+const helper = require('../utils/helper');
 const moment = require('moment');
 
 let EnquiryController = {
@@ -26,18 +28,83 @@ let EnquiryController = {
     },
     
     validateEnquiry: async (request, response, next) => {
-    try {
-        console.log('validate controller reached', request.body);
-        let checkIfExist = false;
-        checkIfExist = await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
-        if (checkIfExist == true) {
-            return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
-        } else {
-            return responder.sendResponse(response, 200, "success", {}, "No Enquiry Found");
+        try {
+            console.log('validate controller reached', request.body);
+            let checkIfExist = false;
+            checkIfExist = false; //await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
+            if (checkIfExist == true) {
+                return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number");
+            } else {
+                //Call here generate otp and sms api
+
+                const otp = Math.floor(100000 + Math.random() * 900000).toString();
+                const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // valid 5 min
+
+                const verificationCodeData = {
+                    phone: request.body.contact,
+                    otpCode: otp,
+                    expiresAt:  expiresAt,
+                };
+                console.log('OTP Data', verificationCodeData);
+                let delRes = await verificationCodeService.deleteOTP(request.body.contact);
+                console.log('delRes :: ', delRes);
+                let otpCreate = await verificationCodeService.insertOTP(verificationCodeData);
+                
+                //send here sms api
+                let templateDetails= await conn.Notifications.findOne({where: {stateSlug:'otp-verification'}, raw:true});
+                if(templateDetails){
+                    let smsTemplate = templateDetails.smsTemplate;
+                    let smsTemplateId = templateDetails.smsTemplateId;
+                    let replaceObj={
+                        rm_otp:otp,
+                    }
+                    smsTemplate= await helper.stringReplace(smsTemplate,replaceObj)
+                    //send mail to all assign mail
+                    let apiRes = await helper.send_sms(request.body.contact, smsTemplate, smsTemplateId);
+                    console.log('apiRes :: ', apiRes);
+
+                }
+                return responder.sendResponse(response, 200, "success", otpCreate, "OTP Send Successfully");
+            }
+        } catch (error) {
+            return next(error);
         }
-    } catch (error) {
-        return next(error);
-    }
+    },   
+
+    verifyOTP: async (request, response, next) => {
+        try {
+            console.log('verifyOTP controller reached', request.body);
+            const otpData = await verificationCodeService.getOTP(request.body.contact);
+            if (otpData) {
+            console.log('verifyOTP otpData', otpData);
+
+                if (otpData.length == 0){
+                    return responder.sendResponse(response, 200, "error", '', "Invalid OTP");
+                }
+                if (new Date() > otpData.expires_at){
+                    return responder.sendResponse(response, 200, "error", '', "OTP Expired");
+                }
+                if (otpData.otpCode != request.body.verificationCode){
+                    return responder.sendResponse(response, 200, "error", '', "Invalid OTP");
+                }
+                
+                const codeId = otpData.id;
+                if(codeId){
+                    const verificationCodeData = {
+                        verified: 2
+                    };
+                    console.log('OTP Data', verificationCodeData);
+                    let otpVerify = await verificationCodeService.updateOTP(verificationCodeData, codeId);
+                    return responder.sendResponse(response, 200, "success", otpVerify, "OTP Verified");
+                }else{
+                    return responder.sendResponse(response, 200, "error", '', "Invalid OTP");
+                }
+            }else{
+                return responder.sendResponse(response, 200, "error", '', "Invalid OTP");
+            }
+        } catch (error) {
+            return next(error);
+        }
     },
     createEnquiry: async (request, response, next) => {
     try {
@@ -45,7 +112,7 @@ let EnquiryController = {
         let checkIfExist = false;
         checkIfExist = await enquiryService.checkExistEnquiry(request.body.contact, request.body.email);
         if (checkIfExist == true) {
-            return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number or email");
+            return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number");
         } else {
 
             // const tmpFilename = request.file.filename;

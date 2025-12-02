@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Container, Form, Image, Row, Col, Button } from "react-bootstrap";
+import { Container, Form, Image, Row, Col, Button, Modal, Alert, FloatingLabel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
+
 import {
   getUploadUrl,
   submitForm,
-  checkValidEnquiry,
+  checkValidEnquiry, verifyOTP,
   stateList,
   cityList,
 } from "../api";
@@ -23,6 +24,17 @@ function Participate() {
 
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
+  const [show, setShow] = useState(false);
+  
+  const [otpError, setOrpError] = useState("");  
+  const [otpSuccess, setOtpSuccess] = useState("");
+  const [resend, setResend] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const openModal = () => {
+    // setSelectedMentor(mentor);
+    setShow(true);
+ `` };
+  const closeModal = () => setShow(false);
 
   const getState = async () => {
     let stateRes = await stateList();
@@ -62,6 +74,7 @@ function Participate() {
     i_confim: false,
     read_tnc: false,
     agree_tnc: false,
+    verificationCode: "",
   });
   // Allowed file types
   const allowedTypes = [
@@ -151,15 +164,6 @@ function Participate() {
     e.preventDefault();
     fileUloadEvent(e.dataTransfer.files[0]);
   };
-  // const handleFiles = (selectedFiles) => {
-  //   setFiles([...files, ...Array.from(selectedFiles)]);
-  // };
-  // const handleChange = (e) => {
-  //   e.preventDefault();
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     handleFiles(e.target.files);
-  //   }
-  // };
 
   const onButtonClick = () => inputRef.current.click();
   const validateAge = (dob) => {
@@ -229,6 +233,7 @@ function Participate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+          // setTimeout(() => { setResend(true); alert("it's calling") }, 2000);
 
     let hasError = validation(formData);
     console.log("hasError >>", hasError, formData, uploadMediaFile);
@@ -238,65 +243,111 @@ function Participate() {
           return;
         }
         setLoading(true);
-
-        //checkValidEnquiry
         let validateBody = {
           contact: formData.contact,
           email: formData.email,
         };
+        //check validate and sent otp here
         const validateRes = await checkValidEnquiry(validateBody);
         if (validateRes.status == "success") {
-          let videoUrl = "";
-          const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
-          console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
+          openModal();
+          setTimer(60);
+          setLoading(false);
 
-          const uploadRes = await fetch(uploadUrl, {
-            method: "PUT",
-            headers: { "Content-Type": uploadMediaFile.type },
-            body: uploadMediaFile,
-          });
-          console.log("uploadRes", uploadRes);
-          videoUrl = fileUrl;
-          if (uploadRes.status == 200) {
-            let data = {
-              name: formData.name,
-              contact: formData.contact,
-              email: formData.email,
-              dob: formData.dob,
-              stateId: formData.stateId,
-              cityId: formData.cityId,
-              address: formData.address,
-              pincode: formData.pincode,
-              story: formData.story,
-              dream_remarks: formData.dream_remarks
-                ? formData.dream_remarks
-                : "",
-              how_to_know_about_this: formData.how_to_know_about_this
-                ? formData.how_to_know_about_this
-                : "",
-              interest_in_role: selectedValues.join(","),
-              other_roles: formData.other_roles,
-              videoUrl: videoUrl,
-            };
-            // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
-            // data.append("uploadMediaFile", videoUrl);
-            // data.append("interest_in_role", selectedValues.join(","));
-
-            // console.log("data >>", data);
-            const res = await submitForm(data);
-            console.log("res >>", res);
-
-            setLoading(false);
-            if (res.status == "success") navigate("/thankyou");
-            else {
-              setError({ allError: res.message });
-              alert(res.message);
-            }
-          }
+          // setTimeout(() => { setResend(true); alert("it's calling") }, 2000);
         } //End of checkValidEnquiry
         else {
-          alert("Contact Number or Email already exist");
-          setError({ allError: "Contact Number or Email already exist" });
+          alert("Contact Number already exist");
+          setError({ allError: "Contact Number already exist" });
+        }
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Catch Err >>", error);
+      setError({ allError: error.message });
+      alert(error.message);
+      setLoading(false);
+    }
+  };
+
+  const finalSubmit = async (e) => {
+    e.preventDefault();
+    setOtpSuccess('');
+    setOrpError('');
+
+    let hasError = validation(formData);
+    console.log("final Error >>", hasError, formData, uploadMediaFile);
+    try {
+      if (!hasError) {
+        if (!formData.i_confim || !formData.agree_tnc || !formData.verificationCode || formData.verificationCode == '') {
+          return;
+        }
+        setLoading(true);
+
+        if(formData.verificationCode != ''){          
+          let verificationBody = {
+            contact: formData.contact,
+            verificationCode: formData.verificationCode,
+          };
+          const verificationRes = await verifyOTP(verificationBody);  //replace with verify otp api 
+          console.log("verificationRes >>", verificationRes);
+
+          if (verificationRes.status == "success") {  
+            setOtpSuccess('OTP Verified');
+
+            // setLoading(false); return;
+            let videoUrl = "";
+            const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+            console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
+
+            const uploadRes = await fetch(uploadUrl, {
+              method: "PUT",
+              headers: { "Content-Type": uploadMediaFile.type },
+              body: uploadMediaFile,
+            });
+            console.log("uploadRes", uploadRes);
+            videoUrl = fileUrl;
+            if (uploadRes.status == 200) {
+              let data = {
+                name: formData.name,
+                contact: formData.contact,
+                email: formData.email,
+                dob: formData.dob,
+                stateId: formData.stateId,
+                cityId: formData.cityId,
+                address: formData.address,
+                pincode: formData.pincode,
+                story: formData.story,
+                dream_remarks: formData.dream_remarks
+                  ? formData.dream_remarks
+                  : "",
+                how_to_know_about_this: formData.how_to_know_about_this
+                  ? formData.how_to_know_about_this
+                  : "",
+                interest_in_role: selectedValues.join(","),
+                other_roles: formData.other_roles,
+                videoUrl: videoUrl,
+              };
+              // Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+              // data.append("uploadMediaFile", videoUrl);
+              // data.append("interest_in_role", selectedValues.join(","));
+
+              // console.log("data >>", data);
+              const res = await submitForm(data);
+              console.log("res >>", res);
+
+              setLoading(false);
+              if (res.status == "success") navigate("/thankyou");
+              else {
+                setError({ allError: res.message });
+                alert(res.message);
+              }
+            }
+          } //End of checkValidEnquiry
+          else {
+            // alert("Invalid OTP");
+            setOrpError("Invalid OTP");
+          }
         }
         setLoading(false);
       }
@@ -316,6 +367,19 @@ function Participate() {
       getCity(formData.stateId);
     }
   }, [formData.stateId]);
+
+  useEffect(() => {
+    let countdown;
+    if (timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(countdown);
+  }, [timer]);
+
+
   return (
     <>
       {loading == true ? (
@@ -512,20 +576,20 @@ function Participate() {
                       />
                       <Form.Check
                         type="checkbox"
-                        label="Songwriter"
-                        id="songwriterCheck"
-                        checked={selectedValues.includes("Songwriter")}
-                        value="Songwriter"
+                        label="Instrumentalist"
+                        id="instrumentalistCheck"
+                        checked={selectedValues.includes("Instrumentalist")}
+                        value="Instrumentalist"
                         onChange={handleCheckboxChange}
                       />
-                      <Form.Check
+                      {/* <Form.Check
                         type="checkbox"
                         label="Music Producer"
                         id="musicProducerCheck"
                         checked={selectedValues.includes("Music Producer")}
                         value="Music Producer"
                         onChange={handleCheckboxChange}
-                      />
+                      /> */}
                       <Form.Check
                         type="checkbox"
                         label="Others"
@@ -586,10 +650,10 @@ function Participate() {
                       />
                       <Form.Check
                         type="radio"
-                        label="Performance Opportunities"
-                        id="performanceCheck"
+                        label="Skill Development"
+                        id="skilldevelopmentCheck"
                         name="dream_remarks"
-                        value="Performance Opportunities"
+                        value="Skill Development"
                         onChange={handleChange}
                       />
                       <Form.Check
@@ -682,7 +746,7 @@ function Participate() {
                         value="Social Media"
                         onChange={handleChange}
                       />
-                      <Form.Check
+                      {/* <Form.Check
                         type="radio"
                         label="Email"
                         id="emailCheck"
@@ -697,13 +761,13 @@ function Participate() {
                         name="how_to_know_about_this"
                         value="WhatsApp"
                         onChange={handleChange}
-                      />
+                      /> */}
                       <Form.Check
                         type="radio"
-                        label="One on One"
-                        id="oneCheck"
+                        label="Word of Mouth"
+                        id="wordCheck"
                         name="how_to_know_about_this"
-                        value="One on One"
+                        value="Word of Mouth"
                         onChange={handleChange}
                       />
                       <Form.Check
@@ -785,6 +849,50 @@ function Participate() {
           </div>
         </Container>
       </section>
+      <Modal size="" show={show} centered onHide={closeModal} backdrop="static" keyboard={false}>
+      <Modal.Header >
+        <Modal.Title>Enter OTP</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form.Group >
+          {otpError && (<Alert variant="danger">otpError </Alert> )}
+          {otpSuccess && (<Alert variant="success">otpSuccess </Alert> )}
+          <FloatingLabel
+            label="Enter OTP*"
+            className="mb-3"
+          >
+          <Form.Control
+            type="tel"
+            onKeyPress={avoidAlphabets}
+            placeholder="Enter OTP*"
+            maxLength={6}
+            name="verificationCode"
+            onChange={handleChange}
+            required
+          />
+          </FloatingLabel>
+        </Form.Group>
+        <div className="text-center">
+          <Button variant="primary"  size="lg" onClick={finalSubmit}>
+            <span>Verify & Submit</span>
+          </Button>
+          <div>
+            <a href="javascript:void(0);" variant="primary pill" className="w-100"
+                          size="lg" onClick={handleSubmit} disabled={timer > 0}>
+              {timer > 0 ? `Resend OTP in ${timer}s` : "Resend OTP"}
+            </a>
+          </div>
+        </div>
+        <Row className="mb-5 align-items-center text-large">
+          <Col lg={8}>
+            <br/>
+            
+            {/* <p>  Resend OTP in </p>
+            <p onClick={handleSubmit} ><small><span className="text-danger">Resend OTP</span></small></p> */}
+          </Col>
+        </Row>
+      </Modal.Body>
+    </Modal>
     </>
   );
 }
