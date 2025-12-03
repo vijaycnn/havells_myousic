@@ -166,7 +166,7 @@ function Participate() {
           type: "application/octet-stream",
         });
 
-        saveAs(fileData, `ParticipateList_${new Date().toISOString().slice(0,10)}.xlsx`);
+        saveAs(fileData, `Participant_List_${new Date().toISOString().slice(0,10)}.xlsx`);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
