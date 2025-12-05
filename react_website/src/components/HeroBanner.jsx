@@ -21,7 +21,7 @@ function HeroBanner() {
               <div className="sec-head text-lg-start text-center mb-lg-0 mb-5 px-lg-0 px-md-5">
                 <h2 className="sec-title mb-md-5 mb-4">
                   Sing. Write. Compose. <br />
-                  Stage Is Yours!
+                  The stage is yours!
                 </h2>
                 <p className="sec-sub-title mb-md-5 mb-4">
                   <strong>Your art deserves a spotlight. </strong>
