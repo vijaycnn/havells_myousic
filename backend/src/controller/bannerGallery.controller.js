@@ -9,7 +9,7 @@ let BannerGalleryController = {
 
     getList: async (request, response, next) => {
         try {
-            let data = await bannerGalleryService.getBannerGalleryList();
+            let data = await bannerGalleryService.getBannerGalleryList(request);
             const rows = data.rows.map((r) => r.get({ plain: true }));
             const bannerImages = await Promise.all(
                 rows.map(async (row) => {
@@ -39,7 +39,7 @@ let BannerGalleryController = {
     },
     getBannerGalleryList: async (request, response, next) => {
         try {
-            let data = await bannerGalleryService.getBannerGalleryList(true);
+            let data = await bannerGalleryService.getBannerGalleryList(request, true);
             // console.log('rows', data.rows);
             const rows = data.rows.map((r) => r.get({ plain: true }));
             const bannerImages = await Promise.all(

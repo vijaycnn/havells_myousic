@@ -2,6 +2,7 @@ const { QueryTypes } = require('sequelize');
 var fs = require('fs'),
   async = require('async'),
   csv = require('csv');
+const { off } = require('process');
 let FaqCategoryDataProvider = {
 
   createFaqCategory: async (body) => {

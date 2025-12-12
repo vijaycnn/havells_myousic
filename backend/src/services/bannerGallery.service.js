@@ -79,7 +79,9 @@ let BannerGalleryDataProvider = {
     });
   },
   //Use this service as to get ActiveDocumentList Only, using via filter options also
-  getBannerGalleryList: async (all = false) => {
+  getBannerGalleryList: async (req, all = false) => {
+    let offset = req.query.offset;
+    let limit = req.query.perPage;
     return new Promise(async function (resolve, reject) {
       // console.log('search', search);
       let filter = { isdeleted: 0 };
@@ -93,6 +95,8 @@ let BannerGalleryDataProvider = {
       await conn.BannerGalleries.findAndCountAll({
         attributes:columns,
         where: filter,
+        limit: limit,
+        offset: offset,
         order: orderBy,
         // raw: true,
         // logging:console.log
