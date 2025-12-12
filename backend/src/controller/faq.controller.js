@@ -36,7 +36,7 @@ let FaqController = {
     createFaq: async (request, response, next) => {
         try {
             console.log('create controller reached', request.body, request.user);
-            if(request.body.quest.trim() == '' || request.body.answer.trim() == '' || request.body.orderNumber.trim() == ''){
+            if(request.body.quest.trim() == '' || request.body.answer.trim() == '' || request.body.orderNumber == ''){
                 return responder.sendResponse(response, 200, "error", '', "Missing Required!");
             }
             let checkIfExist = false;
@@ -75,8 +75,8 @@ let FaqController = {
     },
     updateFaq: async (request, response, next) => {
         try {
-            // console.log('update controller reached', request.body, request.user);
-            if(request.body.quest.trim() == '' || request.body.answer.trim() == '' || request.body.orderNumber.trim() == ''){
+            console.log('update controller reached', request.body, request.user);
+            if(request.body.quest.trim() == '' || request.body.answer.trim() == '' || request.body.orderNumber == ''){
                 return responder.sendResponse(response, 200, "error", '', "Missing Required!");
             }
             let checkIfExist = false;

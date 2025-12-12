@@ -3,6 +3,7 @@ import {Container, Form,Badge,Row,Col,Button,Table,} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import { BiShow } from "react-icons/bi";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getDownloadUrl, cityList } from "../api";
 import moment from "moment";
@@ -190,7 +191,7 @@ function Participate() {
               <th>How to know about this</th>
               <th>State</th>
               <th>City</th>
-              <th>File</th>
+              <th>Action</th>
               {/* <th width="120" className="col-fixed">
                 Action
               </th> */}
@@ -238,12 +239,9 @@ function Participate() {
                       {item.media_url ? (
                         <>
                           {/* <button >View File</button> */}
-                          <a
-                            onClick={() => getMediaFile(item.media_url)}
-                            target="_blank"
-                          >
-                            View File
-                          </a>
+                          <Link title="View File" onClick={() => getMediaFile(item.media_url)} target="_blank" className="btn btn-icon">
+                              <BiShow />
+                          </Link>                          
                         </>
                       ) : (
                         "NA"

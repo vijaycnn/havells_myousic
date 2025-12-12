@@ -1,6 +1,7 @@
 import {Container, Alert, Form,Badge,Row,Col,Button,} from "react-bootstrap";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill-new";
 import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import axiosInstance from "../../helper/constants/axiosInstance";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
@@ -233,9 +234,14 @@ function EditFaq() {
                   <Form.Group className="mb-4">
                       <Form.Label className="fw-medium">
                           Answer<span className="text-danger">*</span>
-                      </Form.Label>
-                      <Form.Control as="textarea" name="answer" value={data.answer} placeholder="Answer"
-                          onChange={handleChange} />  
+                      </Form.Label>                       
+                      <ReactQuill
+                            theme="snow" name="answer" 
+                            value={data.answer}
+                            onChange={(content) =>
+                                setData(prev => ({ ...prev, answer: content }))
+                            }
+                      /> 
                   </Form.Group>
               </Col>
             <Col md={6}>

@@ -137,7 +137,7 @@ function Mentor() {
               <th>Mentor Image</th>
               <th>Name</th>
               <th>Expertise</th>
-              <th>Description</th>
+              {/* <th>Description</th> */}
               <th>Status</th>
               <th width="120" className="col-fixed">
                 Action
@@ -155,7 +155,7 @@ function Mentor() {
                     </td>
                     <td>{item.name}</td>
                     <td>{item.title}</td>
-                    <td>{item.remark1}</td>
+                    {/* <td>{item.remark1}</td> */}
                     {/* <td>{moment(item.createdAt).format('DD-MM-YYYY')}</td> */}
                     <td>
                       {item.status == 1 ? <Badge bg="success" >Active</Badge> : <Badge bg="secondary" >In-active</Badge> } 
