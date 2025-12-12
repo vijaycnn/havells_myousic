@@ -1,12 +1,36 @@
-import { Container, Tab, Tabs, Image, Row, Col } from "react-bootstrap";
+import { Container, Tab, Tabs, Image, Row, Col, Accordion } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
 import arrowDown from "../assets/arrow-down.svg";
 import guidelines from "../assets/participant-guidelines-terms-conditions.pdf";
 import FaqsAbout, { FaqsFees, FaqsGeneral, FaqsProcess } from "./FaqsAccordion";
+import { faqList } from "../api";
 
 function FAQs() {
+    const [loading, setLoading] = useState(true);
+    const [categoryList, setCategoryList] = useState([]);
+    // const [defaultTab, setDefaultTab] = useState(null);
+    const [faqs, setFaqs] = useState([]);
+    const getFaqList = async () => {
+        let faqRes = await faqList();
+        // console.log('>>>', faqRes)
+        if (faqRes?.data?.categoryData) {
+          setCategoryList(faqRes.data?.categoryData);
+          // setDefaultTab(faqRes?.data?.categoryData[0].id);
+        }
+        if (faqRes?.data?.faqData) {
+          setFaqs(faqRes.data?.faqData);
+        }
+      };
+    useEffect(() => {
+      if (loading) {
+        getFaqList();
+        setLoading(false)
+      }
+    }, [loading]);
+
   return (
     <>
       <section className="sec sec-form">
@@ -46,23 +70,29 @@ function FAQs() {
                 <h2 className="text-center fw-medium mb-md-5 mb-3">
                   Got Questions? We’ve Got Answers
                 </h2>
+                <Tabs defaultActiveKey={1} className="mb-3 justify-content-md-center" >
+                  {categoryList.map((category, i) => (                  
+                    <Tab key={i} eventKey={category.id} title={category.name}>
+                      <Accordion>
+                    <>
+                    {faqs.map((faq, index) => ( 
 
-                <Tabs
-                  defaultActiveKey="TabOne"
-                  className="mb-3 justify-content-md-center"
-                >
-                  <Tab eventKey="TabOne" title="About Participation">
-                    <FaqsAbout />
-                  </Tab>
-                  <Tab eventKey="TabTwo" title="Application Process">
-                    <FaqsProcess />
-                  </Tab>
-                  <Tab eventKey="TabThree" title="Fees & Eligibility">
-                    <FaqsFees />
-                  </Tab>
-                  <Tab eventKey="TabFour" title="General">
-                    <FaqsGeneral />
-                  </Tab>
+                      (faq.categoryId == category.id)?
+                      <>
+                        <Accordion.Item eventKey={faq.id}>
+                          <Accordion.Header>
+                            {faq.orderNumber}. {faq.quest}
+                          </Accordion.Header>
+                          <Accordion.Body>
+                            {faq.answer}
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </>:''
+                    ))}
+                    </>
+                    </Accordion>
+                    </Tab>
+                  ))}
                 </Tabs>
               </Col>
             </Row>

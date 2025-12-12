@@ -1,12 +1,34 @@
 const { QueryTypes } = require('sequelize');
-var fs = require('fs'),
-  async = require('async'),
-  csv = require('csv');
-let FaqCategoryDataProvider = {
+var fs = require('fs'),  csv = require('csv');
 
-  createFaqCategory: async (body) => {
+let MentorDataProvider = {
+
+  getMentorList: async (all = false) => {
+    return new Promise(async function (resolve, reject) {
+      // console.log('search', search);
+      let filter = { isdeleted: 0 };
+      let columns = ["id", "name", "title", "fileUrl", "remark1", "remark2", "status", "createdAt"];
+      if(!all){
+        columns = ["id", "name", "title", "fileUrl", "remark1", "remark2"];
+        filter = {...filter, status:1}
+      }
+      await conn.Mentors.findAndCountAll({
+        attributes:columns,
+        where: filter,
+        order: [['id', 'DESC']],
+        // raw: true,
+        // logging:console.log
+      })
+        .then(async data => {
+          resolve(data);
+        }).catch(err => {
+          reject(err);
+        });
+    });
+  },
+  createMentor: async (body) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.create(body)
+      conn.Mentors.create(body)
         .then(data => {
           resolve(data);
         }).catch(err => {
@@ -14,11 +36,12 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  checkExistFaqCategory: async (name, id = 0) => {
+  checkExistMentor: async (name, title, id = 0) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.findOne({
+      conn.Mentors.findOne({
         where: { 
-          name: name.trim(),          
+          name : name.trim(),  
+          title: title.trim(),          
           id: { [Op.not]: id }       
         },
       })
@@ -35,10 +58,12 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  getCategoryById: async (categoryId) => {
+  getMentorById: async (mentorId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.findOne({
-        where: { id: categoryId },
+      conn.Mentors.findOne({
+        attributes: [ "*",['fileUrl', 'filePath']],
+        where: { id: mentorId },
+        raw:true
       })
         .then(data => {
           if (data !== null) {
@@ -51,10 +76,10 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  updateFaqCategory: async (body, categoryId) => {
+  updateMentor: async (body, mentorId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update(body, {
-        where: { id: categoryId },
+      conn.Mentors.update(body, {
+        where: { id: mentorId },
       })
         .then(data => {
           resolve(data);
@@ -65,12 +90,12 @@ let FaqCategoryDataProvider = {
   },
   
   //Use this service to soft delete purpose
-  changeFaqCategoryStatus: async (body) => {
+  changeMentorStatus: async (body) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update({
+      conn.Mentors.update({
         status: body.status
       }, {
-        where: { id: body.categoryId },
+        where: { id: body.mentorId },
       })
         .then(data => {
           resolve(data);
@@ -79,12 +104,12 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  deleteFaqCategory: async (categoryId) => {
+  deleteMentor: async (mentorId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update({
+      conn.Mentors.update({
         isdeleted : 1
       },{
-        where: { id: categoryId },
+        where: { id: mentorId },
       })
         .then(data => {
           if (data !== null) {
@@ -97,32 +122,7 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  //Use this service as to get ActiveDocumentList Only, using via filter options also
-  getFaqCategoryList: async (all = false) => {
-    return new Promise(async function (resolve, reject) {
-      // console.log('search', search);
-      let filter = { isdeleted: 0 };
-      let columns = ["id", "name", "status", "createdAt"];
-      let orderBy = [['id', 'DESC']];
-      if(!all){
-        columns = ["id", "name"];
-        filter = {...filter, status:1}
-        orderBy = [['name', 'ASC']]
-      }
-      await conn.FaqCategories.findAndCountAll({
-        attributes:columns,
-        where: filter,
-        order: orderBy,
-        // raw: true,
-        // logging:console.log
-      })
-        .then(async data => {
-          resolve(data);
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  },
+  
   
 };
-module.exports = FaqCategoryDataProvider;
+module.exports = MentorDataProvider;

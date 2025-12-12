@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer')
 const path = require('path')
 const enquiryController = require('../src/controller/enquiry.controller');
-const {generateUploadUrl, getDownloadUrl} = require('../src/controller/upload.controller');
+const {generateUploadUrl, generateUrl, getDownloadUrl} = require('../src/controller/upload.controller');
 const auth = require('../middleware/auth');  
 
 // const uservalidate = require('../middleware/validate.middelware');
@@ -11,7 +11,8 @@ const auth = require('../middleware/auth');
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 100* 1024 * 1024 } }); // 100MB limit
 
-router.post("/upload-url", generateUploadUrl);
+router.post("/upload-url", generateUploadUrl);    //for Participants
+router.post("/generateUrl", generateUrl);         //for Galleries or home contents
 router.post("/download-url", getDownloadUrl);
 
 router.post("/validate", function (request, response, next) {
