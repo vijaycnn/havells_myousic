@@ -83,8 +83,8 @@ function FAQs() {
                           <Accordion.Header>
                             {faq.orderNumber}. {faq.quest}
                           </Accordion.Header>
-                          <Accordion.Body>
-                            {faq.answer}
+                          <Accordion.Body >
+                            <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                           </Accordion.Body>
                         </Accordion.Item>
                       </>:''
