@@ -1,4 +1,12 @@
-import {Container, Form,Badge,Row,Col,Button,Table,} from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Badge,
+  Row,
+  Col,
+  Button,
+  Table,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
@@ -7,7 +15,7 @@ import { BiPencil, BiTrash } from "react-icons/bi";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import axiosInstance from "../../helper/constants/axiosInstance";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import { decode as base64_decode, encode as base64_encode } from "base-64";
 
 function Faq() {
   const [offset, setOffset] = useState(0);
@@ -17,21 +25,21 @@ function Faq() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [items, setItems] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const [filteredData, setFilteredData] = useState({});
-  const [search, setSearch] =  useState({
+  const [search, setSearch] = useState({
     startDate: "",
     endDate: "",
-    roleType: "",		
-	});  
+    roleType: "",
+  });
   const formatDate = (date) => new Date(date).toISOString().split("T")[0];
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const today = formatDate(new Date());
 
-    setSearch(prev => {
+    setSearch((prev) => {
       let updated = { ...prev, [name]: value };
 
       if (name === "startDate") {
@@ -43,23 +51,23 @@ function Faq() {
 
       return updated;
     });
-  };	
-	const searchData = () => {
-		setFilteredData(search);
-		setOffset(0);
-		setCurrentPage(0);
-	}
+  };
+  const searchData = () => {
+    setFilteredData(search);
+    setOffset(0);
+    setCurrentPage(0);
+  };
 
-	const reset = () => {
+  const reset = () => {
     setSearch({
       startDate: "",
       endDate: "",
-      roleType: ""
+      roleType: "",
     });
-    setFilteredData({})
+    setFilteredData({});
     setOffset(0);
-		setCurrentPage(0);		
-	}
+    setCurrentPage(0);
+  };
 
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
@@ -69,26 +77,30 @@ function Faq() {
   };
   const getFaqs = async () => {
     setIsLoading(true);
-    
-    const body = { params: { offset: offset, perPage: perPage, ...filteredData } };
+
+    const body = {
+      params: { offset: offset, perPage: perPage, ...filteredData },
+    };
     // console.log('body>>> ', body);
-    await axiosInstance.get(`/faq/list`, body)
-			.then((response) => {
+    await axiosInstance
+      .get(`/faq/list`, body)
+      .then((response) => {
         // console.log('>>> ', response.data);
-				setIsLoading(false)
-				if (response.data.status === "success") {
-					setPageCount(Math.ceil(response.data?.totalRecords / perPage))
-					setItems(response.data?.data)
-					setTotalRecords(response.data?.totalRecords)	
-				}
-			}).catch((error) => {
-        console.log('>>> ', error.status, error);
-        if(error.status === 403){
+        setIsLoading(false);
+        if (response.data.status === "success") {
+          setPageCount(Math.ceil(response.data?.totalRecords / perPage));
+          setItems(response.data?.data);
+          setTotalRecords(response.data?.totalRecords);
+        }
+      })
+      .catch((error) => {
+        console.log(">>> ", error.status, error);
+        if (error.status === 403) {
           // alert('Session Timeout');
           handleLogout();
         }
-        setIsLoading(false)
-        });
+        setIsLoading(false);
+      });
   };
 
   const handleLogout = () => {
@@ -104,28 +116,30 @@ function Faq() {
     }
   }, [offset, perPage, filteredData]);
 
-  const changeStatus = async(index, currentStatus, faqId)=>{
+  const changeStatus = async (index, currentStatus, faqId) => {
     setIsLoading(true);
-    
+
     const body = { faqId, status: currentStatus == 1 ? 0 : 1 };
     // console.log('body>>> ', body);
-    await axiosInstance.post(`/faq/changeStatus`, body)
-			.then((response) => {
+    await axiosInstance
+      .post(`/faq/changeStatus`, body)
+      .then((response) => {
         // console.log('>>> ', response.data);
-				setIsLoading(false)
-				if (response.data.status === "success") {
+        setIsLoading(false);
+        if (response.data.status === "success") {
           items[index].status = currentStatus == 1 ? 0 : 1;
-				}
-			}).catch((error) => {
-        console.log('>>> ', error.status, error);
-        if(error.status === 403){
+        }
+      })
+      .catch((error) => {
+        console.log(">>> ", error.status, error);
+        if (error.status === 403) {
           // alert('Session Timeout');
           handleLogout();
         }
         setIsLoading(false);
       });
-    setIsLoading(false);  
-  }
+    setIsLoading(false);
+  };
 
   const showItems = () => {
     return isLoading == false ? (
@@ -133,11 +147,11 @@ function Faq() {
         <Table responsive className="table v-align-middle table-striped medium">
           <thead>
             <tr>
-              <th>Sr. No.</th>
+              <th style={{ width: "80px" }}>Sr. No.</th>
               <th>Category</th>
-              <th>Order No.</th>
+              <th className="text-center">Order No.</th>
               <th>Quest</th>
-              <th>Answer</th>
+              {/* <th>Answer</th> */}
               <th>Status</th>
               <th width="120" className="col-fixed">
                 Action
@@ -149,23 +163,39 @@ function Faq() {
               return (
                 <>
                   <tr key={item.id}>
-                    <td>{$index+1}</td>
+                    <td>{$index + 1}</td>
                     <td>{item.FaqCategory.category}</td>
-                    <td>{item.orderNumber}</td>
+                    <td className="text-center">{item.orderNumber}</td>
                     <td>{item.quest}</td>
-                    <td>{item.answer}</td>
+                    {/* <td>{item.answer}</td> */}
                     {/* <td>{moment(item.createdAt).format('DD-MM-YYYY')}</td> */}
                     <td>
-                      {item.status == 1 ? <Badge bg="success" >Active</Badge> : <Badge bg="secondary" >In-active</Badge> } 
+                      {item.status == 1 ? (
+                        <Badge bg="success">Active</Badge>
+                      ) : (
+                        <Badge bg="secondary">In-active</Badge>
+                      )}
                     </td>
                     <td className="col-fixed">
-                        <Link title="Edit" to={`${adminAlias}/editFaq/${base64_encode(`Hvg_myg8Bbg5vvdgvpp+`+item.id)}`} className="btn btn-icon">
-                            <BiPencil />
-                        </Link>
-                        &nbsp;
-                        <Link title={item.status == 1 ? 'In-Active' : 'Active'} onClick={()=>changeStatus($index, item.status, item.id)}  className="btn btn-icon">
-                            <BiTrash />
-                        </Link>
+                      <Link
+                        title="Edit"
+                        to={`${adminAlias}/editFaq/${base64_encode(
+                          `Hvg_myg8Bbg5vvdgvpp+` + item.id
+                        )}`}
+                        className="btn btn-icon"
+                      >
+                        <BiPencil />
+                      </Link>
+                      &nbsp;
+                      <Link
+                        title={item.status == 1 ? "In-Active" : "Active"}
+                        onClick={() =>
+                          changeStatus($index, item.status, item.id)
+                        }
+                        className="btn btn-icon"
+                      >
+                        <BiTrash />
+                      </Link>
                     </td>
                   </tr>
                 </>
@@ -181,28 +211,34 @@ function Faq() {
   return (
     <>
       <h1 className="h4 mb-4 font-secondary fw-medium">Faqs</h1>
-      
+
       <div className="table-view bg-white rounded-4 p-4">
         <div className="mb-3 d-flex justify-content-between align-items-center">
           <div className="text-muted">
             Total Records :{" "}
-            <span className="text-dark fw-bold">{totalRecords ? totalRecords : 0}</span>
+            <span className="text-dark fw-bold">
+              {totalRecords ? totalRecords : 0}
+            </span>
           </div>
           <div>
-              <Link to={`${adminAlias}/addFaq`} className="btn btn-primary btn-sm">
-                  <span className="nav-link-text">Add Faq</span>
-              </Link>              
+            <Link
+              to={`${adminAlias}/addFaq`}
+              className="btn btn-primary btn-sm"
+            >
+              <span className="nav-link-text">Add Faq</span>
+            </Link>
           </div>
         </div>
-        {
-          (items && items.length > 0) ? showItems()
-          : <>
-          <div className="d-flex text-muted justify-content-center p-5 w-100 align-items-center flex-column">
-            <i className="fa fa-database fa-3x mb-3"></i>
-            <p>Sorry, no record found!</p>
-          </div>
+        {items && items.length > 0 ? (
+          showItems()
+        ) : (
+          <>
+            <div className="d-flex text-muted justify-content-center p-5 w-100 align-items-center flex-column">
+              <i className="fa fa-database fa-3x mb-3"></i>
+              <p>Sorry, no record found!</p>
+            </div>
           </>
-        }        
+        )}
       </div>
       {items ? (
         items.length > 0 ? (
