@@ -106,7 +106,7 @@ function Banner() {
               return (
                 <>
                   <tr key={item.id}>
-                    <td>{$index+1}</td>
+                    <td>{$index +offset +1}</td>
                     <td>      
                       <img src={item.fileUrl} height={100} width={100} alt="img" />
                     </td>

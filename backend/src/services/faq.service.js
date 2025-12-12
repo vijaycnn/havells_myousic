@@ -4,8 +4,11 @@ var fs = require('fs'),  csv = require('csv');
 let FaqDataProvider = {
 
 
-  getFaqList: async (all = false) => {
+  getFaqList: async (req, all = false) => {
     return new Promise(async function (resolve, reject) {
+      let offset = req.query.offset;
+      let limit = req.query.perPage;
+    
       // console.log('search', search);
       let filter = { isdeleted: 0 };
       let columns = ["id", "categoryId", "quest", "answer", "orderNumber", "status", "createdAt"];
@@ -23,6 +26,8 @@ let FaqDataProvider = {
                 required: true
             },            
         ],
+        limit: limit,
+        offset: offset,
         order: [['categoryId', 'ASC'], ['orderNumber', 'ASC']],
         // raw: true,
         // logging:console.log

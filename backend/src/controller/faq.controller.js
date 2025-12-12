@@ -8,7 +8,7 @@ let FaqController = {
     //use this for frontend list
     getList: async (request, response, next) => {
         try {
-            let faqData = await faqService.getFaqList(false);
+            let faqData = await faqService.getFaqList(request, false);
             let categoryData = await faqCategoryService.getFaqCategoryList(false);
             
             // console.log('rows', data.rows);
@@ -22,7 +22,7 @@ let FaqController = {
     },
     getFaqList: async (request, response, next) => {
         try {
-            let data = await faqService.getFaqList(true);
+            let data = await faqService.getFaqList(request, true);
             // console.log('rows', data.rows);
             let dataList =  { 'totalRecord': data.count, 'list': data.rows };
             // console.log('lit', dataList);

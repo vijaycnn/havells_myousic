@@ -163,7 +163,7 @@ function Faq() {
               return (
                 <>
                   <tr key={item.id}>
-                    <td>{$index + 1}</td>
+                    <td>{$index+ offset + 1}</td>
                     <td>{item.FaqCategory.category}</td>
                     <td className="text-center">{item.orderNumber}</td>
                     <td>{item.quest}</td>
