@@ -271,7 +271,7 @@ function Mentor() {
                   type="text"
                   name="title"
                   value={formData.title}
-                  placeholder="Enter Title"
+                  placeholder="Enter Expertise"
                   onChange={handleChange}
                 />
               </Form.Group>

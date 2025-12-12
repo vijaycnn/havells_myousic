@@ -23,6 +23,9 @@ import EditFaqCategory from "./pages/master/EditFaqCategory";
 import Mentors from "./pages/master/Mentor";
 import AddMentor from "./pages/master/AddMentor";
 import EditMentor from "./pages/master/EditMentor";
+import Banner from "./pages/master/Banner";
+import AddBanner from "./pages/master/AddBanner";
+import EditBanner from "./pages/master/EditBanner";
 
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
@@ -85,6 +88,36 @@ function App() {
             }
           />
 
+          <Route
+            path={`${adminAlias}/banner`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Banner />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/addBanner`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <AddBanner />
+                </Layout>
+              </ProtectedRoute>
+            }
+          /> 
+          <Route
+            path={`${adminAlias}/editBanner/:id`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EditBanner />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />   
           <Route
             path={`${adminAlias}/mentors`}
             element={

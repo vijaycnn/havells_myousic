@@ -1,4 +1,5 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -10,8 +11,26 @@ import miguel from "../assets/miguel-dsouza.jpg";
 import daulat from "../assets/daulat-singh.jpg";
 import namita from "../assets/namita-gogoi.jpg";
 import ritika from "../assets/ritika-reddy.jpg";
+import { bannerList } from "../api";
 
 function HeroBanner() {
+  const [loading, setLoading] = useState(true);
+  const [bannerImages, setBannerImages] = useState([]);
+    
+  const getBannerList = async () => {
+      let bannerRes = await bannerList();
+      console.log('>>>', bannerRes)
+      if (bannerRes?.data) {
+        setBannerImages(bannerRes.data);
+        // console.log('it is reached ', bannerRes.data)
+      }
+    };
+  useEffect( () => {
+    if (loading) {
+      getBannerList();
+      setLoading(false)
+    }
+  }, [loading]);
   return (
     <>
       <section className="sec sec-hero">
@@ -59,7 +78,7 @@ function HeroBanner() {
                   }}
                   autoplay={{
                     delay: 2000,
-                    disableOnInteraction: false,
+                    disableOnInteraction: true,
                   }}
                   modules={[EffectCoverflow, Autoplay]}
                   className="coverflow-swiper"
@@ -68,111 +87,21 @@ function HeroBanner() {
                     576: { slidesPerView: 2 },
                   }}
                 >
-                  <SwiperSlide>
+                  {bannerImages.map((banner, index) => (
+                  <SwiperSlide key={banner.id} >
                     <div className="card-artist">
                       <div className="card-artist-thumb mb-3">
-                        <Image src={nehal} alt="Singer" />
+                        <Image src={banner.image?.trim()} alt={banner.title?.trim()} />
                       </div>
                       <h4 className="font-secondary text-primary text-center">
-                        Singer
+                        {banner.title?.trim()}
                       </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>New Delhi</span>
-                        <span>|</span>
-                        <span>Singer</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={ritika} alt="Music Composer" />
+                      <div className="d-flex gap-3 align-items-center justify-content-center">
+                        <span>{banner.description?.trim()}</span>                        
                       </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Music Composer
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Telangana</span>
-                        <span>|</span>
-                        <span>Music Composer</span>
-                      </div> */}
                     </div>
                   </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={daulat} alt="Kamaicha" />
-                      </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Kamaicha Player
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Rajasthan</span>
-                        <span>|</span>
-                        <span>Kamaicha</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={neha} alt="Lyricist" />
-                      </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Lyricist
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Haryana</span>
-                        <span>|</span>
-                        <span>Lyricist</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={namita} alt="guitarist" />
-                      </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Guitarist
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Assam</span>
-                        <span>|</span>
-                        <span>Guitar</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={miguel} alt="Violinist" />
-                      </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Violinist
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Goa</span>
-                        <span>|</span>
-                        <span>Violin</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <div className="card-artist">
-                      <div className="card-artist-thumb mb-3">
-                        <Image src={mohan} alt="Tabla Player" />
-                      </div>
-                      <h4 className="font-secondary text-primary text-center">
-                        Tabla Player
-                      </h4>
-                      {/* <div className="d-flex gap-3 align-items-center justify-content-center">
-                        <span>Tamil Nadu</span>
-                        <span>|</span>
-                        <span>Tabla Player</span>
-                      </div> */}
-                    </div>
-                  </SwiperSlide>
+                ))}                  
                 </Swiper>
               </div>
             </Col>

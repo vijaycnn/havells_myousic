@@ -351,7 +351,7 @@ function EditMentor() {
                       type="text"
                       name="title"
                       value={data.title}
-                      placeholder="Enter Title"
+                      placeholder="Enter Expertise"
                       onChange={handleChange}
                     />
                   </Form.Group>
