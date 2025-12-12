@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Nav, Image, Button } from "react-bootstrap";
 import logo from "../assets/logo.svg";
-import { BiGridAlt, BiGroup, BiLogOut } from "react-icons/bi";
+import { BiGridAlt, BiGroup, BiLogOut, BiInfoSquare, BiListUl, BiUser } from "react-icons/bi";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 const Sidebar = () => {
@@ -29,9 +29,27 @@ const Sidebar = () => {
             </Link>
             <Link to={`${adminAlias}/participant`} className="nav-link">
               <span className="nav-link-icon">
-                <BiGroup />
+                <BiUser />
               </span>
               <span className="nav-link-text">Participant</span>
+            </Link>
+            <Link to={`${adminAlias}/mentors`} className="nav-link">
+              <span className="nav-link-icon">
+                <BiGroup />
+              </span>
+              <span className="nav-link-text">Mentors</span>
+            </Link>            
+            <Link to={`${adminAlias}/faqs`} className="nav-link">
+              <span className="nav-link-icon">
+                <BiInfoSquare />
+              </span>
+              <span className="nav-link-text">Faqs</span>
+            </Link>
+            <Link to={`${adminAlias}/category`} className="nav-link">
+              <span className="nav-link-icon">
+                <BiListUl />
+              </span>
+              <span className="nav-link-text">Faq Category</span>
             </Link>
           </Nav>
         </div>

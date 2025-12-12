@@ -48,3 +48,19 @@ export const cityList = async (stateId) => {
   });
   return response.json();
 };
+
+export const mentorList = async () => {
+  console.log('baseUrl', baseURL);
+  const response = await fetch(`${baseURL}/api/mentor/getList`, {
+    method: "GET",
+  });
+  return response.json();
+};
+export const faqList = async () => {
+  console.log('baseUrl', baseURL);
+  const response = await fetch(`${baseURL}/api/faq/getList`, {
+    method: "GET",
+  });
+  return response.json();
+};
+

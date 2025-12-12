@@ -13,6 +13,17 @@ import Login from "./pages/Login";
 import Forgot from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Participate from "./pages/Participate";
+import Faqs from "./pages/master/Faq";
+import AddFaq from "./pages/master/AddFaq";
+import EditFaq from "./pages/master/EditFaq";
+import FaqCategory from "./pages/master/FaqCategory";
+import AddFaqCategory from "./pages/master/AddFaqCategory";
+import EditFaqCategory from "./pages/master/EditFaqCategory";
+
+import Mentors from "./pages/master/Mentor";
+import AddMentor from "./pages/master/AddMentor";
+import EditMentor from "./pages/master/EditMentor";
+
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 function App() {
@@ -69,6 +80,97 @@ function App() {
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
                   <Participate />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path={`${adminAlias}/mentors`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Mentors />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/addMentor`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <AddMentor />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/editMentor/:id`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EditMentor />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/faqs`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Faqs />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/addFaq`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <AddFaq />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/editFaq/:id`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EditFaq />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/category`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <FaqCategory />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/addCategory`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <AddFaqCategory />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/editCategory/:id`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EditFaqCategory />
                 </Layout>
               </ProtectedRoute>
             }

@@ -29,6 +29,30 @@ export const generateUploadUrl = async (req, res) => {
     return res.status(500).json({ status: "error", message: err.message });
   }
 };
+export const generateUrl = async (req, res) => {
+  try {
+    const { fileName, fileType } = req.body;
+
+    const key = `uploads/gallery/${Date.now()}_${fileName}`;
+
+    const command = new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET,
+      Key: key,
+      ContentType: fileType,
+    });
+
+    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 900 });
+
+    return res.json({
+      status: "success",
+      uploadUrl,
+      fileUrl: `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
+    });
+
+  } catch (err) {
+    return res.status(500).json({ status: "error", message: err.message });
+  }
+};
 
 export const getDownloadUrl = async (req, res) => {
   const { key } = req.body; // example: uploads/12345_video.mp4
