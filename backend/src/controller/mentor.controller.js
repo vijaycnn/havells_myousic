@@ -16,7 +16,8 @@ let MentorController = {
             const mentors = await Promise.all(
                 rows.map(async (row) => {
                     if(row.fileUrl != ''){
-                        let key = row.fileUrl.split(".amazonaws.com/")[1]
+                        let filePath = row.fileUrl.trim();
+                        let key = filePath.split(".amazonaws.com/")[1]
 
                         const command = new GetObjectCommand({
                         Bucket: process.env.S3_BUCKET,
@@ -47,7 +48,8 @@ let MentorController = {
             const mentors = await Promise.all(
                 rows.map(async (row) => {
                     if(row.fileUrl != ''){
-                        let key = row.fileUrl.split(".amazonaws.com/")[1]
+                        let filePath = row.fileUrl.trim();
+                        let key = filePath.split(".amazonaws.com/")[1]
 
                         const command = new GetObjectCommand({
                         Bucket: process.env.S3_BUCKET,
@@ -120,7 +122,8 @@ let MentorController = {
             if(dataList){
                 // console.log('fileUrl :::', dataList.fileUrl);
                 if(dataList.fileUrl != ''){
-                    let key = dataList.fileUrl.split(".amazonaws.com/")[1];
+                    let filePath = dataList.fileUrl.trim();
+                    let key = filePath.split(".amazonaws.com/")[1];
                     const command = new GetObjectCommand({
                         Bucket: process.env.S3_BUCKET,
                         Key: key,
