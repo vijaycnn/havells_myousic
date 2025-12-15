@@ -14,12 +14,12 @@ const MentorModal = ({ show, handleClose, mentor }) => {
             <Image src={mentor.image} alt={mentor.name} />
           </Col>
           <Col lg={8}>
-            <div dangerouslySetInnerHTML={{ __html: mentor.desc }} />
+            <div dangerouslySetInnerHTML={{ __html: mentor.remark1 }} />
           </Col>
         </Row>
 
         {/* HTML overview content */}
-        <div dangerouslySetInnerHTML={{ __html: mentor.overview }} />
+        <div dangerouslySetInnerHTML={{ __html: mentor.remark2 }} />
       </Modal.Body>
 
       <Modal.Footer>

@@ -1,8 +1,17 @@
-import {Container, Form,Badge,Row,Col,Button,Table,} from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Badge,
+  Row,
+  Col,
+  Button,
+  Table,
+} from "react-bootstrap";
 // import { BiPencil } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import { BiShow } from "react-icons/bi";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { getDownloadUrl, cityList } from "../api";
 import moment from "moment";
@@ -23,17 +32,17 @@ function Participate() {
   const navigate = useNavigate();
 
   const [filteredData, setFilteredData] = useState({});
-  const [search, setSearch] =  useState({
+  const [search, setSearch] = useState({
     startDate: "",
     endDate: "",
-    roleType: "",		
-	});  
+    roleType: "",
+  });
   const formatDate = (date) => new Date(date).toISOString().split("T")[0];
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const today = formatDate(new Date());
 
-    setSearch(prev => {
+    setSearch((prev) => {
       let updated = { ...prev, [name]: value };
 
       if (name === "startDate") {
@@ -45,25 +54,32 @@ function Participate() {
 
       return updated;
     });
-  };	
-	const searchData = () => {
-		setFilteredData(search);
-		setOffset(0);
-		setCurrentPage(0);
-	}
+  };
+  const searchData = () => {
+    setFilteredData(search);
+    setOffset(0);
+    setCurrentPage(0);
+  };
 
-	const reset = () => {
+  const reset = () => {
     setSearch({
       startDate: "",
       endDate: "",
-      roleType: ""
+      roleType: "",
     });
-    setFilteredData({})
+    setFilteredData({});
     setOffset(0);
-		setCurrentPage(0);		
-	}
+    setCurrentPage(0);
+  };
 
-  const roleList = [ 'Composer', 'Lyricist', 'Music Producer', 'Singer', 'Songwriter', 'Others' ]
+  const roleList = [
+    "Composer",
+    "Lyricist",
+    "Music Producer",
+    "Singer",
+    "Songwriter",
+    "Others",
+  ];
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     let offset = selectedPage * perPage;
@@ -72,27 +88,31 @@ function Participate() {
   };
   const getEnquiryList = async () => {
     setIsLoading(true);
-    
-    const body = { params: { offset: offset, perPage: perPage, ...filteredData } };
-    console.log('body>>> ', body);
-    await axiosInstance.get(`/enquiry`, body)
-			.then((response) => {
-        console.log('>>> ', response.data);
-				setIsLoading(false)
-				if (response.data.status === "success") {
-					setPageCount(Math.ceil(response.data?.totalRecords / perPage))
-					setItems(response.data?.data)
-					setTotalRecords(response.data?.totalRecords)	
-				}
-			}).catch((error) => {
-        console.log('>>> ', error.status, error);
-        if(error.status === 403){
+
+    const body = {
+      params: { offset: offset, perPage: perPage, ...filteredData },
+    };
+    console.log("body>>> ", body);
+    await axiosInstance
+      .get(`/enquiry`, body)
+      .then((response) => {
+        console.log(">>> ", response.data);
+        setIsLoading(false);
+        if (response.data.status === "success") {
+          setPageCount(Math.ceil(response.data?.totalRecords / perPage));
+          setItems(response.data?.data);
+          setTotalRecords(response.data?.totalRecords);
+        }
+      })
+      .catch((error) => {
+        console.log(">>> ", error.status, error);
+        if (error.status === 403) {
           // alert('Session Timeout');
           handleLogout();
         }
-				setIsLoading(false)
-				// showAlert("Can not get Leads.", "danger")
-			});
+        setIsLoading(false);
+        // showAlert("Can not get Leads.", "danger")
+      });
   };
 
   const handleLogout = () => {
@@ -125,54 +145,62 @@ function Participate() {
 
   const handleExportExcel = async () => {
     setIsLoading(true);
-      try {
-        const body = { params: { offset: 0, perPage: 0, ...filteredData } };
-        console.log('body>>> ', body);
-        const res = await axiosInstance.get(`/enquiry`, body);
-        if (res.data?.data?.length === 0) {
-          alert("No data found to export!");  setIsLoading(false);
-          return;
-        }
-
-        const exportData = res.data.data.map((item, index) => ({
-          "S.No": index + 1,
-          "Participate ID": item.id ? "HMA"+String(item.id).padStart(5, "0") : "",
-          "Submission Date": item.createdAt ? new Date(item.createdAt).toLocaleDateString() : "",
-          "Name": item.name || "",
-          "Phone": item.contact || "",
-          "Email": item.email || "",
-          "DOB": item.dob ? new Date(item.dob).toLocaleDateString() : "",
-          "Role Interested": item.interest_in_role || "",
-          "Other Role": item.other_roles || "",
-          "Dream": item.dream_remarks || "",
-          "How to know about this": item.how_to_know_about_this || "",
-          "Story": item.story || "",
-          "State": item?.StateMaster?.stateName || "",
-          "City": item?.CityMaster?.cityName || "",
-          "Address": item.address || "",
-          "Pincode": item.pincode || "",
-          "Media File URL": item.media_url || "",
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(exportData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiry Data");
-
-        const excelBuffer = XLSX.write(workbook, {
-          bookType: "xlsx",
-          type: "array",
-        });
-        const fileData = new Blob([excelBuffer], {
-          type: "application/octet-stream",
-        });
-
-        saveAs(fileData, `Participant_List_${new Date().toISOString().slice(0,10)}.xlsx`);
+    try {
+      const body = { params: { offset: 0, perPage: 0, ...filteredData } };
+      console.log("body>>> ", body);
+      const res = await axiosInstance.get(`/enquiry`, body);
+      if (res.data?.data?.length === 0) {
+        alert("No data found to export!");
         setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        console.log("Export Error:", error);
+        return;
       }
+
+      const exportData = res.data.data.map((item, index) => ({
+        "S.No": index + 1,
+        "Participate ID": item.id
+          ? "HMA" + String(item.id).padStart(5, "0")
+          : "",
+        "Submission Date": item.createdAt
+          ? new Date(item.createdAt).toLocaleDateString()
+          : "",
+        Name: item.name || "",
+        Phone: item.contact || "",
+        Email: item.email || "",
+        DOB: item.dob ? new Date(item.dob).toLocaleDateString() : "",
+        "Role Interested": item.interest_in_role || "",
+        "Other Role": item.other_roles || "",
+        Dream: item.dream_remarks || "",
+        "How to know about this": item.how_to_know_about_this || "",
+        Story: item.story || "",
+        State: item?.StateMaster?.stateName || "",
+        City: item?.CityMaster?.cityName || "",
+        Address: item.address || "",
+        Pincode: item.pincode || "",
+        "Media File URL": item.media_url || "",
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiry Data");
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      const fileData = new Blob([excelBuffer], {
+        type: "application/octet-stream",
+      });
+
+      saveAs(
+        fileData,
+        `Participant_List_${new Date().toISOString().slice(0, 10)}.xlsx`
+      );
       setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("Export Error:", error);
+    }
+    setIsLoading(false);
   };
 
   const showItems = () => {
@@ -186,11 +214,11 @@ function Participate() {
               <th>Submission Date</th>
               <th>Contact / Email</th>
               <th>Role Interested</th>
-              <th>Dream</th>
-              <th>How to know about this</th>
-              <th>State</th>
+              {/* <th>Dream</th> */}
+              {/* <th>How to know about this</th> */}
+              {/* <th>State</th> */}
               <th>City</th>
-              <th>File</th>
+              <th>Action</th>
               {/* <th width="120" className="col-fixed">
                 Action
               </th> */}
@@ -205,15 +233,13 @@ function Participate() {
               return (
                 <>
                   <tr key={item.id}>
-                    <td>
-                      HMA{String(item.id).padStart(5, "0")}
-                    </td>
+                    <td>HMA{String(item.id).padStart(5, "0")}</td>
                     <td>
                       {item.name}
                       <br />
                       {item.dob ? moment(item.dob).format("DD-MM-YYYY") : "NA"}
                     </td>
-                    <td>{moment(item.createdAt).format('DD-MM-YYYY')}</td>
+                    <td>{moment(item.createdAt).format("DD-MM-YYYY")}</td>
                     <td>
                       {item.contact} <br />
                       {item.email}
@@ -222,13 +248,13 @@ function Participate() {
                       {item.interest_in_role} <br />{" "}
                       {item.other_roles ? item.other_roles : ""}{" "}
                     </td>
-                    <td>{item.dream_remarks}</td>
-                    <td>{item.how_to_know_about_this}</td>
-                    <td>
+                    {/* <td>{item.dream_remarks}</td> */}
+                    {/* <td>{item.how_to_know_about_this}</td> */}
+                    {/* <td>
                       {item?.StateMaster?.stateName
                         ? item?.StateMaster?.stateName
                         : "NA"}
-                    </td>
+                    </td> */}
                     <td>
                       {item?.CityMaster?.cityName
                         ? item?.CityMaster?.cityName
@@ -238,12 +264,14 @@ function Participate() {
                       {item.media_url ? (
                         <>
                           {/* <button >View File</button> */}
-                          <a
+                          <Link
+                            title="View File"
                             onClick={() => getMediaFile(item.media_url)}
                             target="_blank"
+                            className="btn btn-icon"
                           >
-                            View File
-                          </a>
+                            <BiShow />
+                          </Link>
                         </>
                       ) : (
                         "NA"
@@ -274,35 +302,59 @@ function Participate() {
           <Col md={4}>
             <Form.Group className="mb-3">
               <Form.Label>Select Role</Form.Label>
-              <Form.Select name="roleType" value={search.roleType} onChange={handleFilterChange}>
-                <option key="" value="">Select All</option>
-                {roleList.map((role, $index) =>
-                    <option key={$index+1} value={role}>{role}</option>
-                 )}
+              <Form.Select
+                name="roleType"
+                value={search.roleType}
+                onChange={handleFilterChange}
+              >
+                <option key="" value="">
+                  Select All
+                </option>
+                {roleList.map((role, $index) => (
+                  <option key={$index + 1} value={role}>
+                    {role}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
           </Col>
           <Col md={4}>
             <Form.Group className="mb-3">
               <Form.Label>Duration - Start Date</Form.Label>
-              <Form.Control type="date" value={search.startDate} onChange={handleFilterChange} name="startDate"/>
+              <Form.Control
+                type="date"
+                value={search.startDate}
+                onChange={handleFilterChange}
+                name="startDate"
+              />
             </Form.Group>
           </Col>
           <Col md={4}>
             <Form.Group className="mb-3">
               <Form.Label>Duration - End Date</Form.Label>
-              <Form.Control type="date" value={search.endDate} onChange={handleFilterChange} minDate={search.startDate} name="endDate"/>
+              <Form.Control
+                type="date"
+                value={search.endDate}
+                onChange={handleFilterChange}
+                minDate={search.startDate}
+                name="endDate"
+              />
             </Form.Group>
           </Col>
         </Row>
         <div className="d-flex justify-content-center gap-2">
-          <Button variant="primary" size="sm" onClick={searchData} >
+          <Button variant="primary" size="sm" onClick={searchData}>
             <span>Search</span>
           </Button>
-          <Button variant="outline-secondary" size="sm" onClick={reset} > 
+          <Button variant="outline-secondary" size="sm" onClick={reset}>
             Reset
           </Button>
-          <Button variant="outline-secondary" size="sm" disabled={!items || items.length == 0} onClick={handleExportExcel}>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            disabled={!items || items.length == 0}
+            onClick={handleExportExcel}
+          >
             Download
           </Button>
         </div>
@@ -310,17 +362,20 @@ function Participate() {
       <div className="table-view bg-white rounded-4 p-4">
         <div className="text-muted mb-3">
           Total Records :{" "}
-          <span className="text-dark fw-bold">{totalRecords ? totalRecords : 0}</span>
+          <span className="text-dark fw-bold">
+            {totalRecords ? totalRecords : 0}
+          </span>
         </div>
-        {
-          (items && items.length > 0) ? showItems()
-          : <>
-          <div className="d-flex text-muted justify-content-center p-5 w-100 align-items-center flex-column">
-            <i className="fa fa-database fa-3x mb-3"></i>
-            <p>Sorry, no record found!</p>
-          </div>
+        {items && items.length > 0 ? (
+          showItems()
+        ) : (
+          <>
+            <div className="d-flex text-muted justify-content-center p-5 w-100 align-items-center flex-column">
+              <i className="fa fa-database fa-3x mb-3"></i>
+              <p>Sorry, no record found!</p>
+            </div>
           </>
-        }        
+        )}
       </div>
       {items ? (
         items.length > 0 ? (

@@ -485,3 +485,28 @@ textarea {
     transform: rotate(1turn);
   }
 }
+
+.pagination {
+  gap: 0.25rem;
+  & .page-item {
+    &.disabled .page-link {
+      background: none;
+      opacity: 0.5;
+    }
+    &.active .page-link {
+      background: variables.$primary;
+    }
+  }
+  & .page-link {
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: none;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

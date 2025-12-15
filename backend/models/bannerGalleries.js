@@ -1,35 +1,34 @@
 'use strict';
 const {  Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Faqs extends Model {
+  class BannerGalleries extends Model {
     
     static associate(models) {
       // define association here
-      Faqs.hasOne(models.FaqCategories, { sourceKey: "categoryId", foreignKey: "id"});
     }
   }
-  Faqs.init({
+  BannerGalleries.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    categoryId: {
-      allowNull: true,
-      type: DataTypes.INTEGER
-    },
-    quest: {
+    type: {
       allowNull: false,     
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
     },
-    answer: {
-      allowNull: false,
-      type: DataTypes.TEXT
+    fileUrl: {
+      allowNull: false,     
+      type: DataTypes.STRING,
     },
-    orderNumber:{
-      type:DataTypes.INTEGER,
-      defaultValue:1
+    title: {
+      allowNull: true,     
+      type: DataTypes.STRING,
+    },
+    description: {
+      allowNull: true,     
+      type: DataTypes.STRING,
     },
     status:{
       type:DataTypes.INTEGER,
@@ -57,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Faqs',
+    modelName: 'BannerGalleries',
   });
-  return Faqs;
+  return BannerGalleries;
 };

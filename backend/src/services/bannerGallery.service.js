@@ -1,13 +1,11 @@
 const { QueryTypes } = require('sequelize');
 var fs = require('fs'),
-  async = require('async'),
-  csv = require('csv');
-const { off } = require('process');
-let FaqCategoryDataProvider = {
+  async = require('async')
+let BannerGalleryDataProvider = {
 
-  createFaqCategory: async (body) => {
+  createBannerGallery: async (body) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.create(body)
+      conn.BannerGalleries.create(body)
         .then(data => {
           resolve(data);
         }).catch(err => {
@@ -15,31 +13,13 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  checkExistFaqCategory: async (name, id = 0) => {
+  
+  getBannerCategoryById: async (categoryId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.findOne({
-        where: { 
-          name: name.trim(),          
-          id: { [Op.not]: id }       
-        },
-      })
-        .then(data => {
-          if (data == null) {
-            resolve(false);
-          } else if (id && data.length == 1) {
-            resolve(false);
-          } else {
-            resolve(true);
-          }
-        }).catch(err => {
-          reject(err);
-        });
-    });
-  },
-  getCategoryById: async (categoryId) => {
-    return new Promise(function (resolve, reject) {
-      conn.FaqCategories.findOne({
+      conn.BannerGalleries.findOne({
+        attributes: [ "*",['fileUrl', 'filePath']],
         where: { id: categoryId },
+        raw:true
       })
         .then(data => {
           if (data !== null) {
@@ -52,9 +32,9 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  updateFaqCategory: async (body, categoryId) => {
+  updateBannerGallery: async (body, categoryId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update(body, {
+      conn.BannerGalleries.update(body, {
         where: { id: categoryId },
       })
         .then(data => {
@@ -66,9 +46,9 @@ let FaqCategoryDataProvider = {
   },
   
   //Use this service to soft delete purpose
-  changeFaqCategoryStatus: async (body) => {
+  changeBannerGalleryStatus: async (body) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update({
+      conn.BannerGalleries.update({
         status: body.status
       }, {
         where: { id: body.categoryId },
@@ -80,9 +60,9 @@ let FaqCategoryDataProvider = {
         });
     });
   },
-  deleteFaqCategory: async (categoryId) => {
+  deleteBannerGallery: async (categoryId) => {
     return new Promise(function (resolve, reject) {
-      conn.FaqCategories.update({
+      conn.BannerGalleries.update({
         isdeleted : 1
       },{
         where: { id: categoryId },
@@ -99,20 +79,24 @@ let FaqCategoryDataProvider = {
     });
   },
   //Use this service as to get ActiveDocumentList Only, using via filter options also
-  getFaqCategoryList: async (all = false) => {
+  getBannerGalleryList: async (req, all = false) => {
+    let offset = req.query.offset;
+    let limit = req.query.perPage;
     return new Promise(async function (resolve, reject) {
       // console.log('search', search);
       let filter = { isdeleted: 0 };
-      let columns = ["id", "name", "status", "createdAt"];
+      let columns = ["id", "type", "title", "fileUrl", "description", "status", "createdAt"];
       let orderBy = [['id', 'DESC']];
       if(!all){
-        columns = ["id", "name"];
+        columns = ["id", "type", "title", "fileUrl", "description",];
         filter = {...filter, status:1}
-        orderBy = [['name', 'ASC']]
+        // orderBy = [['name', 'ASC']]
       }
-      await conn.FaqCategories.findAndCountAll({
+      await conn.BannerGalleries.findAndCountAll({
         attributes:columns,
         where: filter,
+        limit: limit,
+        offset: offset,
         order: orderBy,
         // raw: true,
         // logging:console.log
@@ -126,4 +110,4 @@ let FaqCategoryDataProvider = {
   },
   
 };
-module.exports = FaqCategoryDataProvider;
+module.exports = BannerGalleryDataProvider;
