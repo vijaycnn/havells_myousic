@@ -5,7 +5,7 @@ import stageThree from "../assets/stage-icon-3.svg";
 import stageFour from "../assets/stage-icon-4.svg";
 import stageFive from "../assets/stage-icon-5.svg";
 
-function HowItWorks() {
+function HowItWorks({ data }) {
   return (
     <>
       <section className="sec sec-process" id="aboutmYOUsic">
@@ -13,16 +13,19 @@ function HowItWorks() {
           <Row>
             <Col md={7} className="mx-auto">
               <div className="sec-head text-center mb-5">
-                <p className="sec-sub-title mb-2">What is Havells mYOUsic?</p>
+                <p className="sec-sub-title mb-2" dangerouslySetInnerHTML={{ __html: data?.title || "" }} /> 
+                {/* What is Havells mYOUsic?</p>
                 <h2 className="sec-title mb-5">
                   A Journey That Celebrates India’s True Music Spirit
-                </h2>
+                </h2> */}
               </div>
             </Col>
           </Row>
           <Row className="text-justify justify-content-center text-center text-large">
             <Col lg={10}>
-              <p>
+              <p dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                
+              {/* <p>
                 India’s music is a living, breathing story-woven through folk
                 melodies in villages, timeless classical ragas, vibrant film
                 scores, and the raw rhythms of its streets. Havells mYOUsic is
@@ -36,7 +39,7 @@ function HowItWorks() {
                 opportunities to create original music, Havells mYOUsic is more
                 than a program-it’s a movement to amplify India’s authentic
                 sound and empower the artists behind it.
-              </p>
+              </p> */}
             </Col>
           </Row>
           <Row className="g-md-4 g-3 step mt-md-5 mt-4 justify-content-md-start justify-content-center">
