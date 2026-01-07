@@ -3,17 +3,37 @@ import QrCode from "../assets/QR-code.png";
 import shareIcon from "../assets/share-icon.svg";
 
 function Gallery({data}) {
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-gallery pb-0" id="gallery">
         <Container>
           <div className="sec-head text-center mb-5">
-            <h2 className="sec-title" dangerouslySetInnerHTML={{ __html: data?.title || "" }} />
-            {/* Captured Beats. Endless Memories.</h2> */}
-            <p className="sec-sub-title" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
-            {/*}  Experience the essence of Havells mYOUsic through moments that
-              celebrate creativity, passion, and connection.
-            </p> */}
+            {
+              (data?.title)?
+              <>
+              <h2 className="sec-title"> {/* Captured Beats. Endless Memories. */}
+              {data?.title}
+              </h2>
+              </>:''
+            }
+            {
+              (data?.subtitle)?
+              <>
+                <p className="sec-sub-title" >   {/* Experience the essence of Havells mYOUsic through moments that celebrate creativity, passion, and connection. */}
+                  {data?.subtitle}
+                </p>
+              </>:''
+            }
+            {
+              (data?.remark && remark.length > 0)?
+              <>
+                <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              </>:''
+            }              
           </div>
           <Row className="g-md-4 g-3">
             <Col md={3} xs={6}>

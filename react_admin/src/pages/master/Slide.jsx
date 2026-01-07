@@ -142,6 +142,7 @@ function Slide() {
               <th style={{ width: "80px" }}>Sr. No.</th>
               <th>Tab/Slide</th>
               <th>Title</th>
+              <th>Sub-Title</th>
               {/* <th>Description</th> */}
               <th>Status</th>
               <th width="120" className="col-fixed">
@@ -156,8 +157,8 @@ function Slide() {
                   <tr key={item.id}>
                     <td>{$index + 1}</td>
                     <td>{item.slideNumber}</td>
-                    <td><span dangerouslySetInnerHTML={{ __html: item.title }} />
-                    </td>
+                    <td>{item.title}</td>
+                    <td>{item.subtitle}</td>
                     {/* <td>{item.remark}</td> */}
                     {/* <td>{moment(item.createdAt).format('DD-MM-YYYY')}</td> */}
                     <td>

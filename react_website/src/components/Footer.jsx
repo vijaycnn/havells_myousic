@@ -27,8 +27,18 @@ function Footer({data}) {
               <a href="/">
                 <Image src={Logo} alt="" />
               </a>
-              {/* <h2 className="sec-title" dangerouslySetInnerHTML={{ __html: data?.title || "" }} /> */}
-              <p className="my-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              {
+                (data?.subtitle) ?
+                <>
+                <h4 className="sec-title" >{data?.subtitle}</h4>
+                </>:''
+              }
+              {
+                (data?.remark)?
+                <>
+                  <div className="my-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                </>:''
+              }
                 {/* A Havells initiative focused on elevating India’s grassroots
                 artists-strengthening their artistic journey with mentorship,
                 exposure, and opportunities that bring their original music to

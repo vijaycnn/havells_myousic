@@ -6,9 +6,9 @@ let SlideContextDataProvider = {
     return new Promise(async function (resolve, reject) {
       // console.log('search', search);
       let filter = { isdeleted: 0 };
-      let columns = ["id", "slideNumber", "title", "remark", "status", "createdAt"];
+      let columns = ["id", "slideNumber", "title", "subtitle", "remark", "status", "createdAt"];
       if(!all){
-        columns = ["id", "slideNumber", "title", "remark"];
+        columns = ["id", "slideNumber", "title", "subtitle", "remark"];
         filter = {...filter, status:1 }
       }
       await conn.SlideContexts.findAndCountAll({

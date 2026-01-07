@@ -6,6 +6,10 @@ import stageFour from "../assets/stage-icon-4.svg";
 import stageFive from "../assets/stage-icon-5.svg";
 
 function HowItWorks({ data }) {
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-process" id="aboutmYOUsic">
@@ -13,17 +17,24 @@ function HowItWorks({ data }) {
           <Row>
             <Col md={7} className="mx-auto">
               <div className="sec-head text-center mb-5">
-                <p className="sec-sub-title mb-2" dangerouslySetInnerHTML={{ __html: data?.title || "" }} /> 
-                {/* What is Havells mYOUsic?</p>
+                <p className="sec-sub-title mb-2" > 
+                {/* What is Havells mYOUsic?  */}
+                {data?.title}</p>
                 <h2 className="sec-title mb-5">
-                  A Journey That Celebrates India’s True Music Spirit
-                </h2> */}
+                  {/* A Journey That Celebrates India’s True Music Spirit */}
+                  {data?.subtitle}
+                </h2>
               </div>
             </Col>
           </Row>
           <Row className="text-justify justify-content-center text-center text-large">
             <Col lg={10}>
-              <p dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              {              
+                (data?.remark && remark.length > 0) ?
+                <>
+                <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                </>: ''
+              }
                 
               {/* <p>
                 India’s music is a living, breathing story-woven through folk

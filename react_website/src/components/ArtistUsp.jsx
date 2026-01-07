@@ -2,6 +2,19 @@ import { Container, Image, Row, Col } from "react-bootstrap";
 import ArtistBg from "../assets/collabrate.mp4";
 
 function ArtistUsp( {data1, data2, data3}) {
+  let remark1 = data1?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
+  let remark2 = data2?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
+  let remark3 = data3?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();    
+
   return (
     <>
       <section className="sec sec-usp">
@@ -23,29 +36,75 @@ function ArtistUsp( {data1, data2, data3}) {
 
           <Row className="g-md-4 g-2 my-md-5 pb-5 text-md-start text-center">
             <Col xs={4}>
-              <div className="card-usp rounded-4 p-md-4 p-3 h-100">
-                <h4 className="mb-1"  dangerouslySetInnerHTML={{ __html: data1?.title || "" }} />
-                {/* 500+ Entries</h4> */}
-                <p className="m-0 text-large" dangerouslySetInnerHTML={{ __html: data1?.remark || "" }} />
-                  {/* of Grassroot artists received so far
-                </p> */}
+              <div className="card-usp rounded-4 p-md-4 p-3 h-100" > 
+                {
+                  (data1?.title)?
+                  <>
+                  <h4 className="mb-1">   {/* 500+ Entries */}
+                  {data1?.title}
+                  </h4>
+                  </>: ''
+                }
+                {
+                  (data1?.subtitle)?
+                  <>
+                  <p className="m-0 text-large">{data1?.subtitle}</p>
+                  </>:''
+                }
+                {
+                  (data1?.remark && remark1.length > 0)?
+                  <>
+                  <div dangerouslySetInnerHTML={{ __html: data1?.remark || "" }} />
+                  </>:''
+                }
               </div>
             </Col>
             <Col xs={4}>
               <div className="card-usp rounded-4 p-md-4 p-3 h-100">
-                <h4 className="mb-1" dangerouslySetInnerHTML={{ __html: data2?.title || "" }} />
-                {/* 100+ Hours</h4> */}
-                <p className="m-0 text-large" dangerouslySetInnerHTML={{ __html: data2?.remark || "" }} />
-                  {/* of mentorship from leading industry experts
-                </p> */}
+                {
+                  (data2?.title)?
+                  <>
+                  <h4 className="mb-1">   {/* 500+ Entries */}
+                  {data2?.title}
+                  </h4>
+                  </>: ''
+                }
+                {
+                  (data2?.subtitle)?
+                  <>
+                  <p className="m-0 text-large">{data2?.subtitle}</p>
+                  </>:''
+                }
+                {
+                  (data2?.remark && remark2.length > 0)?
+                  <>
+                  <div dangerouslySetInnerHTML={{ __html: data2?.remark || "" }} />
+                  </>:''
+                }
               </div>
             </Col>
             <Col xs={4}>
               <div className="card-usp rounded-4 p-md-4 p-3 h-100">
-                <h4 className="mb-1" dangerouslySetInnerHTML={{ __html: data3?.title || "" }} />
-                {/* 25+ Original songs</h4> */}
-                <p className="m-0 text-large" dangerouslySetInnerHTML={{ __html: data3?.remark || "" }} />
-                {/* to be released</p> */}
+                {
+                  (data3?.title)?
+                  <>
+                  <h4 className="mb-1">   {/* 500+ Entries */}
+                  {data3?.title}
+                  </h4>
+                  </>: ''
+                }
+                {
+                  (data3?.subtitle)?
+                  <>
+                  <p className="m-0 text-large">{data3?.subtitle}</p>
+                  </>:''
+                }
+                {
+                  (data3?.remark && remark3.length > 0)?
+                  <>
+                  <div dangerouslySetInnerHTML={{ __html: data3?.remark || "" }} />
+                  </>:''
+                }
               </div>
             </Col>
           </Row>
