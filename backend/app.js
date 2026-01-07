@@ -16,6 +16,8 @@ const locationRouter = require('./routes/location.route');
 const faqRouter = require('./routes/faq.route');
 const mentorRouter = require('./routes/mentor.route');
 const bannerRouter = require('./routes/banner.route');
+const slideRouter = require('./routes/slidecontext.route');
+const galleryRouter = require('./routes/gallery.route');
 
 conn = require("./models");  
 Op = conn.Sequelize.Op;  
@@ -90,6 +92,8 @@ app.use('/api/location',  locationRouter);
 app.use('/api/faq',  faqRouter);
 app.use('/api/mentor',  mentorRouter);
 app.use('/api/banner',  bannerRouter);
+app.use('/api/slide',  slideRouter);
+app.use('/api/gallery',  galleryRouter);
 
 
 /**

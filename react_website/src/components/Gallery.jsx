@@ -2,17 +2,18 @@ import { Container, Image, Row, Col } from "react-bootstrap";
 import QrCode from "../assets/QR-code.png";
 import shareIcon from "../assets/share-icon.svg";
 
-function Gallery() {
+function Gallery({data}) {
   return (
     <>
       <section className="sec sec-gallery pb-0" id="gallery">
         <Container>
           <div className="sec-head text-center mb-5">
-            <h2 className="sec-title">Captured Beats. Endless Memories.</h2>
-            <p className="sec-sub-title">
-              Experience the essence of Havells mYOUsic through moments that
+            <h2 className="sec-title" dangerouslySetInnerHTML={{ __html: data?.title || "" }} />
+            {/* Captured Beats. Endless Memories.</h2> */}
+            <p className="sec-sub-title" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+            {/*}  Experience the essence of Havells mYOUsic through moments that
               celebrate creativity, passion, and connection.
-            </p>
+            </p> */}
           </div>
           <Row className="g-md-4 g-3">
             <Col md={3} xs={6}>
