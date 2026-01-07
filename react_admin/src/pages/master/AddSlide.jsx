@@ -24,6 +24,7 @@ function Slide() {
   const [formData, setFormData] = useState({
     slideNumber: "",
     title: "",
+    subtitle: "",
     remark: "",
   });
   const handleChange = (e) => {
@@ -37,18 +38,18 @@ function Slide() {
   const validation = (values) => {
     setError("");
     let hasError = false;
-    let title = values.title
+    let remark = values.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
     .trim();
 
-    if (!values.slideNumber || values.slideNumber == "" || !values.title) {
+    if (!values.slideNumber || values.slideNumber == "" ) {
       setError("Mandatory fields are missing");
       hasError = true;
     }
-    if(title.length === 0){
-        setError("Mandatory fields are missing");
-        hasError = true;
+    if((!values.title && !values.subtitle && remark.length === 0)){
+      setError("One of the fields(Title/Sub-Title/Description) should be filled");
+      hasError = true;
     }
     return hasError;
   };
@@ -66,6 +67,7 @@ function Slide() {
         let body = {
             slideNumber: formData.slideNumber,
             title: formData.title,
+            subtitle: formData.subtitle,
             remark: formData.remark,
         };
         // console.log("data >>", data);
@@ -77,6 +79,7 @@ function Slide() {
                 setFormData({
                 slideNumber: "",
                 title: "",
+                subtitle:"",
                 remark: "",
                 });
                 setSuccessMsg(response?.data?.message);
@@ -161,15 +164,28 @@ function Slide() {
             <Col md={12}>
               <Form.Group className="mb-4">
                 <Form.Label className="fw-medium">
-                  Title/Context<span className="text-danger">*</span>
+                  Title
                 </Form.Label>
-                <ReactQuill
-                  theme="snow"
+                <Form.Control
+                  type="text"
                   name="title"
                   value={formData.title}
-                  onChange={(content) =>
-                    setFormData((prev) => ({ ...prev, title: content }))
-                  }
+                  placeholder="Enter Here"
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12}>
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-medium">
+                  Sub-Title
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="subtitle"
+                  value={formData.subtitle}
+                  placeholder="Enter Here"
+                  onChange={handleChange}
                 />
               </Form.Group>
             </Col>

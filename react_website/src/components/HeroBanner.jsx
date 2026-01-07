@@ -32,6 +32,10 @@ function HeroBanner({ data }) {
       setLoading(false)
     }
   }, [loading]);
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-hero">
@@ -39,12 +43,21 @@ function HeroBanner({ data }) {
           <Row className="align-items-center">
             <Col lg={6}>
               <div className="sec-head text-lg-start text-center mb-lg-0 mb-5 px-lg-0 px-md-5">
-                <h2 className="sec-title mb-md-5 mb-4" dangerouslySetInnerHTML={{ __html: data?.title || ""}} />
-                  {/* Sing. Write. Compose. <br />
+                {
+                  (data?.subtitle) ?
+                  <><h2 className="sec-title mb-md-5 mb-4" >{data?.subtitle}</h2>
+                  </>:''
+                }                
+                {/* <h2 className="sec-title mb-md-5 mb-4" > 
+                   Sing. Write. Compose. <br />
                   The stage is yours!
                 </h2> */}
-
-                <p className="sec-sub-title mb-md-5 mb-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                {              
+                (data?.remark && remark.length > 0) ?
+                  <>
+                  <div className="sec-sub-title mb-md-5 mb-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                  </>: ''
+                }
                   {/* <strong>Your art deserves a spotlight. </strong>
                   Havells mYOUsic is a platform for{" "}
                   <strong>grassroots artists-singers, lyricists,

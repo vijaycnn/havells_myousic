@@ -45,7 +45,7 @@ let SlideContextController = {
             console.log('validate controller reached', request.body);
             let checkIfExist = false;
             let slideId = request.body.slideId ? request.body.slideId : 0;
-            checkIfExist = await slideContextService.checkExistSlideContext(request.body.slideNumber, request.body.title, slideId);
+            checkIfExist = await slideContextService.checkExistSlideContext(request.body.slideNumber, slideId);
             if (checkIfExist == true) {
                 return responder.sendResponse(response, 200, "error", '', "Context Already Exist");
             } else {
@@ -69,6 +69,7 @@ let SlideContextController = {
                 const SlideContextData = {
                     slideNumber: request.body.slideNumber.trim(),
                     title: request.body.title ? request.body.title.trim() : '',
+                    subtitle: request.body.subtitle ? request.body.subtitle.trim() : '',
                     remark: request.body.remark ? request.body.remark.trim() : '',
                     createdBy: request.user.userId
                 };
@@ -109,6 +110,7 @@ let SlideContextController = {
                 const SlideContextData = {
                     slideNumber: request.body.slideNumber.trim(),
                     title: request.body.title ? request.body.title.trim() : '',
+                    subtitle: request.body.subtitle ? request.body.subtitle.trim() : '',
                     remark: request.body.remark ? request.body.remark.trim() : '',
                     updatedBy: request.user.userId,
                     updatedAt: new Date(),

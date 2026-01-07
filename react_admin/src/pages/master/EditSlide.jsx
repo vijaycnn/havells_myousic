@@ -15,6 +15,7 @@ import axiosInstance from "../../helper/constants/axiosInstance";
 import { decode as base64_decode, encode as base64_encode } from "base-64";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND + "/api";
+// import RichTextEditor, { isQuillEmpty } from "../../components/RichTextEditor";
 
 function EditSlide() {
   const params = useParams();
@@ -56,6 +57,7 @@ function EditSlide() {
   const [data, setData] = useState({
     slideNumber: "",
     title: "",
+    subtitle: "",
     remark: "",
   });
   useEffect(() => {
@@ -63,6 +65,7 @@ function EditSlide() {
       setData({
         slideNumber: previousData.slideNumber,
         title: previousData.title,
+        subtitle: previousData.subtitle,
         remark: previousData.remark,
       });
     }
@@ -80,18 +83,18 @@ function EditSlide() {
     setError("");
     let hasError = false;
     
-    let title = values.title
+    let remark = values.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
     .trim();
 
-    if (!values.slideNumber || values.slideNumber == "" || !values.title) {
+    if (!values.slideNumber || values.slideNumber == "" ) {
       setError("Mandatory fields are missing");
       hasError = true;
     }
-    if(title.length === 0){
-        setError("Mandatory fields are missing");
-        hasError = true;
+    if((!values.title && !values.subtitle && remark.length === 0)){
+      setError("One of the fields(Title/Sub-Title/Description) should be filled");
+      hasError = true;
     }
     return hasError;
   };
@@ -109,6 +112,7 @@ function EditSlide() {
             slideId: previousData.id,
             slideNumber: data.slideNumber,
             title: data.title,
+            subtitle: data.subtitle,
             remark: data.remark,
         };
         // console.log("data >>", data);
@@ -120,6 +124,7 @@ function EditSlide() {
             setData({
                 slideNumber: "",
                 title: "",
+                subtitle: "",
                 remark: "",
             });
             setSuccessMsg(response?.data?.message);
@@ -205,15 +210,28 @@ function EditSlide() {
             <Col md={12}>
                 <Form.Group className="mb-4">
                 <Form.Label className="fw-medium">
-                    Title/Context<span className="text-danger">*</span>
+                    Title
                 </Form.Label>
-                <ReactQuill
-                    theme="snow"
-                    name="title"
-                    value={data.title}
-                    onChange={(content) =>
-                    setData((prev) => ({ ...prev, title: content }))
-                    }
+                <Form.Control
+                  type="text"
+                  name="title"
+                  value={data.title}
+                  placeholder="Enter Here"
+                  onChange={handleChange}
+                />
+                </Form.Group>
+            </Col>
+            <Col md={12}>
+                <Form.Group className="mb-4">
+                <Form.Label className="fw-medium">
+                    Sub-Title
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="subtitle"
+                  value={data.subtitle}
+                  placeholder="Enter Here"
+                  onChange={handleChange}
                 />
                 </Form.Group>
             </Col>
@@ -229,6 +247,14 @@ function EditSlide() {
                     setData((prev) => ({ ...prev, remark: content }))
                     }
                 />
+                {/* <RichTextEditor
+                  value={data.remark}
+                  onChange={(content) =>
+                  setData((prev) => ({ ...prev, remark: content }))
+                  }
+                  placeholder="Enter description..."
+                  error={error}
+                /> */}
                 </Form.Group>
             </Col>
             <Col md={12}>

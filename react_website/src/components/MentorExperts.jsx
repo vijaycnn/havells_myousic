@@ -7,7 +7,7 @@ import Tarsame from "../assets/Tarsame.png";
 import MentorModal from "./MentorModal";
 import { mentorList } from "../api";
 
-function MentorExperts() {
+function MentorExperts( {data}) {
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
@@ -233,13 +233,35 @@ function MentorExperts() {
       setLoading(false)
     }
   }, [loading]);
+
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
+
   return (
     <>
       <section className="sec sec-mentor" id="mentors">
         <Container fluid>
           <div className="sec-head text-center mb-5">
-            <p className="sec-sub-title mb-2">Mentors &amp; Experts</p>
-            <h2 className="sec-title mb-5">Guided by the Best</h2>
+            {
+              (data?.title) ?
+              <>
+                <p className="sec-sub-title mb-2">{data?.title}</p>
+              </>: ''
+            }
+            {
+              (data?.subtitle)?
+              <>
+              <h2 className="sec-title mb-5">{data?.subtitle}</h2>
+              </>:''
+            }
+            {              
+              (data?.remark && remark.length > 0) ?
+              <>
+              <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              </>: ''
+            }
           </div>
 
           <Row className="align-items-center justify-content-center">
