@@ -1,7 +1,11 @@
 import { Container, Image } from "react-bootstrap";
 import mike from "../assets/mice.png";
 
-function Disclaimer() {
+function Disclaimer({data}) {
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-form text-tnc">
@@ -10,9 +14,15 @@ function Disclaimer() {
             <Image src={mike} alt="Mike" className="artist-card-element mike" />
 
             <h3 className="font-secondary mb-4 text-primary">
-              Fake Call &amp; Fraudulent Communication Disclaimer
+              {data?.subtitle} 
             </h3>
-            <p>“Havells India Limited hereby informs all participants that:</p>
+            {              
+              (data?.remark && remark.length > 0) ?
+              <>
+              <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              </>: ''
+            }
+            {/* <p>“Havells India Limited hereby informs all participants that:</p>
             <p>
               Havells will contact participants <strong>only</strong> through
               the following official channels:{" "}
@@ -121,7 +131,7 @@ function Disclaimer() {
               By proceeding, you acknowledge that you have read and understood
               this consent statement and voluntarily agree to the processing of
               your personal data for the purposes stated above.”
-            </p>
+            </p> */}
           </div>
         </Container>
       </section>

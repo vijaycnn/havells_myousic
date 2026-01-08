@@ -58,9 +58,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home contextData={contextData} />} />
               <Route path="/participate" element={<Participate />} />
-              <Route path="/terms-conditions" element={<TermsConditions />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/disclaimer" element={<Disclaimer />} />
+              <Route path="/terms-conditions" element={<TermsConditions  data={contextData?.["TermnCondition"]} />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy  data={contextData?.["PrivacyPolicy"]}/>} />
+              <Route path="/disclaimer" element={<Disclaimer  data={contextData?.["Disclaimer"]}/>} />
               <Route path="/thankyou" element={<Thankyou />} />
             </Routes>
           </Router>

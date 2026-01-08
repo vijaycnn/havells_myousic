@@ -191,9 +191,9 @@ function Gallery() {
     // const uploadRes = { status : 200 }
     if (uploadRes.status == 200) {
       if(mode == 'add'){
-        await addMedia(fileUrl);
+        await addMedia(fileUrl.trim());
       }else{
-        await updateMedia(editId, fileUrl);
+        await updateMedia(editId, fileUrl.trim());
       }
     }
   };
@@ -394,9 +394,9 @@ function Gallery() {
       if (fileUrl != "") {
         setIsLoading(true);
         const key = fileUrl.split(".amazonaws.com/")[1];
-        console.log("key :: ", key);
+        // console.log("key :: ", key);
         let result = await getDownloadUrl(key);
-        console.log(">>> ", result);
+        // console.log(">>> ", result);
         const { downloadUrl } = result;
         window.open(downloadUrl, "_blank");  
         setIsLoading(false);
@@ -423,6 +423,9 @@ function Gallery() {
     setOffset(0);
     setCurrentPage(0);
   };
+
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewMedia, setPreviewMedia] = useState(null);
     
   const showItems = () => {
     return isLoading == false ? (
@@ -457,13 +460,26 @@ function Gallery() {
                         {
                           (item.fileUrl) ?
                           <>
-                            <Link title="View File"
-                                onClick={() => getMediaFile(item.fileUrl)}
-                                target="_blank"
-                                className="btn btn-icon"
+                              <div
+                                style={{ width: 100, height: 100, background: "#000", borderRadius: "6px", position: "relative", cursor: "pointer",
+                                }}
+                                onClick={() => {
+                                  setPreviewMedia(item);
+                                  setShowPreview(true);
+                                }}
                               >
-                                <FaVideo size={18} color="#555" />
-                              </Link>
+                                <video
+                                  src={item.filePath} muted preload="metadata" onMouseEnter={(e) => e.target.play()}
+  onMouseLeave={(e) => e.target.pause()} width={100} height={100} style={{ objectFit: "cover", borderRadius: "6px" }}
+                                />
+                                <span
+                                  style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+                                    background: "rgba(0,0,0,0.6)", color: "#fff", borderRadius: "50%", padding: "6px 10px", fontSize: "14px",
+                                  }}
+                                >
+                                  ▶
+                                </span>
+                              </div>
                           </> : "NA"
                         }
                         </>
@@ -564,7 +580,7 @@ function Gallery() {
           </>
         }        
       </div>
-        <Modal size="" show={show} centered onHide={() => setShow(false)} backdrop="static" keyboard={false}>
+        <Modal id="frm" name="frm" size="" show={show} centered onHide={() => setShow(false)} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     {mode === "add" ? "Add Media" : "Edit Media"}
@@ -647,6 +663,20 @@ function Gallery() {
                     <span className="nav-link-text">{mode === "add" ? "Save" : "Update"}</span>
                 </Button>                
             </Modal.Footer>            
+        </Modal>
+
+        <Modal id="preview" name="preview" show={showPreview} onHide={() => setShowPreview(false)} centered size="lg" >
+          <Modal.Header closeButton>
+            <Modal.Title>Preview</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body className="text-center">
+            {previewMedia?.type.trim() === "image" ? (
+              <img src={previewMedia.filePath} style={{ maxWidth: "100%", borderRadius: "8px" }} />
+            ) : (
+              <video src={previewMedia?.filePath} controls autoPlay style={{ width: "100%", borderRadius: "8px" }} />
+            )}
+          </Modal.Body>
         </Modal>
 
       {items ? (

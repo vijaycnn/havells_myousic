@@ -55,17 +55,15 @@ let GalleryController = {
             const rows = data.rows.map((r) => r.get({ plain: true }));
             const galleries = await Promise.all(
                 rows.map(async (row) => {
-                    if(row.fileUrl != ''){
+                    if(row.fileUrl != '' ){     //&& row.type.trim() == 'image'
                         let filePath = row.fileUrl.trim();
-                        let key = filePath.split(".amazonaws.com/")[1]
+                        let key = filePath.split(".amazonaws.com/")[1];
 
                         const command = new GetObjectCommand({
                         Bucket: process.env.S3_BUCKET,
                         Key: key,
                         });
                         let signedUrl = await getSignedUrl(s3, command, { expiresIn: 900 });
-
-                        // console.log('>>>', signedUrl);
                         row.filePath = signedUrl;
                     }else{
                         row.filePath = '';

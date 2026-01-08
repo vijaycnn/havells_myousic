@@ -1,7 +1,11 @@
 import { Container, Image } from "react-bootstrap";
 import mike from "../assets/mice.png";
 
-function PrivacyPolicy() {
+function PrivacyPolicy({data}) {
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-form text-tnc">
@@ -10,9 +14,15 @@ function PrivacyPolicy() {
             <Image src={mike} alt="Mike" className="artist-card-element mike" />
 
             <h3 className="font-secondary mb-4 text-primary">
-              Havells mYOUSIC – Privacy Policy
+              {data?.subtitle}
             </h3>
-            <p>
+            {              
+              (data?.remark && remark.length > 0) ?
+              <>
+              <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              </>: ''
+            }
+            {/* <p>
               Havells India Limited (“Havells”, “we”, “us”, “our”) is committed
               to protecting your privacy. This Privacy Policy explains how we
               collect, use, disclose, store and safeguard your information when
@@ -262,7 +272,7 @@ function PrivacyPolicy() {
             <p>
               Email:{" "}
               <a href="mailto:privacy@havells.com">privacy@havells.com</a>
-            </p>
+            </p> */}
           </div>
         </Container>
       </section>
