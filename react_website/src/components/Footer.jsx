@@ -115,7 +115,8 @@ function Footer() {
                         className="fs-6 fw-semi-bold"
                         href="mailto:myousichavells@gmail.com"
                       >
-                        myousichavells@gmail.com
+                        {/* myousichavells@gmail.com */}
+                        info@havellsmyousic.com
                       </a>
                     </div>
                     {/* <div className="d-flex flex-column gap-1">

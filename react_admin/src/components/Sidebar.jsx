@@ -29,6 +29,12 @@ const Sidebar = () => {
       currentPath === path || currentPath.startsWith(path + "/")
     );
   };
+  //to manage menu access //it's static part. update part uploaded soon...
+  const userEmail = localStorage.getItem("userEmail");
+  let hasAccess = true;
+  if(userEmail == 'info@havellsmyousic.com'){
+    hasAccess = false;
+  }
 
   return (
     <>
@@ -55,31 +61,36 @@ const Sidebar = () => {
               </span>
               <span className="nav-link-text">Participant</span>
             </Link>
-            <Link to={`${adminAlias}/banner`} className={`nav-link ${ (isActive([`${adminAlias}/banner`, `${adminAlias}/addBanner`, `${adminAlias}/editBanner`]) ) ? "active" : "" }`} >
-              <span className="nav-link-icon">
-                <BiImages />
-              </span>
-              <span className="nav-link-text">Banner</span>
-            </Link>
+            {
+              (hasAccess)?
+              <>
+                <Link to={`${adminAlias}/banner`} className={`nav-link ${ (isActive([`${adminAlias}/banner`, `${adminAlias}/addBanner`, `${adminAlias}/editBanner`]) ) ? "active" : "" }`} >
+                  <span className="nav-link-icon">
+                    <BiImages />
+                  </span>
+                  <span className="nav-link-text">Banner</span>
+                </Link>
 
-            <Link to={`${adminAlias}/mentors`} className={`nav-link ${ isActive([`${adminAlias}/mentors`, `${adminAlias}/addMentor`, `${adminAlias}/editMentor`]) ? "active" : "" }`} >
-              <span className="nav-link-icon">
-                <BiGroup />
-              </span>
-              <span className="nav-link-text">Mentors</span>
-            </Link>
-            <Link to={`${adminAlias}/faqs`} className={`nav-link ${ isActive([`${adminAlias}/faqs`, `${adminAlias}/addFaq`, `${adminAlias}/editFaq`]) ? "active" : ""}`} >
-              <span className="nav-link-icon">
-                <BiInfoSquare />
-              </span>
-              <span className="nav-link-text">Faqs</span>
-            </Link>
-            <Link to={`${adminAlias}/category`} className={`nav-link ${ isActive([`${adminAlias}/category`, `${adminAlias}/addCategory`, `${adminAlias}/editCategory`]) ? "active" : "" }`} >
-              <span className="nav-link-icon">
-                <BiListUl />
-              </span>
-              <span className="nav-link-text">Faq Category</span>
-            </Link>
+                <Link to={`${adminAlias}/mentors`} className={`nav-link ${ isActive([`${adminAlias}/mentors`, `${adminAlias}/addMentor`, `${adminAlias}/editMentor`]) ? "active" : "" }`} >
+                  <span className="nav-link-icon">
+                    <BiGroup />
+                  </span>
+                  <span className="nav-link-text">Mentors</span>
+                </Link>
+                <Link to={`${adminAlias}/faqs`} className={`nav-link ${ isActive([`${adminAlias}/faqs`, `${adminAlias}/addFaq`, `${adminAlias}/editFaq`]) ? "active" : ""}`} >
+                  <span className="nav-link-icon">
+                    <BiInfoSquare />
+                  </span>
+                  <span className="nav-link-text">Faqs</span>
+                </Link>
+                <Link to={`${adminAlias}/category`} className={`nav-link ${ isActive([`${adminAlias}/category`, `${adminAlias}/addCategory`, `${adminAlias}/editCategory`]) ? "active" : "" }`} >
+                  <span className="nav-link-icon">
+                    <BiListUl />
+                  </span>
+                  <span className="nav-link-text">Faq Category</span>
+                </Link>
+              </>: ''
+            }            
           </Nav>
         </div>
         <div className="w-100 p-3">
