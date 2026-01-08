@@ -82,7 +82,8 @@ let GalleryDataProvider = {
   getGalleryList: async (req, all = false) => {
     let offset = req.query.offset;
     let limit = req.query.perPage;
-    let type = req.query.type ? req.query.type.trim() : '';
+    let type = req.query.galleryType ? req.query.galleryType.trim() : '';
+    let galleryStatus = req.query.galleryStatus ? req.query.galleryStatus.trim() : '';
     return new Promise(async function (resolve, reject) {
       // console.log('search', search);
       let filter = { isdeleted: 0 };
@@ -94,6 +95,12 @@ let GalleryDataProvider = {
       if(!all){
         columns = ["id", "type", "title", "fileUrl", "remarks",];
         filter = {...filter, status:1}
+      }else if(galleryStatus > 0){
+        if(galleryStatus == 1){
+          filter = {...filter, status:1}
+        }else{
+          filter = {...filter, status:0}
+        }
       }
       await conn.Galleries.findAndCountAll({
         attributes:columns,

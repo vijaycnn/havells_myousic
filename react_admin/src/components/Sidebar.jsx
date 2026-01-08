@@ -74,12 +74,12 @@ const Sidebar = () => {
               </span>
               <span className="nav-link-text">CMS Context</span>
             </Link>
-             {/* <Link to={`${adminAlias}/gallery`} className={`nav-link ${ (isActive([`${adminAlias}/gallery`]) ) ? "active" : "" }`} >
+            <Link to={`${adminAlias}/galleries`} className={`nav-link ${ isActive([`${adminAlias}/galleries`, `${adminAlias}/addGallery`, `${adminAlias}/editGallery`]) ? "active" : "" }`} >
               <span className="nav-link-icon">
                 <BiSliderAlt />
               </span>
-              <span className="nav-link-text">Gallery</span>
-            </Link> */}
+              <span className="nav-link-text">Galleries</span>
+            </Link>
 
             {/* <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >
               <span className="nav-link-icon">
