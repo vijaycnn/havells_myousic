@@ -8,8 +8,8 @@ import arrowRight from "../assets/nav-arrow-right.svg";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function VideoSlider() {
-  const slides = Array.from({ length: 10 }, (_, i) => i + 1);
+export default function VideoSlider({galleryData}) {
+  const slides = galleryData;   //Array.from({ length: 10 }, (_, i) => i + 1);
   const total = slides.length;
 
   const [current, setCurrent] = useState(1);
@@ -28,10 +28,10 @@ export default function VideoSlider() {
         onSlideChange={(swiper) => setCurrent(swiper.activeIndex + 1)}
       >
         {slides.map((item) => (
-          <SwiperSlide key={item}>
+          <SwiperSlide key={item.id}>
             <div className="artist-video">
               <a
-                href="#"
+                href={item.filePath}
                 className="artist-video-text text-center justify-content-center align-items-center"
               >
                 <span className="artist-video-play">&nbsp;</span>

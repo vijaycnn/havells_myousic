@@ -124,9 +124,10 @@ function Footer({data}) {
                       <span className="opacity-75">For general queries:</span>
                       <a
                         className="fs-6 fw-semi-bold"
-                        href="mailto:myousichavells@gmail.com"
+                        href="mailto:info@havellsmyousic.com"
                       >
-                        myousichavells@gmail.com
+                        {/* myousichavells@gmail.com */}
+                        info@havellsmyousic.com
                       </a>
                     </div>
                     {/* <div className="d-flex flex-column gap-1">

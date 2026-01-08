@@ -24,14 +24,25 @@ let GalleryController = {
                         let signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
 
                         // console.log('>>>', signedUrl);
-                        row.image = signedUrl.trim();
+                        row.filePath = signedUrl.trim();
                     }else{
-                        row.image = '';
+                        row.filePath = '';
                     }
                     return row;
                 })
             ); 
-            let dataList =  { 'totalRecord': data.count, 'list': bannerImages };
+            const groupedGalleries = bannerImages.reduce((acc, row) => {
+                const key = row.type.trim();
+
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+
+                acc[key].push(row);
+                return acc;
+            }, {});
+
+            let dataList =  { 'totalRecord': data.count, 'list': groupedGalleries };
             return responder.sendFilterResponse(response, 200, "success", dataList, "Gallery List retrieved successfully.");
         } catch (error) {
             return next(error);
@@ -55,9 +66,9 @@ let GalleryController = {
                         let signedUrl = await getSignedUrl(s3, command, { expiresIn: 900 });
 
                         // console.log('>>>', signedUrl);
-                        row.fileUrl = signedUrl;
+                        row.filePath = signedUrl;
                     }else{
-                        row.fileUrl = '';
+                        row.filePath = '';
                     }
                     return row;
                 })
@@ -78,14 +89,14 @@ let GalleryController = {
                 return responder.sendResponse(response, 200, "error", '', "Missing Required!");
             }
             {
-                const categoryData = {
-                    type: request.body.type,
-                    title: request.body.title.trim(),
-                    remarks: request.body.remarks.trim(),
+                const title = (request.body.title || "").trim();
+                const data = {
+                    type: request.body.type.trim(),
+                    title,
                     fileUrl: request.body.fileUrl.trim(),
                     createdBy: request.user.userId
                 };
-                let galleryCreate = await galleryService.createGallery(categoryData);
+                let galleryCreate = await galleryService.createGallery(data);
                 return responder.sendResponse(response, 200, "success", galleryCreate, "Gallery created successfully.");
                 
             }
@@ -126,10 +137,10 @@ let GalleryController = {
                 return responder.sendResponse(response, 200, "error", '', "Missing Required!");
             }
             {
+                const title = (request.body.title || "").trim();
                 const data = {
-                    type: request.body.type,
-                    title: request.body.title.trim(),
-                    remarks: request.body.remarks.trim(),
+                    type: request.body.type.trim(),
+                    title,
                     fileUrl: request.body.fileUrl.trim(),
                     updatedBy: request.user.userId,
                     updatedAt: new Date(),

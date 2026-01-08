@@ -2,7 +2,7 @@ import { Container, Image, Row, Col } from "react-bootstrap";
 import QrCode from "../assets/QR-code.png";
 import shareIcon from "../assets/share-icon.svg";
 
-function Gallery({data}) {
+function Gallery({data, galleryData}) {
   let remark = data?.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
@@ -36,15 +36,22 @@ function Gallery({data}) {
             }              
           </div>
           <Row className="g-md-4 g-3">
-            <Col md={3} xs={6}>
-              <div className="gallery-item">
-                <Image
-                  src="https://img.freepik.com/free-photo/medium-shot-man-performing-stage_23-2149247126.jpg"
-                  alt=""
-                />
-              </div>
-            </Col>
-            <Col md={3} xs={6}>
+            {
+              (galleryData)?
+              (
+                galleryData.map((item, index) => (
+                  <>
+                  <Col md={3} xs={6}>
+                    <div className="gallery-item">
+                      <Image src={item.filePath} alt="ImgGallery" />
+                    </div>
+                  </Col>
+                  </>
+                ))
+              ) : ''
+            }
+            
+            {/* <Col md={3} xs={6}>
               <div className="gallery-item">
                 <Image
                   src="https://www.careersinmusic.com/wp-content/uploads/2019/03/recording-artist.jpg"
@@ -67,7 +74,7 @@ function Gallery({data}) {
                   alt=""
                 />
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </Container>
       </section>

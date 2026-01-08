@@ -30,7 +30,7 @@ import EditBanner from "./pages/master/EditBanner";
 import Slides from "./pages/master/Slide";
 import AddSlide from "./pages/master/AddSlide";
 import EditSlide from "./pages/master/EditSlide";
-// import Gallery from "./pages/master/Gallery";
+import Gallery from "./pages/master/Gallery";
 
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
@@ -123,8 +123,8 @@ function App() {
               </ProtectedRoute>
             }
           />   
-          {/* <Route
-            path={`${adminAlias}/gallery`}
+          <Route
+            path={`${adminAlias}/galleries`}
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
@@ -132,7 +132,7 @@ function App() {
                 </Layout>
               </ProtectedRoute>
             }
-          />    */}
+          />
           <Route
             path={`${adminAlias}/mentors`}
             element={
