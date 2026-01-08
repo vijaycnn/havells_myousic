@@ -113,7 +113,7 @@ function Footer() {
                       <span className="opacity-75">For general queries:</span>
                       <a
                         className="fs-6 fw-semi-bold"
-                        href="mailto:myousichavells@gmail.com"
+                        href="mailto:info@havellsmyousic.com"
                       >
                         {/* myousichavells@gmail.com */}
                         info@havellsmyousic.com
@@ -158,3 +158,4 @@ function Footer() {
 }
 
 export default Footer;
+
