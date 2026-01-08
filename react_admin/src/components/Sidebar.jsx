@@ -68,17 +68,17 @@ const Sidebar = () => {
               </span>
               <span className="nav-link-text">Mentors</span>
             </Link>
-            <Link to={`${adminAlias}/slides`} className={`nav-link ${ isActive([`${adminAlias}/slides`, `${adminAlias}/addSlide`, `${adminAlias}/editSlide`]) ? "active" : "" }`} >
-              <span className="nav-link-icon">
-                <BiGroup />
-              </span>
-              <span className="nav-link-text">CMS Context</span>
-            </Link>
             <Link to={`${adminAlias}/galleries`} className={`nav-link ${ isActive([`${adminAlias}/galleries`, `${adminAlias}/addGallery`, `${adminAlias}/editGallery`]) ? "active" : "" }`} >
               <span className="nav-link-icon">
                 <BiSliderAlt />
               </span>
               <span className="nav-link-text">Galleries</span>
+            </Link>
+            <Link to={`${adminAlias}/slides`} className={`nav-link ${ isActive([`${adminAlias}/slides`, `${adminAlias}/addSlide`, `${adminAlias}/editSlide`]) ? "active" : "" }`} >
+              <span className="nav-link-icon">
+                <BiGroup />
+              </span>
+              <span className="nav-link-text">CMS Context</span>
             </Link>
 
             {/* <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >

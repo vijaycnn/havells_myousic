@@ -10,8 +10,27 @@ import Bootcamp from "../components/Bootcamp";
 import VideoSlider from "../components/VideoSlider";
 import QrScanner from "../components/QrScanner";
 import Gallery from "../components/Gallery";
+import { galleryList } from "../api";
 
-export default function Home( {contextData}) {    
+export default function Home( {contextData}) {  
+  
+  const [loading, setLoading] = useState(true);
+  const [list, setList] = useState([]);
+    
+  const getBannerList = async () => {
+      let galleryRes = await galleryList();
+      // console.log('>>>', galleryRes)
+      if (galleryRes?.data) {
+        setList(galleryRes.data);
+        // console.log('gallery is reached ', list)
+      }
+    };
+  useEffect( () => {
+    if (loading) {
+      getBannerList();
+      setLoading(false)
+    }
+  }, [loading]);
   return (
     <>
       <HeroBanner  data={contextData?.Banner} />
@@ -35,11 +54,14 @@ export default function Home( {contextData}) {
       <QrScanner />
       {
         (contextData?.Gallery) ?
-        <Gallery  data={contextData?.Gallery} /> : ''
+        <Gallery  data={contextData?.Gallery} galleryData={list?.["image"]}  /> : ''
       }
       {/* <Stories /> */}
       <FAQs />
-      {/* <VideoSlider /> */}
+      {
+        (list?.["video"]) ?
+        <VideoSlider galleryData={list?.["video"]}  /> : ''
+      }
     </>
   );
 }

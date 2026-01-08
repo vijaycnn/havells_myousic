@@ -24,14 +24,25 @@ let GalleryController = {
                         let signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
 
                         // console.log('>>>', signedUrl);
-                        row.image = signedUrl.trim();
+                        row.filePath = signedUrl.trim();
                     }else{
-                        row.image = '';
+                        row.filePath = '';
                     }
                     return row;
                 })
             ); 
-            let dataList =  { 'totalRecord': data.count, 'list': bannerImages };
+            const groupedGalleries = bannerImages.reduce((acc, row) => {
+                const key = row.type.trim();
+
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+
+                acc[key].push(row);
+                return acc;
+            }, {});
+
+            let dataList =  { 'totalRecord': data.count, 'list': groupedGalleries };
             return responder.sendFilterResponse(response, 200, "success", dataList, "Gallery List retrieved successfully.");
         } catch (error) {
             return next(error);

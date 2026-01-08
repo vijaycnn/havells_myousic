@@ -364,7 +364,6 @@ function Gallery() {
           hasError = true;
         }
         if(uploadMediaFile){
-
           if(formData.type.trim() == 'video'){
             if (!allowedVideoTypes.includes(uploadMediaFile.type)) {
                 setFileError(
@@ -383,7 +382,7 @@ function Gallery() {
                 );
                 hasError = true;
             }  
-            if (selected.size > MAX_IMAGE_SIZE) {
+            if (uploadMediaFile.size > MAX_IMAGE_SIZE) {
               setFileError(`File size must be less than ${MAX_IMAGE_SIZE_LBL}.`);
               hasError = true;
             }      
