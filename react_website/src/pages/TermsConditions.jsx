@@ -1,7 +1,11 @@
 import { Container, Image } from "react-bootstrap";
 import mike from "../assets/mice.png";
 
-function TermsConditions() {
+function TermsConditions({data}) {
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-form text-tnc">
@@ -10,9 +14,15 @@ function TermsConditions() {
             <Image src={mike} alt="Mike" className="artist-card-element mike" />
 
             <h3 className="font-secondary mb-4 text-primary">
-              Havells mYOUsic – Terms & Conditions
+              {data?.subtitle}  {/* Havells mYOUsic – Terms & Conditions */}
             </h3>
-            <p>
+            {              
+              (data?.remark && remark.length > 0) ?
+              <>
+              <div dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+              </>: ''
+            }
+            {/* <p>
               <strong>Effective Date:</strong>
             </p>
 
@@ -424,7 +434,7 @@ function TermsConditions() {
                 <strong>immediate disqualification </strong>
                 and withdrawal of Program privileges
               </li>
-            </ul>
+            </ul> */}
           </div>
         </Container>
       </section>
