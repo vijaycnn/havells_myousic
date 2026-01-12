@@ -29,6 +29,7 @@ const Sidebar = () => {
       currentPath === path || currentPath.startsWith(path + "/")
     );
   };
+  //to manage menu access //it's static part. update part uploaded soon...
   const userEmail = localStorage.getItem("userEmail");
   let hasAccess = true;
   if(userEmail == 'info@havellsmyousic.com'){

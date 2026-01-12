@@ -169,3 +169,4 @@ function Footer({data}) {
 }
 
 export default Footer;
+
