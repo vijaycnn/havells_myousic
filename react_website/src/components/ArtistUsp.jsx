@@ -18,9 +18,17 @@ function ArtistUsp( {data, data1, data2, data3}) {
   return (
     <>
       <section className="sec sec-usp">
-        <video className="cover-img" muted autoPlay loop>
-          <source src={data?.filePath} type="video/mp4" />
-          {/* <source src={ArtistBg} type="video/mp4" />
+        <video key={data?.filePath}  className="cover-img" muted autoPlay loop playsInline
+  preload="auto"
+  controls={false}>
+          {
+            (data?.filePath)?
+            <>
+              <source src={data?.filePath} type="video/mp4" />
+            </>:''
+            // <><source src={ArtistBg} type="video/mp4" /></>
+          }
+          {/* 
           <source src={ArtistBg} type="video/ogg" /> */}
         </video>
 
