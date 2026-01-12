@@ -8,7 +8,7 @@ import {
   BiLogOut,
   BiInfoSquare,
   BiListUl,
-  BiUser, BiImages
+  BiUser, BiImages, BiUpload, BiSliderAlt
 } from "react-icons/bi";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
@@ -62,33 +62,58 @@ const Sidebar = () => {
               <span className="nav-link-text">Participant</span>
             </Link>
             {
-              (hasAccess)?
+              (hasAccess) ?
               <>
-                <Link to={`${adminAlias}/banner`} className={`nav-link ${ (isActive([`${adminAlias}/banner`, `${adminAlias}/addBanner`, `${adminAlias}/editBanner`]) ) ? "active" : "" }`} >
-                  <span className="nav-link-icon">
-                    <BiImages />
-                  </span>
-                  <span className="nav-link-text">Banner</span>
-                </Link>
+              <Link to={`${adminAlias}/banner`} className={`nav-link ${ (isActive([`${adminAlias}/banner`, `${adminAlias}/addBanner`, `${adminAlias}/editBanner`]) ) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiImages />
+                </span>
+                <span className="nav-link-text">Banner</span>
+              </Link>
 
-                <Link to={`${adminAlias}/mentors`} className={`nav-link ${ isActive([`${adminAlias}/mentors`, `${adminAlias}/addMentor`, `${adminAlias}/editMentor`]) ? "active" : "" }`} >
-                  <span className="nav-link-icon">
-                    <BiGroup />
-                  </span>
-                  <span className="nav-link-text">Mentors</span>
-                </Link>
-                <Link to={`${adminAlias}/faqs`} className={`nav-link ${ isActive([`${adminAlias}/faqs`, `${adminAlias}/addFaq`, `${adminAlias}/editFaq`]) ? "active" : ""}`} >
-                  <span className="nav-link-icon">
-                    <BiInfoSquare />
-                  </span>
-                  <span className="nav-link-text">Faqs</span>
-                </Link>
-                <Link to={`${adminAlias}/category`} className={`nav-link ${ isActive([`${adminAlias}/category`, `${adminAlias}/addCategory`, `${adminAlias}/editCategory`]) ? "active" : "" }`} >
-                  <span className="nav-link-icon">
-                    <BiListUl />
-                  </span>
-                  <span className="nav-link-text">Faq Category</span>
-                </Link>
+              <Link to={`${adminAlias}/mentors`} className={`nav-link ${ isActive([`${adminAlias}/mentors`, `${adminAlias}/addMentor`, `${adminAlias}/editMentor`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiGroup />
+                </span>
+                <span className="nav-link-text">Mentors</span>
+              </Link>
+              <Link to={`${adminAlias}/galleries`} className={`nav-link ${ isActive([`${adminAlias}/galleries`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiSliderAlt />
+                </span>
+                <span className="nav-link-text">Galleries</span>
+              </Link>
+              <Link to={`${adminAlias}/slides`} className={`nav-link ${ isActive([`${adminAlias}/slides`, `${adminAlias}/addSlide`, `${adminAlias}/editSlide`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiGroup />
+                </span>
+                <span className="nav-link-text">CMS Context</span>
+              </Link>
+
+              <Link to={`${adminAlias}/artistusp`} className={`nav-link ${ isActive([`${adminAlias}/artistusp`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiSliderAlt />
+                </span>
+                <span className="nav-link-text">ArtistUsp BackGround</span>
+              </Link>
+              <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiUpload />
+                </span>
+                <span className="nav-link-text">Upload Guideline</span>
+              </Link>
+              <Link to={`${adminAlias}/faqs`} className={`nav-link ${ isActive([`${adminAlias}/faqs`, `${adminAlias}/addFaq`, `${adminAlias}/editFaq`]) ? "active" : ""}`} >
+                <span className="nav-link-icon">
+                  <BiInfoSquare />
+                </span>
+                <span className="nav-link-text">Faqs</span>
+              </Link>
+              <Link to={`${adminAlias}/category`} className={`nav-link ${ isActive([`${adminAlias}/category`, `${adminAlias}/addCategory`, `${adminAlias}/editCategory`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiListUl />
+                </span>
+                <span className="nav-link-text">Faq Category</span>
+              </Link>
               </>: ''
             }            
           </Nav>

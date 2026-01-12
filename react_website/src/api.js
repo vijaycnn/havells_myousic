@@ -56,6 +56,25 @@ export const bannerList = async () => {
   });
   return response.json();
 };
+export const galleryList = async () => {
+  const response = await fetch(`${baseURL}/api/gallery/getList`, {
+    method: "GET",
+  });
+  return response.json();
+};
+export const slideFileList = async () => {
+  const response = await fetch(`${baseURL}/api/slideFile/getList`, {
+    method: "GET",
+  });
+  return response.json();
+};
+export const contextList = async () => {
+  console.log('baseUrl', baseURL);
+  const response = await fetch(`${baseURL}/api/slide/getList`, {
+    method: "GET",
+  });
+  return response.json();
+};
 export const mentorList = async () => {
   console.log('baseUrl', baseURL);
   const response = await fetch(`${baseURL}/api/mentor/getList`, {

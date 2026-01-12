@@ -27,6 +27,13 @@ import Banner from "./pages/master/Banner";
 import AddBanner from "./pages/master/AddBanner";
 import EditBanner from "./pages/master/EditBanner";
 
+import Slides from "./pages/master/Slide";
+import AddSlide from "./pages/master/AddSlide";
+import EditSlide from "./pages/master/EditSlide";
+import Gallery from "./pages/master/Gallery";
+import Artistusp from "./pages/master/Artistusp";
+import Guideline from "./pages/master/Guideline";
+
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 
 function App() {
@@ -119,6 +126,36 @@ function App() {
             }
           />   
           <Route
+            path={`${adminAlias}/galleries`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Gallery />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/artistusp`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Artistusp />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/guideline`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Guideline />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path={`${adminAlias}/mentors`}
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -204,6 +241,37 @@ function App() {
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
                   <EditFaqCategory />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path={`${adminAlias}/slides`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Slides />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/addSlide`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <AddSlide />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/editSlide/:id`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EditSlide />
                 </Layout>
               </ProtectedRoute>
             }

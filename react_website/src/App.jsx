@@ -11,6 +11,7 @@ import Thankyou from "./pages/Thankyou";
 import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Disclaimer from "./pages/Disclaimer";
+import { contextList } from "./api";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -24,6 +25,28 @@ function App() {
     setShowIntro(false);
     localStorage.setItem("visited", "true");
   };
+
+  const [loading, setLoading] = useState(true);
+  const [contextData, setContextData] = useState({});
+
+  const getContextList = async () => {
+      let contextRes = await contextList();
+      // console.log('>>>', contextRes)
+      if (contextRes?.data) {
+        const normalized = Object.fromEntries(
+          Object.entries(contextRes?.data).map(([key, val]) => [key, val[0]])
+        );
+        setContextData(normalized);
+        // setContextData(contextRes.data);
+        // console.log('it is reached', normalized)
+      }
+    };
+  useEffect(() => {
+    if (loading) {
+      getContextList();
+      setLoading(false)
+    }
+  }, [showIntro, loading]);
   return (
     <>
       {showIntro ? (
@@ -33,15 +56,15 @@ function App() {
           <Header />
           <Router>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home contextData={contextData} />} />
               <Route path="/participate" element={<Participate />} />
-              <Route path="/terms-conditions" element={<TermsConditions />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/disclaimer" element={<Disclaimer />} />
+              <Route path="/terms-conditions" element={<TermsConditions  data={contextData?.["TermnCondition"]} />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy  data={contextData?.["PrivacyPolicy"]}/>} />
+              <Route path="/disclaimer" element={<Disclaimer  data={contextData?.["Disclaimer"]}/>} />
               <Route path="/thankyou" element={<Thankyou />} />
             </Routes>
           </Router>
-          <Footer />
+          <Footer data={contextData?.["Footer-Context"]} />
         </>
       )}
     </>

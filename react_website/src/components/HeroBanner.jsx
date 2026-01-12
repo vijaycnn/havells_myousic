@@ -4,18 +4,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import mohan from "../assets/mohan-nadar.jpg";
-import neha from "../assets/neha-sharma.jpg";
-import nehal from "../assets/nehal-singh.jpg";
-import miguel from "../assets/miguel-dsouza.jpg";
-import daulat from "../assets/daulat-singh.jpg";
-import namita from "../assets/namita-gogoi.jpg";
-import ritika from "../assets/ritika-reddy.jpg";
+// import mohan from "../assets/mohan-nadar.jpg";
+// import neha from "../assets/neha-sharma.jpg";
+// import nehal from "../assets/nehal-singh.jpg";
+// import miguel from "../assets/miguel-dsouza.jpg";
+// import daulat from "../assets/daulat-singh.jpg";
+// import namita from "../assets/namita-gogoi.jpg";
+// import ritika from "../assets/ritika-reddy.jpg";
 import { bannerList } from "../api";
 
-function HeroBanner() {
+function HeroBanner({ data }) {
   const [loading, setLoading] = useState(true);
   const [bannerImages, setBannerImages] = useState([]);
+      console.log('data>>>', data)
     
   const getBannerList = async () => {
       let bannerRes = await bannerList();
@@ -31,6 +32,10 @@ function HeroBanner() {
       setLoading(false)
     }
   }, [loading]);
+  let remark = data?.remark
+    .replace(/<(.|\n)*?>/g, '') // remove html tags
+    .replace(/&nbsp;/g, ' ')
+    .trim();
   return (
     <>
       <section className="sec sec-hero">
@@ -38,19 +43,29 @@ function HeroBanner() {
           <Row className="align-items-center">
             <Col lg={6}>
               <div className="sec-head text-lg-start text-center mb-lg-0 mb-5 px-lg-0 px-md-5">
-                <h2 className="sec-title mb-md-5 mb-4">
-                  Sing. Write. Compose. <br />
+                {
+                  (data?.subtitle) ?
+                  <><h2 className="sec-title mb-md-5 mb-4" >{data?.subtitle}</h2>
+                  </>:''
+                }                
+                {/* <h2 className="sec-title mb-md-5 mb-4" > 
+                   Sing. Write. Compose. <br />
                   The stage is yours!
-                </h2>
-                <p className="sec-sub-title mb-md-5 mb-4">
-                  <strong>Your art deserves a spotlight. </strong>
+                </h2> */}
+                {              
+                (data?.remark && remark.length > 0) ?
+                  <>
+                  <div className="sec-sub-title mb-md-5 mb-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                  </>: ''
+                }
+                  {/* <strong>Your art deserves a spotlight. </strong>
                   Havells mYOUsic is a platform for{" "}
                   <strong>grassroots artists-singers, lyricists,
                   composers, and instrumentalists</strong> from every corner of India.
                   This is where raw passion meets real opportunity. Showcase
                   your talent, learn from industry legends, and take your first
-                  step toward being heard.
-                </p>
+                  step toward being heard. */}
+                
                 <a
                   href="/participate"
                   className="btn btn-primary btn-lg rounded-pill"

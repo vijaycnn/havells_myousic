@@ -1,40 +1,34 @@
 'use strict';
 const {  Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Galleries extends Model {
+  class SlideContexts extends Model {
     
     static associate(models) {
       // define association here
     }
   }
-  Galleries.init({
+  SlideContexts.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    type: {
-      allowNull: false,
-      type: DataTypes.STRING
+    slideNumber: {
+      allowNull: false,     
+      type: DataTypes.STRING,
     },
     title: {
-      allowNull: true,     
-      type: DataTypes.STRING,
-      defaultValue: "",
-    },
-    fileUrl: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    remarks: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    run_on_homepage: {
-      allowNull: false,
-      type:DataTypes.INTEGER,
-      defaultValue:1
+    subtitle: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    remark: {
+      allowNull: true,
+      type: DataTypes.TEXT
     },
     status:{
       type:DataTypes.INTEGER,
@@ -62,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Galleries',
+    modelName: 'SlideContexts',
   });
-  return Galleries;
+  return SlideContexts;
 };

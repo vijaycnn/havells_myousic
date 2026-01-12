@@ -5,7 +5,7 @@ import Linkedin from "../assets/linked-icon.svg";
 import InstaIcon from "../assets/insta-icon.svg";
 import YtubeIcon from "../assets/yt-icon.svg";
 
-function Footer() {
+function Footer({data}) {
   return (
     <>
       <footer className="app-footer">
@@ -27,12 +27,23 @@ function Footer() {
               <a href="/">
                 <Image src={Logo} alt="" />
               </a>
-              <p className="my-4">
-                A Havells initiative focused on elevating India’s grassroots
+              {
+                (data?.subtitle) ?
+                <>
+                <h4 className="sec-title" >{data?.subtitle}</h4>
+                </>:''
+              }
+              {
+                (data?.remark)?
+                <>
+                  <div className="my-4" dangerouslySetInnerHTML={{ __html: data?.remark || "" }} />
+                </>:''
+              }
+                {/* A Havells initiative focused on elevating India’s grassroots
                 artists-strengthening their artistic journey with mentorship,
                 exposure, and opportunities that bring their original music to
                 the masses.
-              </p>
+              </p> */}
               <h4 className="app-footer-title mb-4">Follow us</h4>
               <div className="app-footer-social d-flex gap-4 align-items-center mb-md-0 mb-5">
                 <a

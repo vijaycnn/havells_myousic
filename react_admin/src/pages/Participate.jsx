@@ -5,7 +5,7 @@ import {
   Row,
   Col,
   Button,
-  Table,
+  Table, Modal
 } from "react-bootstrap";
 // import { BiPencil } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
@@ -124,16 +124,20 @@ function Participate() {
 
   const getMediaFile = async (fileUrl) => {
     if (fileUrl != "") {
-      setIsLoading(true);
+      setIsLoading(true); setPreviewMedia(null);
       const key = fileUrl.split(".amazonaws.com/")[1];
-      console.log("key :: ", key);
+      // console.log("key :: ", key);
+      if(key){
       let result = await getDownloadUrl(key);
-      console.log(">>> ", result);
-      const { downloadUrl } = result;
-      window.open(downloadUrl, "_blank");
-      // <video src={downloadUrl} controls width="400" />
-
+      if(result){
+        // console.log(">>> ", result);
+        const { downloadUrl } = result;
+      
+        // window.open(downloadUrl, "_blank");        
+        setPreviewMedia({filePath: downloadUrl});
+      }}
       setIsLoading(false);
+      setShowPreview(true);      
     }
   };
 
@@ -203,6 +207,8 @@ function Participate() {
     setIsLoading(false);
   };
 
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewMedia, setPreviewMedia] = useState(null);
   const showItems = () => {
     return isLoading == false ? (
       <>
@@ -264,14 +270,10 @@ function Participate() {
                       {item.media_url ? (
                         <>
                           {/* <button >View File</button> */}
-                          <Link
-                            title="View File"
-                            onClick={() => getMediaFile(item.media_url)}
-                            target="_blank"
-                            className="btn btn-icon"
-                          >
+                          <a title="View File" onClick={() => getMediaFile(item.media_url)}
+                            className="btn btn-icon" >
                             <BiShow />
-                          </Link>
+                          </a>
                         </>
                       ) : (
                         "NA"
@@ -336,7 +338,7 @@ function Participate() {
                 type="date"
                 value={search.endDate}
                 onChange={handleFilterChange}
-                minDate={search.startDate}
+                mindate={search.startDate}
                 name="endDate"
               />
             </Form.Group>
@@ -377,6 +379,16 @@ function Participate() {
           </>
         )}
       </div>
+
+      <Modal id="preview" name="preview" show={showPreview} onHide={() => setShowPreview(false)} centered size="lg" >
+        <Modal.Header closeButton>
+          <Modal.Title>{previewMedia?.title || "Preview"}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body className="text-center">
+          <video src={previewMedia?.filePath} controls autoPlay style={{ width: "100%", borderRadius: "8px" }} />
+        </Modal.Body>
+      </Modal>
       {items ? (
         items.length > 0 ? (
           <ReactPaginate
