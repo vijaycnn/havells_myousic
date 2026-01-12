@@ -202,8 +202,8 @@ function EditSlide() {
                     type="text"
                     name="slideNumber"
                     value={data.slideNumber}
-                    placeholder="Enter Here"
-                    onChange={handleChange} disabled={previousData?.id <= 8}
+                    placeholder="Enter Here" 
+                    onChange={handleChange} disabled={true}
                 />
                 </Form.Group>
             </Col>

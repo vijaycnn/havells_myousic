@@ -7,18 +7,16 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import axiosInstance from "../../helper/constants/axiosInstance";
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
 const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND + "/api";
-import { FaVideo } from "react-icons/fa";
-import { getDownloadUrl } from "../../api";
 
-function Gallery() {
+function Artistusp() {
   const [offset, setOffset] = useState(0);
   const [perPage, setPerPage] = useState(20);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
   const [items, setItems] = useState(null);
+  const slidePageNumber = 'artistusp';
 
-  // const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,11 +29,7 @@ function Gallery() {
   const [successMsg, setSuccessMsg] = useState("");
   const [fileError, setFileError] = useState("");
   const [uploadMediaFile, setUploadMediaFile] = useState(null);
-  const [filteredData, setFilteredData] = useState({});
-  const [search, setSearch] = useState({
-    galleryType: "",
-    galleryStatus: "",
-  });
+  
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     let offset = selectedPage * perPage;
@@ -43,12 +37,12 @@ function Gallery() {
     setOffset(offset);
   };
 
-  const getGalleries = async () => {
+  const getSlideFiles = async () => {
     setIsLoading(true);
     
-    const body = { params: { offset: offset, perPage: perPage, ...filteredData } };
+    const body = { params: { offset: offset, perPage: perPage } };
     // console.log('body>>> ', body);
-    await axiosInstance.get(`/gallery/list`, body)
+    await axiosInstance.get(`/slideFile/list/${slidePageNumber}`, body)
 			.then((response) => {
         // console.log('>>> ', response.data);
 				setIsLoading(false)
@@ -66,12 +60,12 @@ function Gallery() {
         });
   };
 
-  const changeStatus = async(index, currentStatus, galleryId)=>{
+  const changeStatus = async(index, currentStatus, slideId)=>{
     setIsLoading(true);
     
-    const body = { galleryId, status: currentStatus == 1 ? 0 : 1 };
+    const body = { slideId, status: currentStatus == 1 ? 0 : 1 };
     // console.log('body>>> ', body);
-    await axiosInstance.post(`/gallery/changeStatus`, body)
+    await axiosInstance.post(`/slideFile/changeStatus`, body)
 			.then((response) => {
         // console.log('>>> ', response.data);
 				setIsLoading(false)
@@ -98,13 +92,11 @@ function Gallery() {
   
   useEffect(() => {
     if (!isLoading) {
-      getGalleries();
+      getSlideFiles();
     }
-  }, [offset, perPage, filteredData]);
+  }, [offset, perPage]);
 
   const [formData, setFormData] = useState({
-    type: "image",
-    title: "",
     fileUrl: "",
     filePath: "",
   });
@@ -119,8 +111,6 @@ function Gallery() {
     setMode("edit"); setError(""); setSuccessMsg("");
     setEditId(item.id);
     setFormData({
-      type: item.type,
-      title: item.title,
       fileUrl: item.fileUrl,
       filePath : item.filePath,
     });
@@ -161,7 +151,7 @@ function Gallery() {
       setIsSubmit(false);
       return;
     }    
-    getGalleries();
+    getSlideFiles();
   };
 
   const getUploadUrl = async (file) => {
@@ -200,19 +190,16 @@ function Gallery() {
 
   const addMedia = async (fileUrl)=>{
     let body = {
-      type: formData.type,
-      title: formData.title,
+      slideNumber: slidePageNumber.trim(),
       fileUrl: fileUrl,
     };
     // console.log("data >>", data);
     await axiosInstance
-      .post(`/gallery/create`, body)
+      .post(`/slideFile/create`, body)
       .then((response) => {
         // console.log('response >>> ', response.data);
         if (response.data.status === "success") {
           setFormData({
-            type: "",
-            title: "",
             fileUrl: "",  filePath:""
           });
           setSuccessMsg(response?.data?.message);
@@ -234,20 +221,17 @@ function Gallery() {
 
   const updateMedia = async (mediaId, fileUrl)=>{
     let body = {
-      galleryId: mediaId,
-      type: formData.type,
-      title: formData.title,
+      slideId: mediaId,
+      slideNumber: slidePageNumber.trim(),
       fileUrl: fileUrl,
     };
     // console.log("data >>", data);
     await axiosInstance
-      .post(`/gallery/update`, body)
+      .post(`/slideFile/update`, body)
       .then((response) => {
         // console.log('response >>> ', response.data);
         if (response.data.status === "success") {
           setFormData({
-            type: "",
-            title: "",
             fileUrl: "",  filePath:""
           });
           setSuccessMsg(response?.data?.message);
@@ -307,7 +291,6 @@ function Gallery() {
       setFileError(""); // reset
       if (!selected) return;
       console.log("fileType", selected.type, formData);
-      if(formData.type.trim() == 'video'){
         if (!allowedVideoTypes.includes(selected.type)) {
             setFileError(
             "Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed."
@@ -316,24 +299,10 @@ function Gallery() {
             return;
         }
         if (selected.size > MAX_VIDEO_SIZE) {
-          setFileError(`File size must be less than ${MAX_VIDEO_SIZE_LBL}.`);
-          setUploadMediaFile(null);
-          return;
-        }
-      }else{
-        if (!allowedImgTypes.includes(selected.type)) {
-            setFileError(
-            "Only JPEG, PNG, JPG, TIFF, GIF, WEBP, SVG, BMP files are allowed."
-            );
+            setFileError(`File size must be less than ${MAX_VIDEO_SIZE_LBL}.`);
             setUploadMediaFile(null);
             return;
-        }  
-        if (selected.size > MAX_IMAGE_SIZE) {
-          setFileError(`File size must be less than ${MAX_IMAGE_SIZE_LBL}.`);
-          setUploadMediaFile(null);
-          return;
-        }      
-      }
+        }
       setUploadMediaFile(selected);
     };
     const handleFileChange = (e) => {
@@ -344,27 +313,15 @@ function Gallery() {
       fileUploadEvent(file);
       setPreviewUrl(URL.createObjectURL(file));
     };
-    const handleTypeChange = (type) => {
-      setFormData((prev) => ({...prev,
-        type,
-      }));
-      setUploadMediaFile(null);
-      setFileError("");
-    };
 
     const validation = (values) => {
         setError("");
         let hasError = false;
-        if (!values.type || values.type == "" ) {
-            setError("Mandatory fields are missing");
-            hasError = true;
-        }
-        if (mode === "add" && (!uploadMediaFile || uploadMediaFile == null)) {
+        if ( !uploadMediaFile || uploadMediaFile == null) {
           setError("Media file is required");
           hasError = true;
         }
         if(uploadMediaFile){
-          if(formData.type.trim() == 'video'){
             if (!allowedVideoTypes.includes(uploadMediaFile.type)) {
                 setFileError(
                 "Only WEBM, MP4, MP3, AVI, VOB, MKV, MOV, FLV, AMV, MPG, WMV, 3GP, 3G2, SVI files are allowed."
@@ -372,57 +329,12 @@ function Gallery() {
                 hasError = true;
             }
             if (uploadMediaFile.size > MAX_VIDEO_SIZE) {
-              setFileError(`File size must be less than ${MAX_VIDEO_SIZE_LBL}.`);
-              hasError = true;
-            }
-          }else{
-            if (!allowedImgTypes.includes(uploadMediaFile.type)) {
-                setFileError(
-                "Only JPEG, PNG, JPG, TIFF, GIF, WEBP, SVG, BMP files are allowed."
-                );
+                setFileError(`File size must be less than ${MAX_VIDEO_SIZE_LBL}.`);
                 hasError = true;
-            }  
-            if (uploadMediaFile.size > MAX_IMAGE_SIZE) {
-              setFileError(`File size must be less than ${MAX_IMAGE_SIZE_LBL}.`);
-              hasError = true;
-            }      
-          }
+            }          
         }
         return hasError;
     };
-    const getMediaFile = async (fileUrl) => {
-      if (fileUrl != "") {
-        setIsLoading(true);
-        const key = fileUrl.split(".amazonaws.com/")[1];
-        // console.log("key :: ", key);
-        let result = await getDownloadUrl(key);
-        // console.log(">>> ", result);
-        const { downloadUrl } = result;
-        window.open(downloadUrl, "_blank");  
-        setIsLoading(false);
-      }
-    };
-  
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setSearch((prev) => ({
-      ...prev,  [name]:  value,
-    }));
-  };
-  const searchData = () => {
-    setFilteredData(search);
-    setOffset(0);
-    setCurrentPage(0);
-  };
-  const reset = () => {
-    setSearch({
-      galleryType: "",
-      galleryStatus: "",
-    });
-    setFilteredData({});
-    setOffset(0);
-    setCurrentPage(0);
-  };
 
   const [showPreview, setShowPreview] = useState(false);
   const [previewMedia, setPreviewMedia] = useState(null);
@@ -434,9 +346,7 @@ function Gallery() {
           <thead>
             <tr>
               <th>Sr. No.</th>
-              <th>Type</th>
               <th>File</th>
-              <th>Title</th>
               <th>Status</th>
               <th width="120" className="col-fixed">
                 Action
@@ -449,14 +359,8 @@ function Gallery() {
                 <>
                   <tr key={item.id}>
                     <td>{$index +offset +1}</td>
-                    <td>{item.type.trim() == 'image' ? "IMAGE" : 'VIDEO'}</td>
                     <td>      
                       {
-                        (item.type.trim() == 'image')?
-                        <><img src={item.filePath} height={100} width={100} alt="img" /></>
-                        :
-                        <>
-                        {
                           (item.fileUrl) ?
                           <>
                               <div
@@ -480,11 +384,8 @@ function Gallery() {
                                 </span>
                               </div>
                           </> : "NA"
-                        }
-                        </>
                       }
                     </td>
-                    <td>{item.title}</td>
                     {/* <td>{moment(item.createdAt).format('DD-MM-YYYY')}</td> */}
                     <td>
                       {item.status == 1 ? <Badge bg="success" >Active</Badge> : <Badge bg="secondary" >In-active</Badge> } 
@@ -511,51 +412,7 @@ function Gallery() {
   };
   return (
     <>
-      <h1 className="h4 mb-4 font-secondary fw-medium">Gallery</h1>
-      <div className="bg-white p-4 rounded mb-4">
-        <h6 className="font-secondary text-muted fw-medium mb-4">Filters</h6>
-        <Row>
-          <Col md={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>Select Gallery Type</Form.Label>
-              <Form.Select
-                name="galleryType"
-                value={search.galleryType}
-                onChange={handleFilterChange}
-              >
-                <option key="" value="">Select All</option>
-                <option key="image" value="image">Image</option>
-                <option key="video" value="video">Video</option>                
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>Status</Form.Label>
-              <Form.Select
-                name="galleryStatus"
-                value={search.galleryStatus}
-                onChange={handleFilterChange}
-              >
-                <option key="" value="">Select All</option>
-                <option key="1" value="1">Active</option>
-                <option key="2" value="2">In-active</option>                
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={4}>
-            <div className="d-flex justify-content-center gap-2 mt-4">
-              <Button variant="primary" size="sm" onClick={searchData}>
-                <span>Search</span>
-              </Button>
-              <Button variant="outline-secondary" size="sm" onClick={reset}>
-                Reset
-              </Button>
-            </div>
-          </Col>
-        </Row>
-        
-      </div>
+      <h1 className="h4 mb-4 font-secondary fw-medium">ArtistUsp Background</h1>
       <div className="table-view bg-white rounded-4 p-4">
         <div className="mb-3 d-flex justify-content-between align-items-center">
           <div className="text-muted">
@@ -563,9 +420,14 @@ function Gallery() {
             <span className="text-dark fw-bold">{totalRecords ? totalRecords : 0}</span>
           </div>
           <div>
-              <Link onClick={ ()=>openAdd()} className="btn btn-primary btn-sm">
-                  <span className="nav-link-text">Add-Media</span>
-              </Link>              
+            {
+                (!items || items.length == 0) ?
+                <>
+                <Link onClick={ ()=>openAdd()} className="btn btn-primary btn-sm">
+                    <span className="nav-link-text">Add-Media</span>
+                </Link>
+                </> : ''
+            }              
           </div>
         </div>
         {
@@ -589,52 +451,10 @@ function Gallery() {
                 <Form>
                 {error && <Alert variant="danger">⚠️{error}</Alert>}
                 {successMsg && <Alert variant="success">{successMsg}</Alert>}
-                    <div className="mb-3">
-                        <Form.Check
-                            inline id="media-image"
-                            label="Image"
-                            type="radio"
-                            name="type" value="image"
-                            checked={formData.type.trim() === "image"}
-                            onChange={(e) => handleTypeChange(e.target.value)}
-                        />&nbsp;
-                        <Form.Check
-                            inline  id="media-video"
-                            label="Video"
-                            type="radio"
-                            name="type" value="video"
-                            checked={formData.type.trim() === "video"}
-                            onChange={(e) => handleTypeChange(e.target.value)}
-                        />
-                    </div>
-                    <FloatingLabel controlId="galleryTitle" label="Enter Title" className="mb-3" >
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter Title"
-                        maxLength={155}
-                        name="title" value={formData.title}
-                        onChange={(e) => {
-                          console.log("typing:", e.target.value);
-                          setFormData((prev) => ({...prev, title: e.target.value, })) 
-                        }
-                        }
-                    />
-                    </FloatingLabel>
                     {mode === "edit" && previewUrl && (
                       <div className="mb-3 text-center">
-                        {formData.type.trim() === "image" ? (
-                          <img
-                            src={previewUrl}
-                            alt="preview"
-                            style={{ maxHeight: "150px", borderRadius: "8px" }}
-                          />
-                        ) : (
-                          <video
-                            src={previewUrl}
-                            controls
-                            style={{ maxHeight: "150px", borderRadius: "8px" }}
-                          />
-                        )}
+                        <video src={previewUrl} controls style={{ maxHeight: "150px", borderRadius: "8px" }} />
+                        
                         <div className="text-muted mt-1">
                           <small>Current media</small>
                         </div>
@@ -642,13 +462,13 @@ function Gallery() {
                     )}
                     <Form.Group className="mb-12">
                       <Form.Label className="fw-medium">
-                        <small>(Max. FileSize {formData.type.trim() == 'image' ? MAX_IMAGE_SIZE_LBL : MAX_VIDEO_SIZE_LBL})</small>
+                        <small>(Max. FileSize {MAX_VIDEO_SIZE_LBL})</small>
                         <span className="text-danger">*</span>
                       </Form.Label>
                       {fileError && (
                         <p className="mt-2 text-sm text-red-600 text-danger"><small>⚠️ {fileError}</small></p>
                       )}
-                      <Form.Control type="file" disabled={!formData.type} onChange={handleFileChange} />
+                      <Form.Control type="file" onChange={handleFileChange} />
                     </Form.Group>
                     
                     </Form>
@@ -669,11 +489,7 @@ function Gallery() {
           </Modal.Header>
 
           <Modal.Body className="text-center">
-            {previewMedia?.type.trim() === "image" ? (
-              <img src={previewMedia.filePath} style={{ maxWidth: "100%", borderRadius: "8px" }} />
-            ) : (
               <video src={previewMedia?.filePath} controls autoPlay style={{ width: "100%", borderRadius: "8px" }} />
-            )}
           </Modal.Body>
         </Modal>
 
@@ -706,4 +522,4 @@ function Gallery() {
   );
 }
 
-export default Gallery;
+export default Artistusp;

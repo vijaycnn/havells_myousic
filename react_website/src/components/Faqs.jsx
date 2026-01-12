@@ -8,7 +8,7 @@ import guidelines from "../assets/participant-guidelines-terms-conditions.pdf";
 import FaqsAbout, { FaqsFees, FaqsGeneral, FaqsProcess } from "./FaqsAccordion";
 import { faqList } from "../api";
 
-function FAQs() {
+function FAQs({data}) {
     const [loading, setLoading] = useState(true);
     const [categoryList, setCategoryList] = useState([]);
     // const [defaultTab, setDefaultTab] = useState(null);
@@ -35,34 +35,39 @@ function FAQs() {
     <>
       <section className="sec sec-form">
         <Container>
-          <div className="artist-card">
-            <Image src={mike} alt="Mike" className="artist-card-element mike" />
-            <Image
-              src={tabla}
-              alt="Tabla"
-              className="artist-card-element tabla"
-            />
-            <Image
-              src={guitar}
-              alt="Guitar"
-              className="artist-card-element guitar"
-            />
-            <div className="sec-head text-center">
-              <h2 className="sec-title mb-md-5 mb-4">
-                Artist-friendly <br />
-                participation rules
-              </h2>
-              <a
-                href={guidelines}
-                target="_blank"
-                className="btn btn-lg btn-primary rounded-pill"
-              >
-                <span>
-                  <Image src={arrowDown} alt="" /> Download full guidelines
-                </span>
-              </a>
-            </div>
-          </div>
+          {
+            (data?.filePath) ?
+            <>
+              <div className="artist-card">
+                <Image src={mike} alt="Mike" className="artist-card-element mike" />
+                <Image
+                  src={tabla}
+                  alt="Tabla"
+                  className="artist-card-element tabla"
+                />
+                <Image
+                  src={guitar}
+                  alt="Guitar"
+                  className="artist-card-element guitar"
+                />
+                <div className="sec-head text-center">
+                  <h2 className="sec-title mb-md-5 mb-4">
+                    Artist-friendly <br />
+                    participation rules
+                  </h2>
+                  <a
+                    href={data?.filePath}
+                    target="_blank"
+                    className="btn btn-lg btn-primary rounded-pill"
+                  >
+                    <span>
+                      <Image src={arrowDown} alt="" /> Download full guidelines
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </>: ''            
+          }          
 
           <section className="sec pb-0" id="FAQs">
             <Row className="justify-content-center">

@@ -18,6 +18,7 @@ const mentorRouter = require('./routes/mentor.route');
 const bannerRouter = require('./routes/banner.route');
 const slideRouter = require('./routes/slidecontext.route');
 const galleryRouter = require('./routes/gallery.route');
+const slideFileRouter = require('./routes/slidefile.route');
 
 conn = require("./models");  
 Op = conn.Sequelize.Op;  
@@ -94,6 +95,7 @@ app.use('/api/mentor',  mentorRouter);
 app.use('/api/banner',  bannerRouter);
 app.use('/api/slide',  slideRouter);
 app.use('/api/gallery',  galleryRouter);
+app.use('/api/slideFile',  slideFileRouter);
 
 
 /**
