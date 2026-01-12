@@ -1,7 +1,7 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
 import ArtistBg from "../assets/collabrate.mp4";
 
-function ArtistUsp( {data1, data2, data3}) {
+function ArtistUsp( {data, data1, data2, data3}) {
   let remark1 = data1?.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
@@ -19,8 +19,9 @@ function ArtistUsp( {data1, data2, data3}) {
     <>
       <section className="sec sec-usp">
         <video className="cover-img" muted autoPlay loop>
-          <source src={ArtistBg} type="video/mp4" />
-          <source src={ArtistBg} type="video/ogg" />
+          <source src={data?.filePath} type="video/mp4" />
+          {/* <source src={ArtistBg} type="video/mp4" />
+          <source src={ArtistBg} type="video/ogg" /> */}
         </video>
 
         <Container>

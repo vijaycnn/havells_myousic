@@ -68,7 +68,7 @@ const Sidebar = () => {
               </span>
               <span className="nav-link-text">Mentors</span>
             </Link>
-            <Link to={`${adminAlias}/galleries`} className={`nav-link ${ isActive([`${adminAlias}/galleries`, `${adminAlias}/addGallery`, `${adminAlias}/editGallery`]) ? "active" : "" }`} >
+            <Link to={`${adminAlias}/galleries`} className={`nav-link ${ isActive([`${adminAlias}/galleries`]) ? "active" : "" }`} >
               <span className="nav-link-icon">
                 <BiSliderAlt />
               </span>
@@ -81,12 +81,18 @@ const Sidebar = () => {
               <span className="nav-link-text">CMS Context</span>
             </Link>
 
-            {/* <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >
+            <Link to={`${adminAlias}/artistusp`} className={`nav-link ${ isActive([`${adminAlias}/artistusp`]) ? "active" : "" }`} >
+              <span className="nav-link-icon">
+                <BiSliderAlt />
+              </span>
+              <span className="nav-link-text">ArtistUsp BackGround</span>
+            </Link>
+            <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >
               <span className="nav-link-icon">
                 <BiUpload />
               </span>
               <span className="nav-link-text">Upload Guideline</span>
-            </Link> */}
+            </Link>
             <Link to={`${adminAlias}/faqs`} className={`nav-link ${ isActive([`${adminAlias}/faqs`, `${adminAlias}/addFaq`, `${adminAlias}/editFaq`]) ? "active" : ""}`} >
               <span className="nav-link-icon">
                 <BiInfoSquare />
