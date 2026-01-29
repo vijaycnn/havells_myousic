@@ -95,6 +95,13 @@ const Sidebar = () => {
                 </span>
                 <span className="nav-link-text">ArtistUsp BackGround</span>
               </Link>
+
+              <Link to={`${adminAlias}/bootcamp`} className={`nav-link ${ isActive([`${adminAlias}/bootcamp`]) ? "active" : "" }`} >
+                <span className="nav-link-icon">
+                  <BiSliderAlt />
+                </span>
+                <span className="nav-link-text">Bootcamp BackGround</span>
+              </Link>
               <Link to={`${adminAlias}/guideline`} className={`nav-link ${ isActive([`${adminAlias}/guideline`]) ? "active" : "" }`} >
                 <span className="nav-link-icon">
                   <BiUpload />

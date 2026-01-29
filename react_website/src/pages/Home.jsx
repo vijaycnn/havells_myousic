@@ -53,13 +53,13 @@ export default function Home( {contextData}) {
         <MentorExperts data={contextData?.Mentors} /> : ''
       }
       {
-        (contextData?.["ArtistUsp-Box1"] && contextData?.["ArtistUsp-Box2"] && contextData?.["ArtistUsp-Box3"]) ?
-        <ArtistUsp data={fileList?.artistusp}  data1={contextData?.["ArtistUsp-Box1"]} data2={contextData?.["ArtistUsp-Box2"]} data3={contextData?.["ArtistUsp-Box3"]}/>
+        (contextData?.ArtistUsp && (contextData?.["ArtistUsp-Box1"] || contextData?.["ArtistUsp-Box2"] || contextData?.["ArtistUsp-Box3"])) ?
+        <ArtistUsp data={fileList?.artistusp}  title={contextData?.ArtistUsp}  data1={contextData?.["ArtistUsp-Box1"]} data2={contextData?.["ArtistUsp-Box2"]} data3={contextData?.["ArtistUsp-Box3"]}/>
         :''
       }
       {
         (contextData?.Bootcamp) ?
-        <Bootcamp  data={contextData?.Bootcamp}/> : ''
+        <Bootcamp  data={contextData?.Bootcamp} bg={fileList?.bootcamp}/> : ''
       }
       <QrScanner />
       {
@@ -67,7 +67,7 @@ export default function Home( {contextData}) {
         <Gallery  data={contextData?.Gallery} galleryData={list?.["image"]}  /> : ''
       }
       {/* <Stories /> */}
-      <FAQs data={fileList?.guideline} />
+      <FAQs data={fileList?.guideline}  title={contextData?.Guideline} />
       {
         (list?.["video"]) ?
         <VideoSlider galleryData={list?.["video"]}  /> : ''

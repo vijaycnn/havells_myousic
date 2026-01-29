@@ -1,7 +1,7 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
 import ArtistBg from "../assets/collabrate.mp4";
 
-function ArtistUsp( {data, data1, data2, data3}) {
+function ArtistUsp( {data, title, data1, data2, data3}) {
   let remark1 = data1?.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
@@ -32,13 +32,18 @@ function ArtistUsp( {data, data1, data2, data3}) {
           <source src={ArtistBg} type="video/ogg" /> */}
         </video>
 
+                {/* Every beat, every lyric, every note deserves its stage. */}
         <Container>
           <Row>
             <Col md={7} className="mx-auto">
               <div className="sec-head text-center">
-                <h2 className="sec-title my-md-5 my-4">
-                  Every beat, every lyric, every note deserves its stage.
-                </h2>
+                {
+                  (title)?
+                  <>
+                    <h2 className="sec-title my-md-5 my-4"> {title.title}
+                    </h2>
+                  </>:''
+                }
               </div>
             </Col>
           </Row>
