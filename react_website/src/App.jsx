@@ -12,11 +12,13 @@ import TermsConditions from "./pages/TermsConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Disclaimer from "./pages/Disclaimer";
 import { contextList } from "./api";
+import { loadGA4 } from "./utils/googleTag";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
+    loadGA4("G-004XKYRNE8");
     const visited = localStorage.getItem("visited");
     if (visited) setShowIntro(false);
   }, []);
