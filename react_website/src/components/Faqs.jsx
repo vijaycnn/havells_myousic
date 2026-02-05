@@ -8,7 +8,7 @@ import guidelines from "../assets/participant-guidelines-terms-conditions.pdf";
 import FaqsAbout, { FaqsFees, FaqsGeneral, FaqsProcess } from "./FaqsAccordion";
 import { faqList } from "../api";
 
-function FAQs({data}) {
+function FAQs({data, title}) {
     const [loading, setLoading] = useState(true);
     const [categoryList, setCategoryList] = useState([]);
     // const [defaultTab, setDefaultTab] = useState(null);
@@ -51,10 +51,14 @@ function FAQs({data}) {
                   className="artist-card-element guitar"
                 />
                 <div className="sec-head text-center">
-                  <h2 className="sec-title mb-md-5 mb-4">
-                    Artist-friendly <br />
-                    participation rules
-                  </h2>
+                  {
+                    (title)?
+                    <>
+                    <h2 className="sec-title mb-md-5 mb-4">
+                      {title.title}
+                    </h2>
+                    </>:''
+                  }
                   <a
                     href={data?.filePath}
                     target="_blank"

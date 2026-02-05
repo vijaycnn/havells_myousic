@@ -1,7 +1,7 @@
 import { Container, Image, Row, Col } from "react-bootstrap";
 import bootcampImage from "../assets/bootcamp-video-thumb.jpg";
 
-function Bootcamp( {data}) {
+function Bootcamp( {data, bg}) {
   let remark = data?.remark
     .replace(/<(.|\n)*?>/g, '') // remove html tags
     .replace(/&nbsp;/g, ' ')
@@ -11,7 +11,13 @@ function Bootcamp( {data}) {
       <section className="sec sec-bootcamp" id="bootcamps">
         <Container>
           <div className="artist-video">
-            <Image src={bootcampImage} alt="" />
+            {/* <Image src={bootcampImage} alt="" /> */}
+            {
+              (bg?.filePath) ?
+              <>
+              <Image src={bg.filePath} alt="" />
+              </>:''
+            }
             <div className="artist-video-text text-center justify-content-center align-items-center">
               {/* <a href="#" className="artist-video-play">
                 &nbsp;

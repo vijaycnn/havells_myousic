@@ -32,6 +32,7 @@ import AddSlide from "./pages/master/AddSlide";
 import EditSlide from "./pages/master/EditSlide";
 import Gallery from "./pages/master/Gallery";
 import Artistusp from "./pages/master/Artistusp";
+import Bootcamp from "./pages/master/Bootcamp";
 import Guideline from "./pages/master/Guideline";
 
 const adminAlias = import.meta.env.VITE_API_ADMIN_ALIAS;
@@ -141,6 +142,16 @@ function App() {
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout setIsAuthenticated={setIsAuthenticated}>
                   <Artistusp />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={`${adminAlias}/bootcamp`}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Bootcamp />
                 </Layout>
               </ProtectedRoute>
             }
