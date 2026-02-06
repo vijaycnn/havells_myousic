@@ -32,11 +32,11 @@ sequelize = new Sequelize(DB, USER, PASSWORD, {
     useUTC: false,
     dateStrings: true,
     typeCast: true,
-    // ssl:{
-    //    require: true, // This enforces SSL
-    //    rejectUnauthorized: false, // This enables verify-full
-    //    // ca: fs.readFileSync(crtFile).toString(),
-    // }
+    ssl:{
+        require: true, // This enforces SSL
+        rejectUnauthorized: false, // This enables verify-full
+        // ca: fs.readFileSync(crtFile).toString(),
+    }
   },
   timezone: "+05:30",
   logging: false,
