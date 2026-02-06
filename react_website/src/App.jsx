@@ -18,7 +18,7 @@ function App() {
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
-    loadGA4("G-004XKYRNE8");
+    // loadGA4("G-004XKYRNE8");
     const visited = localStorage.getItem("visited");
     if (visited) setShowIntro(false);
   }, []);
