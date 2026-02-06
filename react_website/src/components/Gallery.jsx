@@ -89,7 +89,7 @@ function Gallery({ data, galleryData }) {
             }}
             onSlideChange={(swiper) => setCurrent(swiper.activeIndex + 1)}
           >
-            {galleryData.map((item) => (
+            {photos.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="gallery-item">
                   <Image src={item.filePath} alt="ImgGallery" />
