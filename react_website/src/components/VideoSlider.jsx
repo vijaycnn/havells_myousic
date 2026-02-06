@@ -8,8 +8,8 @@ import arrowRight from "../assets/nav-arrow-right.svg";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default function VideoSlider({galleryData}) {
-  const slides = galleryData;   //Array.from({ length: 10 }, (_, i) => i + 1);
+export default function VideoSlider({ galleryData }) {
+  const slides = galleryData; //Array.from({ length: 10 }, (_, i) => i + 1);
   const total = slides.length;
 
   const [current, setCurrent] = useState(1);
@@ -17,45 +17,96 @@ export default function VideoSlider({galleryData}) {
   const [previewMedia, setPreviewMedia] = useState(null);
 
   return (
-    <section className="sec sec-slider">
+    <section className="sec sec-slider pb-0 sec-video-slider">
       <Swiper
         modules={[Navigation]}
         spaceBetween={20}
-        slidesPerView={4.5}
         loop={true}
         navigation={{
           prevEl: "#prevBtn",
           nextEl: "#nextBtn",
         }}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          480: {
+            slidesPerView: 2,
+          },
+          992: {
+            slidesPerView: 3.5,
+          },
+          1199: {
+            slidesPerView: 4.5,
+          },
+        }}
         onSlideChange={(swiper) => setCurrent(swiper.activeIndex + 1)}
       >
         {slides.map((item) => (
           <SwiperSlide key={item.id}>
-            <div className="artist-video"  onClick={() => { setPreviewMedia(item); setShowPreview(true); }} >
-              
-              <a className="artist-video-text text-center justify-content-center align-items-center" >
-                <video src={item.filePath} muted preload="metadata" onMouseEnter={(e) => e.target.play()}
-  onMouseLeave={(e) => e.target.pause()}  style={{ objectFit: "cover", borderRadius: "6px" }}
-             />
-                <span className="artist-video-play" style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-                  background: "rgba(0,0,0,0.6)", color: "#fff", borderRadius: "50%", padding: "6px 10px", fontSize: "14px",
-                }}>&nbsp;</span>
+            <div
+              className="artist-video"
+              onClick={() => {
+                setPreviewMedia(item);
+                setShowPreview(true);
+              }}
+            >
+              <a className="artist-video-text text-center justify-content-center align-items-center">
+                <video
+                  src={item.filePath}
+                  muted
+                  preload="metadata"
+                  onMouseEnter={(e) => e.target.play()}
+                  onMouseLeave={(e) => e.target.pause()}
+                  style={{ objectFit: "cover", borderRadius: "6px" }}
+                />
+                <span
+                  className="artist-video-play"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    background: "rgba(0,0,0,0.6)",
+                    color: "#fff",
+                    borderRadius: "50%",
+                    padding: "6px 10px",
+                    fontSize: "14px",
+                  }}
+                >
+                  &nbsp;
+                </span>
               </a>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <Modal id="preview" name="preview" show={showPreview} onHide={() => setShowPreview(false)} centered size="lg" >
+      <Modal
+        id="preview"
+        name="preview"
+        show={showPreview}
+        onHide={() => setShowPreview(false)}
+        centered
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{previewMedia?.title || "Preview"}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body className="text-center">
           {previewMedia?.type.trim() === "image" ? (
-            <img src={previewMedia.filePath} style={{ maxWidth: "100%", borderRadius: "8px" }} />
+            <img
+              src={previewMedia.filePath}
+              style={{ maxWidth: "100%", borderRadius: "8px" }}
+            />
           ) : (
-            <video src={previewMedia?.filePath} controls autoPlay style={{ width: "100%", borderRadius: "8px" }} />
+            <video
+              src={previewMedia?.filePath}
+              controls
+              autoPlay
+              style={{ width: "100%", borderRadius: "8px" }}
+            />
           )}
         </Modal.Body>
       </Modal>
