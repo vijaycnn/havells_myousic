@@ -63,6 +63,7 @@ function Mentor() {
   };
   const [formData, setFormData] = useState({
     name: "",
+    orderNumber : 1,
     title: "",
     remark1: "",
     remark2: "",
@@ -79,7 +80,7 @@ function Mentor() {
   const validation = (values) => {
     setError("");
     let hasError = false;
-    if (!values.name || values.name == "" || uploadMediaFile == null) {
+    if (!values.name || values.name == "" || !values.title || values.title == "" || values.orderNumber == "" || !values.orderNumber || uploadMediaFile == null) {
       setError("Mandatory fields are missing");
       hasError = true;
     }
@@ -162,6 +163,7 @@ function Mentor() {
       let body = {
         name: formData.name,
         title: formData.title,
+        orderNumber: formData.orderNumber,
         remark1: formData.remark1,
         remark2: formData.remark2,
         fileUrl: fileUrl,
@@ -174,6 +176,7 @@ function Mentor() {
           if (response.data.status === "success") {
             setFormData({
               name: "",
+              orderNumber: 1,
               title: "",
               remark1: "",
               remark2: "",
@@ -205,6 +208,14 @@ function Mentor() {
     localStorage.clear("auth-token");
     localStorage.clear();
     navigate(adminAlias);
+  };
+  const avoidAlphabets = (event) => {
+    var k = event ? event.which : window.event.keyCode;
+    if (k >= 48 && k <= 57) {
+      return true;
+    } else {
+      event.preventDefault();
+    }
   };
 
   return (
@@ -262,7 +273,7 @@ function Mentor() {
                 <Form.Control type="file" onChange={handleFileChange} />
               </Form.Group>
             </Col>
-            <Col md={12}>
+            <Col md={6}>
               <Form.Group className="mb-4">
                 <Form.Label className="fw-medium">
                   Expertise<span className="text-danger">*</span>
@@ -273,6 +284,22 @@ function Mentor() {
                   value={formData.title}
                   placeholder="Enter Expertise"
                   onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-medium">
+                  Order Number<span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  name="orderNumber"
+                  value={formData.orderNumber}
+                  placeholder="Order Number"
+                  onChange={handleChange}
+                  maxLength={2}
+                  onKeyPress={avoidAlphabets}
                 />
               </Form.Group>
             </Col>

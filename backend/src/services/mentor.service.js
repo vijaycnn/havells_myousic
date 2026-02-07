@@ -7,7 +7,7 @@ let MentorDataProvider = {
     return new Promise(async function (resolve, reject) {
       // console.log('search', search);
       let filter = { isdeleted: 0 };
-      let columns = ["id", "name", "title", "fileUrl", "remark1", "remark2", "status", "createdAt"];
+      let columns = ["id", "name", "title", "fileUrl", "remark1", "remark2", "orderNumber", "status", "createdAt"];
       if(!all){
         columns = ["id", "name", "title", "fileUrl", "remark1", "remark2"];
         filter = {...filter, status:1}
@@ -15,7 +15,7 @@ let MentorDataProvider = {
       await conn.Mentors.findAndCountAll({
         attributes:columns,
         where: filter,
-        order: [['id', 'DESC']],
+        order: [['orderNumber', 'ASC'], ['id', 'ASC']],
         // raw: true,
         // logging:console.log
       })
