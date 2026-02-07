@@ -35,7 +35,7 @@ function EditMentor() {
     await axiosInstance
       .get(`/mentor/getById/${id}`)
       .then((response) => {
-        console.log(">>> ", response.data);
+        // console.log(">>> ", response.data);
         setLoading(false);
         if (response.data.status === "success") {
           setPreviousData(response?.data?.data);
@@ -55,6 +55,7 @@ function EditMentor() {
 
   const [data, setData] = useState({
     name: "",
+    orderNumber: "",
     title: "",
     remark1: "",
     remark2: "",
@@ -64,6 +65,7 @@ function EditMentor() {
     if (previousData) {
       setData({
         name: previousData.name,
+        orderNumber : previousData.orderNumber,
         title: previousData.title,
         remark1: previousData.remark1,
         remark2: previousData.remark2,
@@ -124,9 +126,7 @@ function EditMentor() {
     setError("");
     let hasError = false;
     if (
-      !values.name ||
-      values.name == "" ||
-      (uploadMediaFile == null && previousData.fileUrl == "")
+      !values.name || values.name == "" || !values.title || values.title == "" || values.orderNumber == "" || !values.orderNumber || (uploadMediaFile == null && previousData.fileUrl == "")
     ) {
       setError("Mandatory fields are missing");
       hasError = true;
@@ -227,6 +227,7 @@ function EditMentor() {
     let body = {
       mentorId: previousData.id,
       name: data.name,
+      orderNumber: data.orderNumber,
       title: data.title,
       remark1: data.remark1,
       remark2: data.remark2,
@@ -240,6 +241,7 @@ function EditMentor() {
         if (response.data.status === "success") {
           setData({
             name: "",
+            orderNumber: "",
             title: "",
             remark1: "",
             remark2: "",
@@ -271,7 +273,15 @@ function EditMentor() {
     localStorage.clear();
     navigate(adminAlias);
   };
-
+  const avoidAlphabets = (event) => {
+    var k = event ? event.which : window.event.keyCode;
+    if (k >= 48 && k <= 57) {
+      return true;
+    } else {
+      event.preventDefault();
+    }
+  };
+  
   return (
     <>
       {loading == true ? (
@@ -342,7 +352,7 @@ function EditMentor() {
                     <Form.Control type="file" onChange={handleFileChange} />
                   </Form.Group>
                 </Col>
-                <Col md={12}>
+                <Col md={6}>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-medium">
                       Expertise<span className="text-danger">*</span>
@@ -356,7 +366,22 @@ function EditMentor() {
                     />
                   </Form.Group>
                 </Col>
-
+                <Col md={6}>
+                  <Form.Group className="mb-4">
+                    <Form.Label className="fw-medium">
+                      Order Number<span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="orderNumber"
+                      value={data.orderNumber}
+                      placeholder="Order Number"
+                      onChange={handleChange}
+                      maxLength={2}
+                      onKeyPress={avoidAlphabets}
+                    />
+                  </Form.Group>
+                </Col>
                 <Col md={12}>
                   <Form.Group className="mb-4">
                     <Form.Label className="fw-medium">Description</Form.Label>

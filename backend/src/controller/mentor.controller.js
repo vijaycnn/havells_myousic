@@ -100,6 +100,7 @@ let MentorController = {
             } else {
                 const mentorData = {
                     name: request.body.name.trim(),
+                    orderNumber: request.body.orderNumber,
                     title: request.body.title ? request.body.title.trim() : '',
                     fileUrl: request.body.fileUrl,
                     remark1: request.body.remark1 ? request.body.remark1.trim() : '',
@@ -153,6 +154,7 @@ let MentorController = {
             } else {
                 const mentorData = {
                     name: request.body.name.trim(),
+                    orderNumber: request.body.orderNumber,
                     title: request.body.title ? request.body.title.trim() : '',
                     fileUrl: request.body.fileUrl,
                     remark1: request.body.remark1 ? request.body.remark1.trim() : '',

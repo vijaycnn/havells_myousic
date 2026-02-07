@@ -139,7 +139,7 @@ function Mentor() {
         <Table responsive className="table v-align-middle table-striped medium">
           <thead>
             <tr>
-              <th style={{ width: "80px" }}>Sr. No.</th>
+              <th style={{ width: "80px" }}>Order. No.</th>
               <th>Mentor Image</th>
               <th>Name</th>
               <th>Expertise</th>
@@ -155,7 +155,7 @@ function Mentor() {
               return (
                 <>
                   <tr key={item.id}>
-                    <td>{$index + 1}</td>
+                    <td>{item.orderNumber}</td>
                     <td>
                       <img
                         src={item.fileUrl}

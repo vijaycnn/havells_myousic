@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,     
       type: DataTypes.STRING,
     },
+    orderNumber:{
+      type:DataTypes.INTEGER,
+      defaultValue:1
+    },
     title: {
       allowNull: true,
       type: DataTypes.STRING
