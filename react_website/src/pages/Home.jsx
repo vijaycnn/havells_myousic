@@ -11,6 +11,7 @@ import VideoSlider from "../components/VideoSlider";
 import QrScanner from "../components/QrScanner";
 import Gallery from "../components/Gallery";
 import { galleryList, slideFileList } from "../api";
+import Seo from "../components/Seo";
 
 export default function Home( {contextData}) {  
   
@@ -43,6 +44,11 @@ export default function Home( {contextData}) {
   }, [loading]);
   return (
     <>
+      <Seo
+        title="Havells mYOUsic – A Stage for India’s Real Sound"
+        description="Havells mYOUsic is a platform to discover and nurture India’s grassroots music talent through mentorship, bootcamps, and original music creation opportunities."
+        keywords="Havells mYOUsic, Indian music talent platform, music mentorship program, music bootcamp India, original music platform, singer and composer opportunity, music platform, online music platform, best music distribution platform"
+      />
       <HeroBanner  data={contextData?.Banner} />
       {
         (contextData?.HowItWorks) ?
