@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import mike from "../assets/mice.png";
 import tabla from "../assets/tabla.png";
 import guitar from "../assets/guitar.png";
+import Seo from "../components/Seo";
 
 import {
   getUploadUrl,
@@ -416,6 +417,11 @@ function Participate() {
 
   return (
     <>
+      <Seo
+        title="Join Havells mYOUsic | Register Your Music Talent"
+        description="Register for Havells mYOUsic and showcase your talent. Singers, composers, lyricists, and musicians can apply to get mentorship and create original music."
+        keywords="Havells mYOUsic participation, Join Havells mYOUsic, Music talent registration India, Apply music mentorship program, Singer composer registration, Music bootcamp India, Havells music competition"
+      />
       {loading == true ? (
         <>
           <div className="loader">
