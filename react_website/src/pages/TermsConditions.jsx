@@ -1,5 +1,6 @@
 import { Container, Image } from "react-bootstrap";
 import mike from "../assets/mice.png";
+import Seo from "../components/Seo";
 
 function TermsConditions({data}) {
   let remark = data?.remark
@@ -8,6 +9,11 @@ function TermsConditions({data}) {
     .trim();
   return (
     <>
+      <Seo
+        title="Terms & Conditions | Havells mYOUsic"
+        description="Read the full Terms & Conditions for Havells mYOUsic, including usage guidelines, participant rules, legal policies, and important platform terms."
+        keywords="Havells mYOUsic terms and conditions, music platform T&Cs, Havells mYOUsic policies, music participation terms"
+      />
       <section className="sec sec-form text-tnc">
         <Container className="mt-5">
           <div className="artist-card">
