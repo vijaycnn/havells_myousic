@@ -5,6 +5,39 @@ const verificationCodeService = require('../services/otp.service');
 const { uploadBufferToS3, uploadS3, listS3Objects } = require('../utils/s3');
 const helper = require('../utils/helper');
 const moment = require('moment');
+const { S3Client, HeadObjectCommand } = require("@aws-sdk/client-s3");
+const {deleteS3Object } = require('./upload.controller');
+
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,  // Role credentials auto-used
+});
+
+const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500 MB
+const allowedMimeTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "pdf",
+    "doc",
+    "video/mp4",
+    "audio/mpeg",
+    "video/x-ms-wmv",
+    "webm",
+    "mkv",
+    "flv",
+    "vob",
+    "mov",
+    "avi",
+    "wmv",
+    "yuv",
+    "amv",
+    "mp4",
+    "mpg",
+    "svi",
+    "3gp",
+    "3g2",   
+];
 
 let EnquiryController = {
 
@@ -122,6 +155,27 @@ let EnquiryController = {
         if (checkIfExist == true) {
             return responder.sendResponse(response, 200, "error", '', "Enquiry Already Exist for this contact number");
         } else {
+
+            const command = new HeadObjectCommand({
+                Bucket: process.env.S3_BUCKET,
+                Key: request?.body?.s3Key
+            });
+
+            const metadata = await s3.send(command);
+
+            if (metadata.ContentLength > MAX_FILE_SIZE || !allowedMimeTypes.includes(metadata.ContentType)) {
+                console.log('Invalid file upload');
+                await deleteS3Object(request.body.s3Key);
+
+                return responder.sendResponse(
+                    response,
+                    400,
+                    "error",
+                    "",
+                    "Maximum file size is 500 MB."
+                );
+                
+            }
 
             // const tmpFilename = request.file.filename;
             // let documentFilePath = '';

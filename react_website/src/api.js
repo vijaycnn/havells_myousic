@@ -1,12 +1,14 @@
 const baseURL = import.meta.env.VITE_API_BASE_URL_BACKEND;
 
 export const getUploadUrl = async (file) => {
+  console.log('file details::', file);
   const response = await fetch(`${baseURL}/api/enquiry/upload-url`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       fileName: file.name,
       fileType: file.type,
+      fileSize: file.size
     }),
   });
   return response.json();

@@ -200,25 +200,7 @@ module.exports.send_sms = async function (mobile_no, smsTemplate, template_Id){
 
             } catch(err) {
                 console.error(err);
-            }
-            //  fetch(sms_gateway_url, fetchOptions)
-            //     .then(async (response) => {
-            //         console.log("Status:", response.status);
-            //         console.log("Status Text:", response.statusText);
-            //         console.log("URL:", response.url);
-            //         console.log("Content-Type:", response.headers.get("content-type"));
-
-            //         const text = await response.text();
-
-            //         console.log("Response Body:");
-            //         console.log(text);
-
-            //         return text;
-            //     })
-            //     .catch((err) => {
-            //         console.error("SMS ERROR:", err);
-            //     });
-                
+            }                
             //console.log('SMS sent successfully  ============================================');
             
         }// SMS credential 

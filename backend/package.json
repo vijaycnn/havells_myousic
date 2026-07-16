@@ -32,6 +32,7 @@
     "csv": "^6.0.5",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
+    "express-rate-limit": "^8.5.2",
     "fast-csv": "^4.3.6",
     "frameguard": "^4.0.0",
     "handlebars": "^4.7.7",
