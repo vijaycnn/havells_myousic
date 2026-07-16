@@ -5,23 +5,57 @@ const path = require('path')
 const enquiryController = require('../src/controller/enquiry.controller');
 const {generateUploadUrl, generateUrl, getDownloadUrl} = require('../src/controller/upload.controller');
 const auth = require('../middleware/auth');  
-
+const uploadValidation = require("../middleware/uploadValidation");
+const rateLimit = require("express-rate-limit");
 // const uservalidate = require('../middleware/validate.middelware');
 // const schemas = require('../src/validation/document.validate');
 
+const uploadLimiter = rateLimit({
+   windowMs: 30 * 60 * 1000, // 30 minutes
+    max: 3,
+    message: {
+        success: false,
+        message: "Maximum 3 requests allowed in 30 minutes."
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const otpLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: {
+        success: false,
+        message: "Maximum 5 requests allowed in 15 minutes."
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const enquiryLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: {
+        success: false,
+        message: "Maximum 10 requests allowed in 15 minutes."
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 100* 1024 * 1024 } }); // 100MB limit
 
-router.post("/upload-url", generateUploadUrl);    //for Participants
+router.post("/upload-url", [uploadLimiter, uploadValidation], generateUploadUrl);    //for Participants
 router.post("/generateUrl", generateUrl);         //for Galleries or home contents
 router.post("/download-url", getDownloadUrl);
 
-router.post("/validate", function (request, response, next) {
+router.post("/validate", enquiryLimiter, function (request, response, next) {
     enquiryController.validateEnquiry(request, response, next)
 });
-router.post("/verifyOTP", function (request, response, next) {
+router.post("/verifyOTP", otpLimiter, function (request, response, next) {
     enquiryController.verifyOTP(request, response, next)
 });
-router.post("/create", function (request, response, next) {
+router.post("/create", enquiryLimiter, function (request, response, next) {
     enquiryController.createEnquiry(request, response, next)
 });
 
