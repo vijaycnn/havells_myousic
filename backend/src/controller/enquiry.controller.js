@@ -5,8 +5,14 @@ const verificationCodeService = require('../services/otp.service');
 const { uploadBufferToS3, uploadS3, listS3Objects } = require('../utils/s3');
 const helper = require('../utils/helper');
 const moment = require('moment');
-const { HeadObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, HeadObjectCommand } = require("@aws-sdk/client-s3");
 const {deleteS3Object } = require('./upload.controller');
+
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,  // Role credentials auto-used
+});
+
 const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500 MB
 const allowedMimeTypes = [
     "application/pdf",
