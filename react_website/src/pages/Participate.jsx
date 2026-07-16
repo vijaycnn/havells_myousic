@@ -349,7 +349,9 @@ function Participate() {
 
   const formProcess = async () => {    
     let videoUrl = "";
-    const { uploadUrl, fileUrl } = await getUploadUrl(uploadMediaFile);
+  console.log('uploadMediaFile details::', uploadMediaFile);
+
+    const { uploadUrl, key, fileUrl } = await getUploadUrl(uploadMediaFile);
     console.log("s3 url >>", uploadUrl, " ::::", fileUrl);
 
     const uploadRes = await fetch(uploadUrl, {
@@ -379,6 +381,7 @@ function Participate() {
         interest_in_role: selectedValues.join(","),
         other_roles: formData.other_roles,
         videoUrl: videoUrl,
+        s3Key: key
       };
       
       // console.log("data >>", data);

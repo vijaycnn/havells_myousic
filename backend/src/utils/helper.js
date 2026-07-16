@@ -174,22 +174,33 @@ module.exports.send_sms = async function (mobile_no, smsTemplate, template_Id){
                 "messageType": "1",
                 "isOtp": false
             };
-        
+            console.log('SMS BODY: ',requestBody)        
             const fetchOptions = {
                 method: 'post',
                 body: JSON.stringify(requestBody),
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             };            
-            fetch(sms_gateway_url, fetchOptions)
-                .then((response) => response.json())
-                .then((json) => {
-                console.log('SMS ----------------', json)
-                })
-                .catch((error) => {
-                console.log({ data: error });
+            // fetch(sms_gateway_url, fetchOptions)
+            //     .then((response) => response.json())
+            //     .then((json) => {
+            //     console.log('SMS ----------------', json)
+            //     })
+            //     .catch((error) => {
+            //     console.log({ data: error });
                
-             });
-                
+            //  });
+            try {
+                const response = await fetch(sms_gateway_url, fetchOptions);
+
+                console.log("Status:", response.status);
+
+                const text = await response.text();
+
+                console.log(text);
+
+            } catch(err) {
+                console.error(err);
+            }                
             //console.log('SMS sent successfully  ============================================');
             
         }// SMS credential 
