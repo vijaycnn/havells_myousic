@@ -87,6 +87,7 @@ function Participate() {
     "video/mp4",
     "audio/mpeg",
     "video/x-ms-wmv",
+    "video/quicktime",
     "webm",
     "mkv",
     "flv",
@@ -190,12 +191,12 @@ function Participate() {
     let hasError = false;
     if (
       !values.name ||
-      values.name == "" ||
+      values.name.trim() == "" ||
       !values.contact ||
       values.contact == "" ||
       !values.dob ||
       !values.story ||
-      values.story == "" ||
+      values.story.trim() == "" ||
       !uploadMediaFile ||
       uploadMediaFile == null ||
       values.cityId == "" ||
