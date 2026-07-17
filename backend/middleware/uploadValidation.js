@@ -13,6 +13,7 @@ const allowedMimeTypes = [
     "video/mp4",
     "audio/mpeg",
     "video/x-ms-wmv",
+    "video/quicktime",
     "webm",
     "mkv",
     "flv",
@@ -30,7 +31,6 @@ const allowedMimeTypes = [
     // "audio/mp3",
     // "audio/wav",
     // "video/webm",
-    // "video/quicktime",
     // "video/x-msvideo",    
 ];
 
